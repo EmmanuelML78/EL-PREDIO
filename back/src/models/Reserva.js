@@ -2,35 +2,28 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "cancha",
+    "reserva",
     {
-      name: {
-        type: DataTypes.STRING,
+      date: {
+        type: DataTypes.DATEONLY,
         allowNull: false,
       },
-      image: {
-        type: DataTypes.STRING,
-        allowNull: false,
-      },
-      price: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      open: {
+      start: {
         type: DataTypes.TIME,
         allowNull: false,
       },
-      close: {
+      end: {
         type: DataTypes.TIME,
         allowNull: false,
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "pending",
       },
       hasPromo: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
-      },
-      availability: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true,
       },
     },
     { paranoid: true }
