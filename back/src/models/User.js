@@ -2,35 +2,30 @@ const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
   sequelize.define(
-    "cancha",
+    "user",
     {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      image: {
+      lastName: {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      price: {
-        type: DataTypes.INTEGER,
+      email: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
-      open: {
-        type: DataTypes.TIME,
-        allowNull: false,
-      },
-      close: {
-        type: DataTypes.TIME,
-        allowNull: false,
-      },
-      hasPromo: {
+      isAdmin: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
-      availability: {
-        type: DataTypes.BOOLEAN,
-        defaultValue: true,
+      password: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      phone: {
+        type: DataTypes.STRING,
       },
     },
     { paranoid: true }
