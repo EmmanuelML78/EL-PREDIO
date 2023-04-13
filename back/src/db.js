@@ -35,7 +35,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 const { User, Reserva, Cancha  } = sequelize.models;
 
 User.hasMany(Reserva, { as: 'reservas', foreignKey: 'userId' });
-Cancha.hasMany(Reserva, { as: 'reservas', foreignKey: 'canchaid' });
+Cancha.hasMany(Reserva, { as: 'reservas', foreignKey: 'canchaId' });
 
 Reserva.belongsTo(User, { as: 'user', foreignKey: 'userId' });
 Reserva.belongsTo(Cancha, { as: 'cancha', foreignKey: 'canchaId' });
