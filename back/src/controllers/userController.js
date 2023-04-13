@@ -9,4 +9,16 @@ const getUsersDb = async () => {
   }
 };
 
-module.exports = { getUsersDb };
+const deleteUser = async (id) => {
+  try {
+    const deletedUser = await User.destroy({ where: { id: id } });
+    return deletedUser;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+module.exports = {
+  getUsersDb,
+  deleteUser,
+};
