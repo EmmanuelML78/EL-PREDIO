@@ -28,7 +28,6 @@ export default function Landing() {
   };
 
   return (
-    
     <div
       className={styles.container}
       style={{ backgroundImage: `url(${pelota})` }}
