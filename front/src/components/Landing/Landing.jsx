@@ -76,6 +76,11 @@ export default function Landing() {
               />
             </div>
           )}
+          {!passwordMatch ? (
+            <p style={{color: "red", fontWeight: "900"}}>Las contraseñas no coinciden</p>
+          ) : [(
+            <p style={{color: "green", fontWeight: "900"}}>Las contraseñas coinciden</p>
+          ), console.log("a")]}
           <button type="submit">
             {isRegistering ? "Registrarse" : "Iniciar sesión"}
           </button>
