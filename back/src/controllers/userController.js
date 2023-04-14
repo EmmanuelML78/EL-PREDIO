@@ -20,17 +20,21 @@ const deleteUser = async (id) => {
 
 const updateUser = async (req, res) => {
   const { id } = req.params;
-  const { name, lastName, email, password, phone, isAdmin } = req.body;
+  const { name, lastName, email, password, phone, isAdmin, deletedAt } =
+    req.body;
   try {
-    const user = await User.findOne({ where: { id }, paranoid: false });
+    const user = await User.findByPk(id, { paranoid: false });
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+    if (user.deletedAt !== null) {
+      await user.restore();
     }
     user.name = name || user.name;
     user.lastName = lastName || user.lastName;
     user.email = email || user.email;
     user.password = password || user.password;
-    user.phone = phone || user.phone;
+    user.phone = phone !== undefined ? phone : user.phone;
     user.isAdmin = isAdmin || user.isAdmin;
     await user.save();
     res.status(200).json({ message: "Usuario actualizado con éxito" });
