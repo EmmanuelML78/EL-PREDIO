@@ -1,5 +1,9 @@
 const { Router } = require("express");
-const { getUsersDb, deleteUser } = require("../controllers/userController");
+const {
+  getUsersDb,
+  deleteUser,
+  updateUser,
+} = require("../controllers/userController");
 const { User } = require("../db");
 
 const router = Router();
@@ -46,6 +50,8 @@ router.post("/users", async (req, res) => {
     res.status(500).json({ message: "Error al crear usuario" });
   }
 });
+
+router.put("/users/:id", updateUser);
 
 router.delete("/users/:id", async (req, res) => {
   const id = req.params.id;
