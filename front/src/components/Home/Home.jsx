@@ -1,14 +1,19 @@
-import React from "react";
+import Cards from "../Cards/Cards";
+import Carousel from "../Carousel/Carousel";
+import Footer from "../Footer/Footer";
 
-// import h from "./Home.module.css"
-// import styled from "styled-components"
+import Header from "../Header/Header";
+import "./Home.module.css"
 
-const Home = (props) => {
-	return (
-		<>
-			<h1>Este Es El Componente Home</h1>
-		</>
-	);
+const Home = () => {
+  return (
+    <div className="home-container">
+      <Header />
+      <Carousel />
+      <Cards />
+    
+    </div>
+  );
 };
 
 export default Home;
