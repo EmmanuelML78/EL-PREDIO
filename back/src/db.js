@@ -32,9 +32,13 @@ let capsEntries = entries.map((entry) => [
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-const { User } = sequelize.models;
+const { User, Reserva, Cancha  } = sequelize.models;
 
-// User.oneToMany(Reserve, {through: 'user_reserve', timestamps: false});
+User.hasMany(Reserva, { as: 'reservas', foreignKey: 'userId' });
+Cancha.hasMany(Reserva, { as: 'reservas', foreignKey: 'canchaId' });
+
+Reserva.belongsTo(User, { as: 'user', foreignKey: 'userId' });
+Reserva.belongsTo(Cancha, { as: 'cancha', foreignKey: 'canchaId' });
 
 module.exports = {
   ...sequelize.models,
