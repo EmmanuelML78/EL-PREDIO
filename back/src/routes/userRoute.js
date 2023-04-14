@@ -1,5 +1,5 @@
 const { Router } = require("express");
-const { getUsersDb } = require("../controllers/userController");
+const { getUsersDb, deleteUser } = require("../controllers/userController");
 const { User } = require("../db");
 
 const router = Router();
@@ -44,6 +44,19 @@ router.post("/users", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error al crear usuario" });
+  }
+});
+
+router.delete("/users/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const deletedUser = await deleteUser(id);
+    deletedUser
+      ? res.status(200).json({ message: "Usuario eliminado con éxito" })
+      : res.status(404).json({ message: "Usuario no encontrado" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error al eliminar usuario" });
   }
 });
 
