@@ -3,6 +3,7 @@ import pelota from "../../assets/pelota.jpg";
 import styles from "./Landing.module.css";
 import G from "../../assets/google logo.svg";
 import { Link } from "react-router-dom";
+import validator from "validator";
 
 export default function Landing() {
   const [email, setEmail] = useState("");
@@ -11,6 +12,10 @@ export default function Landing() {
   const [fullName, setFullName] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(false);
+  const [emailValid, setEmailValid] = useState(true);
+  const [nameValid, setNameValid] = useState(true);
+  const [passwordValid, setPasswordValid] = useState(true);
+  const [validateForm, setValidateForm] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,6 +24,39 @@ export default function Landing() {
     } else {
       // logica del login
     }
+  };
+
+  const handleEmail = (e) => {
+    const emailValue = e.target.value;
+    setEmail(emailValue);
+    setEmailValid(validator.isEmail(emailValue));
+  };
+
+  const handleFullName = (e) => {
+    const fullNameValue = e.target.value;
+    setFullName(fullNameValue);
+    setNameValid(
+      !validator.isEmpty(fullNameValue) && validator.isAlpha(fullNameValue)
+    );
+  };
+
+  const handlePassword = (e) => {
+    const passwordValue = e.target.value;
+    if (isRegistering) {
+      const isLengthValid = validator.isLength(passwordValue, {
+        min: 8,
+        max: 20,
+      });
+      const containsLetter = /[a-zA-Z]/.test(passwordValue);
+      const containsNumber = /[0-9]/.test(passwordValue);
+      const isAlphanumeric = validator.isAlphanumeric(passwordValue);
+      const isPasswordValid =
+        containsLetter && containsNumber && isAlphanumeric && isLengthValid;
+      setPasswordValid(isPasswordValid);
+      if (passwordValid) {
+        setPassword(passwordValue);
+      }
+    } else setPassword(passwordValue);
   };
 
   const handleConfirmPasswordChange = (e) => {
@@ -42,7 +80,7 @@ export default function Landing() {
                 type="text"
                 id="fullName"
                 value={fullName}
-                onChange={(e) => setFullName(e.target.value)}
+                onChange={handleFullName}
                 placeholder="Nombre y apellido"
               />
             </div>
@@ -52,7 +90,7 @@ export default function Landing() {
               type="email"
               id="email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={handleEmail}
               placeholder="Correo electrónico"
             />
           </div>
@@ -61,7 +99,7 @@ export default function Landing() {
               type="password"
               id="password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handlePassword}
               placeholder="Contraseña"
             />
           </div>
@@ -76,12 +114,19 @@ export default function Landing() {
               />
             </div>
           )}
-          {!passwordMatch ? (
-            <p style={{color: "red", fontWeight: "900"}}>Las contraseñas no coinciden</p>
-          ) : [(
-            <p style={{color: "green", fontWeight: "900"}}>Las contraseñas coinciden</p>
-          ), console.log("a")]}
-          <button type="submit">
+          {isRegistering ? (
+            !passwordMatch ? (
+              <p style={{ color: "red", fontWeight: "900" }}>
+                Las contraseñas no coinciden
+              </p>
+            ) : (
+              <p style={{ color: "green", fontWeight: "900" }}>
+                Las contraseñas coinciden
+              </p>
+            )
+          ) : null}
+
+          <button type="submit" disabled={validateForm}>
             {isRegistering ? "Registrarse" : "Iniciar sesión"}
           </button>
         </form>
