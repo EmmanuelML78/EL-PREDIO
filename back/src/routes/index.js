@@ -1,14 +1,12 @@
 const { Router } = require("express");
-const router = Router();
-const morgan = require("morgan");
-const express = require("express");
-const canchaRoutes = require('./canchaRoutes')
 const userRoute = require("./userRoute");
+const canchaRoute = require("./canchaRoutes");
+const reservaRoute = require("./reservaRoute");
 
-router.use(express.json());
-router.use(morgan("dev"));
+const router = Router();
 
 router.use("/", userRoute);
-router.use('/canchas', canchaRoutes)
+router.use("/canchas", canchaRoute);
+router.use("/reservas", reservaRoute);
 
 module.exports = router;
