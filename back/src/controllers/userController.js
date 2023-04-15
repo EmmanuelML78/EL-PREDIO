@@ -1,11 +1,78 @@
 const { User } = require("../db");
+const { Op } = require("sequelize");
 
-const getUsersDb = async () => {
+// const getUsersDb = async () => {
+//   try {
+//     const users = await User.findAll({ paranoid: false });
+//     return users;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+const getUsersInactive = async (req, res) => {
   try {
-    const users = await User.findAll({ paranoid: false });
-    return users;
+    const name = req.query.name;
+    let users;
+    if (name) {
+      users = await User.findAll({
+        where: {
+          [Op.or]: [
+            { name: { [Op.iLike]: `${name}%` } },
+            { lastName: { [Op.iLike]: `${name}%` } },
+            {
+              [Op.and]: [
+                { name: { [Op.iLike]: `${name.split(" ")[0]}%` } },
+                { lastName: { [Op.iLike]: `${name.split(" ")[1]}%` } },
+              ],
+            },
+          ],
+          deletedAt: { [Op.not]: null }, // filtra solo usuarios inactivos
+        },
+        paranoid: false,
+      });
+    } else {
+      users = await User.findAll({
+        where: {
+          deletedAt: { [Op.not]: null }, // filtra solo usuarios inactivos
+        },
+        paranoid: false,
+      });
+    }
+    return res.status(200).json(users);
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ message: "Error al obtener usuarios" });
+  }
+};
+
+const getUsersActive = async (req, res) => {
+  try {
+    const name = req.query.name;
+    let users;
+    if (name) {
+      users = await User.findAll({
+        where: {
+          [Op.or]: [
+            { name: { [Op.iLike]: `${name}%` } },
+            { lastName: { [Op.iLike]: `${name}%` } },
+            {
+              [Op.and]: [
+                { name: { [Op.iLike]: `${name.split(" ")[0]}%` } },
+                { lastName: { [Op.iLike]: `${name.split(" ")[1]}%` } },
+              ],
+            },
+          ],
+        },
+        // paranoid: false,
+      });
+    } else {
+      users = await User.findAll();
+    }
+    return res.status(200).json(users);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "Error al obtener usuarios" });
   }
 };
 
@@ -48,7 +115,9 @@ const updateUser = async (req, res) => {
 };
 
 module.exports = {
-  getUsersDb,
+  // getUsersDb,
   deleteUser,
   updateUser,
+  getUsersActive,
+  getUsersInactive,
 };
