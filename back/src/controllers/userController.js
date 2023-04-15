@@ -27,16 +27,19 @@ const updateUser = async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
-    if (user.deletedAt !== null) {
+    if (deletedAt === null) {
+      // Restaurar usuario eliminado
       await user.restore();
     }
+
     user.name = name || user.name;
     user.lastName = lastName || user.lastName;
     user.email = email || user.email;
+    user.isAdmin = isAdmin || user.isAdmin;
     user.password = password || user.password;
     user.phone = phone !== undefined ? phone : user.phone;
-    user.isAdmin = isAdmin || user.isAdmin;
     await user.save();
+
     res.status(200).json({ message: "Usuario actualizado con éxito" });
   } catch (error) {
     console.log(error);
