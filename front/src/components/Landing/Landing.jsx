@@ -137,17 +137,19 @@ export default function Landing() {
           </Link>
         </div>
         <div className={styles.socialButtons}>
-          <button
-            style={{
-              display: "flex",
-              justifyContent: "space-around",
-              alignItems: "center",
-              alignContent: "center",
-            }}
-          >
-            <img style={{ width: "20px" }} src={G} alt="" />
-            <p>Ingresar con Google</p>
-          </button>
+          <Link to="/home">
+            <button
+              style={{
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+                alignContent: "center",
+              }}
+            >
+              <img style={{ width: "20px" }} src={G} alt="" />
+              <p>Ingresar con Google</p>
+            </button>
+          </Link>
         </div>
       </div>
     </div>
