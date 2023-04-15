@@ -30,7 +30,9 @@
   border-bottom-right-radius: 10px;
 }
 
-form {
+.switch:hover {
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 label {
@@ -45,6 +47,7 @@ form input {
   background-color: #ffffff18;
   border-radius: 0.5rem;
 }
+
 
 button[type="submit"] {
   width: 50%;

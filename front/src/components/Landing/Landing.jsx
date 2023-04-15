@@ -2,20 +2,26 @@ import React, { useState } from "react";
 import pelota from "../../assets/pelota.jpg";
 import styles from "./Landing.module.css";
 import G from "../../assets/google logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import validator from "validator";
+import { useDispatch } from "react-redux";
+import { postUser } from "../../redux/actions/userActions";
 
 export default function Landing() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [fullName, setFullName] = useState("");
+  const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [isRegistering, setIsRegistering] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(false);
   const [emailValid, setEmailValid] = useState(true);
   const [nameValid, setNameValid] = useState(true);
+  const [lastNameValid, setLastNameValid] = useState(true);
   const [passwordValid, setPasswordValid] = useState(true);
-  const [validateForm, setValidateForm] = useState(false);
+
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -23,24 +29,29 @@ export default function Landing() {
       if (
         emailValid &&
         nameValid &&
+        lastNameValid &&
         passwordValid &&
-        passwordMatch &&
-        !validator.isEmpty(fullName) &&
-        !validator.isEmpty(email) &&
-        !validator.isEmpty(password) &&
-        !validator.isEmpty(confirmPassword)
-      ) { try {
-
+        passwordMatch 
+      )
+        console.log("mail:", emailValid)
+        console.log("name:", nameValid)
+        console.log("lastName:",lastNameValid)
+        console.log("password:", passwordValid)
+        console.log("passMatch:", passwordMatch)
+      {
+      try {
         dispatch(
           postUser({
-            fullName,
+            name,
+            lastName,
             email,
             password,
           })
-          );
-        } catch (error) {
-          return ({error})
-        }
+        );
+        history.push('/home')
+      } catch (error) {
+        console.log('error:', error);
+      }
       }
     } else {
       // logica del login
@@ -53,11 +64,16 @@ export default function Landing() {
     setEmailValid(validator.isEmail(emailValue));
   };
 
-  const handleFullName = (e) => {
-    const fullNameValue = e.target.value;
-    setFullName(fullNameValue);
-    setNameValid(
-      !validator.isEmpty(fullNameValue) && validator.isAlpha(fullNameValue)
+  const handleName = (e) => {
+    const name = e.target.value;
+    setName(name);
+    setNameValid(!validator.isEmpty(name) && validator.isAlpha(name));
+  };
+  const handleLastName = (e) => {
+    const lastName = e.target.value;
+    setLastName(lastName);
+    setLastNameValid(
+      !validator.isEmpty(lastName) && validator.isAlpha(lastName)
     );
   };
 
@@ -73,10 +89,10 @@ export default function Landing() {
       const isAlphanumeric = validator.isAlphanumeric(passwordValue);
       const isPasswordValid =
         containsLetter && containsNumber && isAlphanumeric && isLengthValid;
-      setPasswordValid(() => isPasswordValid); // Utilizar función de actualización del estado
-      setPassword(() => passwordValue); // Utilizar función de actualización del estado
+      setPasswordValid(() => isPasswordValid); 
+      setPassword(() => passwordValue); 
     } else {
-      setPassword(() => passwordValue); // Utilizar función de actualización del estado
+      setPassword(() => passwordValue); 
     }
   };
 
@@ -99,10 +115,19 @@ export default function Landing() {
             <div>
               <input
                 type="text"
-                id="fullName"
-                value={fullName}
-                onChange={handleFullName}
-                placeholder="Nombre y apellido"
+                id="name"
+                value={name}
+                onChange={handleName}
+                placeholder="Nombre"
+                style={{border: nameValid ? "none" : "2px solid #660a00"}}
+              />
+              <input
+                type="text"
+                id="lastName"
+                value={lastName}
+                onChange={handleLastName}
+                placeholder="Apellido"
+                style={{border: lastNameValid ? "none" : "2px solid #660a00"}}
               />
             </div>
           )}
@@ -113,6 +138,7 @@ export default function Landing() {
               value={email}
               onChange={handleEmail}
               placeholder="Correo electrónico"
+              style={{border: isRegistering && emailValid ? "none" : isRegistering && "2px solid #660a00"}}
             />
           </div>
           <div>
@@ -122,6 +148,7 @@ export default function Landing() {
               value={password}
               onChange={handlePassword}
               placeholder="Contraseña"
+              style={{border: isRegistering && passwordValid ? "none" : isRegistering && "2px solid #660a00"}}
             />
           </div>
           {isRegistering && (
@@ -132,30 +159,22 @@ export default function Landing() {
                 value={confirmPassword}
                 onChange={handleConfirmPasswordChange}
                 placeholder="Confirmar contraseña"
+                style={{border: (password.length>1) && passwordMatch ? "none" : (password.length>0) && "2px solid #660a00"}}
               />
             </div>
           )}
-          {isRegistering ? (
-            !passwordMatch ? (
-              <p style={{ color: "red", fontWeight: "900" }}>
-                Las contraseñas no coinciden
-              </p>
-            ) : (
-              <p style={{ color: "green", fontWeight: "900" }}>
-                Las contraseñas coinciden
-              </p>
-            )
-          ) : null}
-
-          <button type="submit" disabled={validateForm}>
+          <button type="submit">
             {isRegistering ? "Registrarse" : "Iniciar sesión"}
           </button>
         </form>
         <div>
           <p>{isRegistering ? "¿Ya tienes cuenta?" : "¿No tienes cuenta?"}</p>
-          <Link onClick={() => setIsRegistering(!isRegistering)}>
-            <p>{isRegistering ? "Iniciar sesión" : "Registrarse"}</p>
-          </Link>
+          <p
+            onClick={() => setIsRegistering(!isRegistering)}
+            className={styles.switch}
+          >
+            {isRegistering ? "Iniciar sesión" : "Registrarse"}
+          </p>
         </div>
         <div className={styles.socialButtons}>
           <Link to="/home">
