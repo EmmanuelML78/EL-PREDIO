@@ -1,22 +1,27 @@
 const { Router } = require("express");
 const {
-  getUsersDb,
+  // getUsersDb,
   deleteUser,
   updateUser,
+  getUsersActive,
+  getUsersInactive,
 } = require("../controllers/userController");
 const { User } = require("../db");
 
 const router = Router();
 
-router.get("/users", async (req, res) => {
-  let allUsers = await getUsersDb();
-  try {
-    res.status(200).send(allUsers);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: "Error al obtener los usuarios" });
-  }
-});
+// router.get("/users", async (req, res) => {
+//   let allUsers = await getUsersDb();
+//   try {
+//     res.status(200).send(allUsers);
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({ message: "Error al obtener los usuarios" });
+//   }
+// });
+// router.get("/users", getUsersDb);
+router.get("/users", getUsersActive);
+router.get("/users/inactivos", getUsersInactive);
 
 router.get("/users/:id", async (req, res) => {
   const id = req.params.id;
