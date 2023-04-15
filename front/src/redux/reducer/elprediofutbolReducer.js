@@ -2,18 +2,18 @@
 
 // Estado Inicial
 const initialState = {
-	canchas: [],
-	allCanchas: [],
-	detailCancha: [],
+  canchas: [],
+  allCanchas: [],
+  detailCancha: [],
 };
 
 const elprediofutbolReducer = (state = initialState, action) => {
-	switch (action.type) {
-		// A Completar
-
-		default:
-			return state;
-	}
+  switch (action.type) {
+    case "POST_USER":
+      return action.payload;
+    default:
+      return state;
+  }
 };
 
 export default elprediofutbolReducer;

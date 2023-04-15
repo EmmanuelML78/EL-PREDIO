@@ -20,7 +20,28 @@ export default function Landing() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (isRegistering) {
-      // logica del registro
+      if (
+        emailValid &&
+        nameValid &&
+        passwordValid &&
+        passwordMatch &&
+        !validator.isEmpty(fullName) &&
+        !validator.isEmpty(email) &&
+        !validator.isEmpty(password) &&
+        !validator.isEmpty(confirmPassword)
+      ) { try {
+
+        dispatch(
+          postUser({
+            fullName,
+            email,
+            password,
+          })
+          );
+        } catch (error) {
+          return ({error})
+        }
+      }
     } else {
       // logica del login
     }
@@ -52,11 +73,11 @@ export default function Landing() {
       const isAlphanumeric = validator.isAlphanumeric(passwordValue);
       const isPasswordValid =
         containsLetter && containsNumber && isAlphanumeric && isLengthValid;
-      setPasswordValid(isPasswordValid);
-      if (passwordValid) {
-        setPassword(passwordValue);
-      }
-    } else setPassword(passwordValue);
+      setPasswordValid(() => isPasswordValid); // Utilizar función de actualización del estado
+      setPassword(() => passwordValue); // Utilizar función de actualización del estado
+    } else {
+      setPassword(() => passwordValue); // Utilizar función de actualización del estado
+    }
   };
 
   const handleConfirmPasswordChange = (e) => {
