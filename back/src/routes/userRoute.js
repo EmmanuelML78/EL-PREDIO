@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const {
-  // getUsersDb,
+  getUsersDb,
   deleteUser,
   updateUser,
   getUsersActive,

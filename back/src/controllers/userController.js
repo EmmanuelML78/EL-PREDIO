@@ -1,14 +1,14 @@
 const { User } = require("../db");
 const { Op } = require("sequelize");
 
-// const getUsersDb = async () => {
-//   try {
-//     const users = await User.findAll({ paranoid: false });
-//     return users;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
+const getUsersDb = async () => {
+  try {
+    const users = await User.findAll({ paranoid: false });
+    return users;
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 const getUsersInactive = async (req, res) => {
   try {
@@ -115,7 +115,7 @@ const updateUser = async (req, res) => {
 };
 
 module.exports = {
-  // getUsersDb,
+  getUsersDb,
   deleteUser,
   updateUser,
   getUsersActive,
