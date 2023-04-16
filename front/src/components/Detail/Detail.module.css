@@ -1,0 +1,58 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.father {
+  display: flex;
+  flex-direction: row;
+}
+img {
+  width: 500px;
+  margin-left: 1rem;
+  border-radius: 10px;
+}
+
+.ocupado {
+  padding: 5px 10px 5px 10px;
+  border-radius: 1.5rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  background-color: grey;
+}
+.ocupado:hover {
+  cursor: not-allowed;
+}
+
+.libre {
+  padding: 5px 10px 5px 10px;
+  border-radius: 1.5rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+}
+.libre:focus {
+  background-color: rgb(39, 83, 204);
+  border: none;
+}
+.libre:active {
+  background-color: rgb(39, 83, 204);
+  border: none;
+}
+.libre:target {
+  background-color: rgb(39, 83, 204);
+  border: none;
+}
+.libre:hover {
+  cursor: pointer;
+}
+
+.date {
+  font-size: 1.1em;
+  border: 2px solid white;
+  padding: 3px 5px 3px 7px;
+  border-radius: 1.2em;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+  color: white;
+}
