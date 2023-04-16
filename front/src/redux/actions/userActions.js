@@ -12,7 +12,7 @@ export const getUserById = (userId) => {};
 
 export const postUser = (userData) => {
   return async function (dispatch) {
-    const response = await axios.post("http://localhost:3001/", payload);
+    const response = await axios.post("http://localhost:3001/users", userData);
     dispatch({
       type: POST_USER,
       payload: response.data,
