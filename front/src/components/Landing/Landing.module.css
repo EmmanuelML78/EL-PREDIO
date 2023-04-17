@@ -7,9 +7,10 @@
   display: flex;
   justify-content: space-between;
   padding-left: 600px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: 'Barlow', sans-serif;
   color: white;
   border-radius: 10px;
+
 }
 
 .container h1 {
