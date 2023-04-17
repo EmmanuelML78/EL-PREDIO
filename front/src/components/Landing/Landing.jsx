@@ -31,7 +31,11 @@ export default function Landing() {
         nameValid &&
         lastNameValid &&
         passwordValid &&
-        passwordMatch 
+        passwordMatch &&
+        !validator.isEmpty(name) &&
+        !validator.isEmpty(lastName) &&
+        !validator.isEmpty(email) &&
+        !validator.isEmpty(password)
       )
         console.log("mail:", emailValid)
         console.log("name:", nameValid)
