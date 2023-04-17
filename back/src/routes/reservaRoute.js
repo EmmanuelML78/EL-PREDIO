@@ -4,7 +4,7 @@ const {
   deleteReserva,
   updateReserva,
 } = require("../controllers/ReservaControllers");
-const { Reserva } = require("../db");
+const { Reserva, Cancha, User } = require("../db");
 
 router
   .get("/", async (req, res) => {
@@ -18,23 +18,55 @@ router
 
   .get("/:id", async (req, res) => {
     const id = req.params.id;
-    let allreserva = await getAllReservations();
+    // let allreserva = await getAllReservations();
+    // try {
+    //   if (id) {
+    //     const reservaid = await allreserva.filter((el) => el.id == id);
+    //     id.length
+    //       ? res.status(200).send(reservaid)
+    //       : res
+    //           .status(500)
+    //           .json({ message: "Error al obtener Reserva por ID" });
+    //   }
+    // } catch (error) {
+    //   throw error;
+    // }
     try {
       if (id) {
-        const reservaid = await allreserva.filter((el) => el.id == id);
-        id.length
-          ? res.status(200).send(reservaid)
-          : res
-              .status(500)
-              .json({ message: "Error al obtener Reserva por ID" });
+        const reserva = await Reserva.findOne({
+          where: {
+            id: id,
+          },
+          include: [
+            {
+              model: Cancha,
+              as: "cancha",
+              attributes: ["id", "name"],
+            },
+            {
+              model: User,
+              as: "user",
+              attributes: ["id", "name"],
+            },
+          ],
+        });
+
+        if (reserva) {
+          res.status(200).send(reserva);
+        } else {
+          res.status(500).json({ message: "Error al obtener Reserva por ID" });
+        }
+      } else {
+        res.status(400).json({ message: "No se especificó un ID válido" });
       }
     } catch (error) {
-      throw error;
+      console.log(error);
+      res.status(500).json({ message: "Error al buscar la reserva" });
     }
   })
 
   .post("/", async (req, res) => {
-    const { date, start, end, status, hasPromo } = req.body;
+    const { date, start, end, status, hasPromo, userId, canchaId } = req.body;
     try {
       const reservation = await Reserva.create({
         date,
@@ -42,6 +74,8 @@ router
         end,
         status,
         hasPromo,
+        userId,
+        canchaId,
       });
       res.status(201).json(reservation);
     } catch (error) {
@@ -87,4 +121,3 @@ router
   });
 
 module.exports = router;
-
