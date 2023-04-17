@@ -4,7 +4,9 @@ import { useState } from "react";
 import s from "./DashBoard.module.css";
 import canchasData from "./canchas.json";
 import reservasData from "./reservasData.json";
+
 import Header from "../Header/Header";
+
 
 function DashBoard() {
   const [users, setUsers] = useState([]);
@@ -64,6 +66,7 @@ function DashBoard() {
               </ul>
               <ul>
                 <p className={s.heads}>Nombre</p>
+
                 {users.map((user) => (
                   <li className={s.item} key={user.id}>
                     {user.name}
@@ -72,6 +75,7 @@ function DashBoard() {
               </ul>
               <ul>
                 <p className={s.heads}>Apellido</p>
+
                 {users.map((user) => (
                   <li className={s.item} key={user.id}>
                     {user.lastName}
@@ -80,6 +84,7 @@ function DashBoard() {
               </ul>
               <ul>
                 <p className={s.heads}>Correo</p>
+
                 {users.map((user) => (
                   <li className={s.item} key={user.id}>
                     {user.email}
@@ -98,7 +103,9 @@ function DashBoard() {
                 ))}
               </ul>
               <ul>
+
                 <p className={s.heads}>Jugadores</p>
+
                 {canchas.map((cancha) => (
                   <li className={s.item} key={cancha.id}>
                     {cancha.jugadores}
@@ -115,6 +122,7 @@ function DashBoard() {
               </ul>
               <ul>
                 <p className={s.heads}>Apertura</p>
+
                 {canchas.map((cancha) => (
                   <li className={s.item} key={cancha.id}>
                     {cancha.open}
@@ -122,6 +130,7 @@ function DashBoard() {
                 ))}
               </ul>
               <ul>
+
                 <p className={s.heads}>Cierre</p>
                 {canchas.map((cancha) => (
                   <li className={s.item} key={cancha.id}>
@@ -131,6 +140,7 @@ function DashBoard() {
               </ul>
               <ul>
                 <p className={s.heads}>Estado</p>
+
                 {canchas.map((cancha) => (
                   <li className={s.item} key={cancha.id}>
                     {cancha.availability}
@@ -139,6 +149,7 @@ function DashBoard() {
               </ul>
               <ul>
                 <p className={s.heads}>Precio/Hora</p>
+
                 {canchas.map((cancha) => (
                   <li className={s.item} key={cancha.id}>
                     {cancha.price}
@@ -158,6 +169,7 @@ function DashBoard() {
               </ul>
               <ul>
                 <p className={s.heads}>Desde</p>
+
                 {reservas.map((reserva) => (
                   <li className={s.item} key={reserva.id}>
                     {reserva.start}
@@ -165,7 +177,9 @@ function DashBoard() {
                 ))}
               </ul>
               <ul>
+
                 <p className={s.heads}>Hasta</p>
+
                 {reservas.map((reserva) => (
                   <li className={s.item} key={reserva.id}>
                     {reserva.end}
@@ -173,7 +187,9 @@ function DashBoard() {
                 ))}
               </ul>
               <ul>
+
                 <p className={s.heads}>Cancha</p>
+
                 {reservas.map((reserva) => (
                   <li className={s.item} key={reserva.id}>
                     {reserva.cancha}
@@ -182,6 +198,7 @@ function DashBoard() {
               </ul>
               <ul>
                 <p className={s.heads}>Correo del usuario</p>
+
                 {reservas.map((reserva) => (
                   <li className={s.item} key={reserva.id}>
                     {reserva.userEmail}
