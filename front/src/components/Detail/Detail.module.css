@@ -6,6 +6,8 @@
 .father {
   display: flex;
   flex-direction: row;
+  margin-bottom: 10rem;
+  margin-top: 10rem;
 }
 img {
   width: 500px;
