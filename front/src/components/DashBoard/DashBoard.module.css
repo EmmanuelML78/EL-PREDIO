@@ -7,8 +7,8 @@
     text-align: start;
     align-content: stretch;
     width: max-content;
-    margin: 1px;
-    padding: 1px;
+    margin-top: 10rem;
+    margin-bottom: 10rem;
 }
 
 
@@ -28,7 +28,7 @@
     min-width: 30px;
     border: 1px solid #166816;
 }
-p {
+.heads {
     padding-left: 10px;
     padding-right: 10px;
     font-weight: 600;
@@ -54,7 +54,7 @@ p {
     background-color: rgba(255, 255, 255, 0.15);
     color: white
 }
-h1 {
+.panel {
     padding: 15px;
     background-color: #166816;
     border-radius: 25px;

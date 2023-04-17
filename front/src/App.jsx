@@ -18,9 +18,13 @@ function App() {
           <Footer />
         </Route>
         <Route path="/canchas/detail">
-          <Detail/>
+          <Detail />
+          <Footer/>
         </Route>
-        <Route exact path="/dashboard" component={DashBoard} />
+        <Route exact path="/dashboard">
+          <DashBoard />
+          <Footer/>
+        </Route>
       </Switch>
     </>
   );

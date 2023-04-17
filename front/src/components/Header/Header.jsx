@@ -9,11 +9,17 @@ function Header() {
     <header>
       <div className="header-container">
         <Link to="/">
-          <img src={icon} alt="cancha" style={{ height: "5rem" }} />
+          <img
+            src={icon}
+            alt="cancha"
+            style={{ height: "5rem", width: "5rem" }}
+          />
         </Link>
-        <h1 className="nav-title">El Predio</h1>
+        <Link to="/home">
+          <h1 className="nav-title">El Predio</h1>
+        </Link>
         <div className="user">
-          <Link style={{color: 'white'}} to="/dashboard">
+          <Link style={{ color: "white" }} to="/dashboard">
             <FaUser />
           </Link>
         </div>

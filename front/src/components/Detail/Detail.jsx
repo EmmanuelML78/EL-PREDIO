@@ -17,6 +17,7 @@ const Detail = (props) => {
   console.log("id: ", canchaRandom);
   return (
     <>
+      <Header/>
       <div className={styles.father}>
         <div className={styles.container}>
           <h1 className="text-white">Cancha {canchaData.id}</h1>
