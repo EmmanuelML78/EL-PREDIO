@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: "Barlow", sans-serif;
   line-height: 1.5;
   font-weight: 400;
 

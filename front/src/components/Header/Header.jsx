@@ -1,22 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
-import icon from "../../assets/icon.png"
-import "./Header.css"
-
+import icon from "../../assets/icon.png";
+import "./Header.css";
 
 function Header() {
   return (
     <header>
       <div className="header-container">
         <Link to="/">
-        <img src={icon} alt="cancha" style={{height: "5rem"}}/>
+          <img src={icon} alt="cancha" style={{ height: "5rem" }} />
         </Link>
-        <h1 className="nav-title">
-          El Predio
-        </h1>
+        <h1 className="nav-title">El Predio</h1>
         <div className="user">
-          <FaUser />
+          <Link style={{color: 'white'}} to="/dashboard">
+            <FaUser />
+          </Link>
         </div>
       </div>
       <nav className="navbar">

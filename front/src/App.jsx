@@ -21,7 +21,6 @@ function App() {
           <Detail/>
         </Route>
         <Route exact path="/dashboard" component={DashBoard} />
-
       </Switch>
     </>
   );
