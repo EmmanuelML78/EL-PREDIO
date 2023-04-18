@@ -10,7 +10,7 @@ import {
 const initialState = {
   canchas: [],
   allCanchas: [],
-  detailCancha: [],
+  cancha: [],
 };
 
 const elprediofutbolReducer = (state = initialState, action) => {
@@ -22,6 +22,11 @@ const elprediofutbolReducer = (state = initialState, action) => {
         ...state,
         canchas: action.payload,
       };
+    case GET_CANCHA_BY_ID:
+      return {
+      ...state,
+        cancha: action.payload,
+        };
     case POST_CANCHA:
       return {
       ...state,
