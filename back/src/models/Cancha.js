@@ -28,6 +28,10 @@ module.exports = (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+      description: {
+        type: DataTypes.TEXT,
+        defaultValue: false,
+      },
       availability: {
         type: DataTypes.BOOLEAN,
         defaultValue: true,

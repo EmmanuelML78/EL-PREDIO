@@ -33,8 +33,16 @@ router
     }
   })
   .post("/", async (req, res) => {
-    const { name, image, price, open, close, hasPromo, availability } =
-      req.body;
+    const {
+      name,
+      image,
+      price,
+      open,
+      close,
+      hasPromo,
+      description,
+      availability,
+    } = req.body;
     try {
       if ((!name, !price, !open, !close, !availability)) {
         return res.status(400).json({
@@ -49,6 +57,7 @@ router
         open,
         close,
         hasPromo,
+        description,
         availability,
       });
       // res.status(200).send('Cancha creada con exito');
@@ -58,12 +67,28 @@ router
     }
   })
   .put("/", async (req, res) => {
-    const { id, name, image, price, open, close, hasPromo, availability } =
-      req.body;
+    const {
+      id,
+      name,
+      image,
+      price,
+      open,
+      close,
+      hasPromo,
+      description,
+      availability,
+    } = req.body;
 
     if (
       id &&
-      (name || image || price || open || close || hasPromo || availability)
+      (name ||
+        image ||
+        price ||
+        open ||
+        close ||
+        hasPromo ||
+        description ||
+        availability)
     ) {
       try {
         const canchaUpdate = await updateCanchas(
@@ -74,6 +99,7 @@ router
           open,
           close,
           hasPromo,
+          description,
           availability
         );
         return res.status(200).json({ message: "actualizado correctamente" });
