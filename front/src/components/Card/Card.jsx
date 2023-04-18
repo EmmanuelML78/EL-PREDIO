@@ -27,10 +27,10 @@ function Card({ image, title, description, availability, players }) {
       <img
         src={image}
         alt={title}
-        style={{ maxWidth: "100%", height: "15rem" }}
+        style={{ maxWidth: "100%", height: "15rem", display:"flex", alignItems: "center", justifyContent: "center"}}
       />
       <h2>{title}</h2>
-      <p>{description}</p>
+      <p className="description">{description}</p>
       <p>Capacidad: {players} Jugadores</p>
       {isAvailable ? (
         <p>Disponibilidad: Disponible</p>

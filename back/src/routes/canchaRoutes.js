@@ -5,7 +5,7 @@ const {
   deleteCancha,
   updateCanchas,
 } = require("../controllers/CanchaControllers");
-const { Cancha } = require("../db");
+const { Cancha, Reserva } = require("../db");
 
 router
   .get("/", async (req, res) => {
@@ -18,18 +18,34 @@ router
   })
   .get("/:id", async (req, res) => {
     const id = req.params.id;
-    let allreserva = await getAllcanchas();
     try {
       if (id) {
-        const canchasId = await allreserva.filter((el) => el.id == id);
-        id.length
-          ? res.status(200).send(canchasId)
-          : res
-              .status(500)
-              .json({ message: "Error al obtener Reserva por ID" });
+        const cancha = await Cancha.findOne({
+          where: { id: id },
+          include: [
+            {
+              model: Reserva,
+              as: "reservas",
+              attributes: [
+                "date",
+                "start",
+                "end",
+                "status",
+                "hasPromo",
+                "userId",
+              ],
+            },
+          ],
+        });
+        cancha
+          ? res.status(200).send(cancha)
+          : res.status(404).json({ message: "Cancha no encontrada" });
+      } else {
+        res.status(400).json({ message: "Falta el parámetro 'id'" });
       }
     } catch (error) {
-      throw error;
+      console.log(error);
+      res.status(500).json({ message: "Error al obtener la Cancha" });
     }
   })
   .post("/", async (req, res) => {
@@ -112,7 +128,6 @@ router
           availability,
           grass,
           players
-
         );
         return res.status(200).json({ message: "actualizado correctamente" });
       } catch (error) {

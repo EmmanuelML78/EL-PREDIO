@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
-import {useSelector, useDispatch} from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
 import SearchBar from "../SearchBar/SearchBar";
 import Pagination from "../Pagination/Pagination";
 import { getCanchas } from "../../redux/actions/canchaActions";
 import Card from "../Card/Card";
-// import cars from "./data.json";
+
 
 function Cards() {
   const dispatch = useDispatch();
-  const canchas = useSelector((state) => state.canchas)
+  const canchas = useSelector((state) => state.canchas);
+  console.log(canchas)
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");
-  const [playersFilter, setPlayersFilter] = useState("")
+  const [playersFilter, setPlayersFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -19,9 +20,9 @@ function Cards() {
     setCurrentPage(1);
   }, [searchTerm, filter]);
 
-  useEffect(()=> {
+  useEffect(() => {
     dispatch(getCanchas(currentPage, itemsPerPage, searchTerm, filter));
-  }, [dispatch])
+  }, [dispatch]);
 
   function normalize(str) {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -35,10 +36,8 @@ function Cards() {
       (filter === "" ||
         (filter === "available" && item.available) ||
         (filter === "notAvailable" && !item.available)) &&
-        ( playersFilter ==="" || parseInt(playersFilter) === item.players)
+      (playersFilter === "" || parseInt(playersFilter) === item.players)
   );
-
-
 
   return (
     <div
