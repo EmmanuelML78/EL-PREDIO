@@ -3,14 +3,30 @@ const {
   getAllReservations,
   deleteReserva,
   updateReserva,
+  getUsersDb,
 } = require("../controllers/ReservaControllers");
 const { Reserva, Cancha, User } = require("../db");
 
 router
+
+  // .get("/", async (req, res) => {
+  //   let allreserva = await getAllReservations();
+  //   let user = await getUsersDb();
+  //   try {
+  //     res.status(200).send(allreserva, user);
+  //   } catch (error) {
+  //     res.status(400).send({ error: error.message });
+  //   }
+  // })
   .get("/", async (req, res) => {
-    let allreserva = await getAllReservations();
     try {
-      res.status(200).send(allreserva);
+      const allReservations = await getAllReservations();
+      const allUsers = await getUsersDb();
+      const response = {
+        reservations: allReservations,
+        users: allUsers,
+      };
+      res.status(200).send(response);
     } catch (error) {
       res.status(400).send({ error: error.message });
     }
