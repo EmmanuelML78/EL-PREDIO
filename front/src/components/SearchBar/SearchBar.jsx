@@ -1,6 +1,6 @@
 import React from "react";
 
-// import s from "./SearchBar.module.css";
+import "./SearchBar.module.css";
 // import styled from "styled-components";
 
 const SearchBar = ({ searchTerm, setSearchTerm, filter, setFilter }) => {

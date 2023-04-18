@@ -108,7 +108,9 @@ router
           close,
           hasPromo,
           description,
-          availability
+          availability,
+          grass,
+          players,
         );
         return res.status(200).json({ message: "actualizado correctamente" });
       } catch (error) {
