@@ -36,6 +36,14 @@ module.exports = (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: true,
       },
+      grass: {
+        type: DataTypes.STRING,
+        defaultValue: false,
+      },
+      players: {
+        type: DataTypes.INTEGER,
+        defaultValue: 0,
+      },
     },
     { paranoid: true }
   );
