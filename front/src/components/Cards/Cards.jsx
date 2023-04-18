@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
+import {useSelector, useDispatch} from "react-redux"
 import SearchBar from "../SearchBar/SearchBar";
 import Pagination from "../Pagination/Pagination";
+import { getCanchas } from "../../redux/actions/canchaActions";
 import Card from "../Card/Card";
-import cars from "./data.json";
+// import cars from "./data.json";
 
 function Cards() {
+  const dispatch = useDispatch();
+  const canchas = useSelector((state) => state.canchas)
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");
-  const data = cars.data;
+  const [playersFilter, setPlayersFilter] = useState("")
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -15,21 +19,26 @@ function Cards() {
     setCurrentPage(1);
   }, [searchTerm, filter]);
 
+  useEffect(()=> {
+    dispatch(getCanchas(currentPage, itemsPerPage, searchTerm, filter));
+  }, [dispatch])
+
   function normalize(str) {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   }
 
-  const filteredData = data.filter(
+  const filteredData = canchas.filter(
     (item) =>
       normalize(item.description.toLowerCase()).includes(
         normalize(searchTerm.toLowerCase())
       ) &&
       (filter === "" ||
         (filter === "available" && item.available) ||
-        (filter === "notAvailable" && !item.available))
+        (filter === "notAvailable" && !item.available)) &&
+        ( playersFilter ==="" || parseInt(playersFilter) === item.players)
   );
 
-  
+
 
   return (
     <div
@@ -46,6 +55,8 @@ function Cards() {
         setSearchTerm={setSearchTerm}
         filter={filter}
         setFilter={setFilter}
+        playersFilter={playersFilter}
+        setPlayersFilter={setPlayersFilter}
       />
       <div
         style={{
@@ -60,10 +71,12 @@ function Cards() {
             .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
             .map((item) => (
               <Card
+                key={item.id}
                 image={item.image}
-                title={item.title}
+                title={item.name}
                 description={item.description}
-                available={item.available}
+                players={item.players}
+                availability={item.availability}
               />
             ))
         ) : (
