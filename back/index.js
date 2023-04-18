@@ -5,7 +5,7 @@ const { conn } = require("./src/db.js");
 //   console.log("listening on port 3001");
 // });
 
-conn.sync({ force: false }).then(() => {
+conn.sync({ alter: true }).then(() => {
   app.listen(3001, () => {
     console.log("%s listening at 3001");
   });

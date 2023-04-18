@@ -110,7 +110,8 @@ router
           description,
           availability,
           grass,
-          players,
+          players
+
         );
         return res.status(200).json({ message: "actualizado correctamente" });
       } catch (error) {
