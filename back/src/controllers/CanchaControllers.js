@@ -38,6 +38,8 @@ const updateCanchas = async (
       ? (cancha.close = close)
       : hasPromo
       ? (cancha.hasPromo = hasPromo)
+      : description
+      ? (cancha.description = description)
       : availability
       ? (cancha.availability = availability)
       : null;
