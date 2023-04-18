@@ -1,4 +1,4 @@
-const { User } = require("../db");
+const { User, Reserva } = require("../db");
 const { Op } = require("sequelize");
 
 const getUsersDb = async () => {
@@ -76,6 +76,19 @@ const getUsersActive = async (req, res) => {
   }
 };
 
+const getUserById = async (id) => {
+  try {
+    const user = await User.findOne({
+      where: { id },
+      include: { model: Reserva, as: "reservas", paranoid: false },
+      paranoid: false,
+    });
+    return user;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
 const deleteUser = async (id) => {
   try {
     const deletedUser = await User.destroy({ where: { id: id } });
@@ -120,4 +133,5 @@ module.exports = {
   updateUser,
   getUsersActive,
   getUsersInactive,
+  getUserById,
 };
