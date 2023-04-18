@@ -17,10 +17,10 @@ function App() {
           <Home />
           <Footer />
         </Route>
-        <Route path="/canchas/detail">
-          <Detail />
-          <Footer/>
-        </Route>
+        <Route
+          path="/canchas/:id"
+          render={({ match }) => <Detail match={match} />}
+        />
         <Route exact path="/dashboard">
           <DashBoard />
           <Footer/>
