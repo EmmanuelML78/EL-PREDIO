@@ -42,6 +42,8 @@ router
       hasPromo,
       description,
       availability,
+      grass,
+      players,
     } = req.body;
     try {
       if ((!name, !price, !open, !close, !availability)) {
@@ -59,6 +61,8 @@ router
         hasPromo,
         description,
         availability,
+        grass,
+        players,
       });
       // res.status(200).send('Cancha creada con exito');
       return res.status(200).json(newCancha);
@@ -77,6 +81,8 @@ router
       hasPromo,
       description,
       availability,
+      grass,
+      players,
     } = req.body;
 
     if (
@@ -88,7 +94,9 @@ router
         close ||
         hasPromo ||
         description ||
-        availability)
+        availability ||
+        grass ||
+        players)
     ) {
       try {
         const canchaUpdate = await updateCanchas(

@@ -20,7 +20,10 @@ const updateCanchas = async (
   open,
   close,
   hasPromo,
-  availability
+  description,
+  availability,
+  grass,
+  players
 ) => {
   const cancha = await Cancha.findByPk(id);
 
@@ -42,6 +45,10 @@ const updateCanchas = async (
       ? (cancha.description = description)
       : availability
       ? (cancha.availability = availability)
+      : grass
+      ? (cancha.grass = grass)
+      : players
+      ? (cancha.players = players)
       : null;
 
     await cancha.save();
