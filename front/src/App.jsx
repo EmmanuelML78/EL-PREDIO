@@ -4,6 +4,7 @@ import Home from "./components/Home/Home";
 import Footer from "./components/Footer/Footer";
 import Detail from "./components/Detail/Detail";
 import DashBoard from "./components/DashBoard/DashBoard";
+import CreadorCanchas from "./components/CreadorCanchas/CreadorCanchas";
 import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
         <Route exact path="/dashboard">
           <DashBoard />
           <Footer/>
+        </Route>
+        <Route path="/creador">
+          <CreadorCanchas/>
         </Route>
       </Switch>
     </>

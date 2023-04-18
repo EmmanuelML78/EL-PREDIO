@@ -20,7 +20,17 @@ export const getCanchas = () => {
 
 export const getCanchaById = (canchaId) => {};
 
-export const postCancha = (canchaData) => {};
+export const postCancha = (canchaData) => {
+  return async (dispatch) => {
+    const res = await axios.post("http://localhost:3001/canchas", canchaData);
+    const data = res.data;
+   
+    dispatch({
+      type: POST_CANCHA,
+      payload: data,
+    });
+  };
+};
 
 export const deleteCancha = (canchaId) => {};
 

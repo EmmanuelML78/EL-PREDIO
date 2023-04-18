@@ -22,6 +22,11 @@ const elprediofutbolReducer = (state = initialState, action) => {
         ...state,
         canchas: action.payload,
       };
+    case POST_CANCHA:
+      return {
+      ...state,
+        canchas: [...state.canchas, action.payload],
+      };
     default:
       return state;
   }
