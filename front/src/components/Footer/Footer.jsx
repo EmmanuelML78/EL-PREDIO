@@ -1,33 +1,43 @@
-import React from "react";
-import "./Footer.css";
+import styles from './Footer.module.css'
 
 const Footer = () => {
-  return (
-    <div className="footer-container">
-      <div className="footer-column">
-        <h3>El Predio</h3>
-        <p>+54938169343</p>
-      </div>
-      <div className="footer-column">
-        <h3>Direccion</h3>
-        <p>San juan 4105</p>
-      </div>
-      <div className="footer-column">
+return (
+    <footer className={styles.footer}>
+    <div className={styles.contenedorfootergrid}>
+        <div className={styles.footerwidget}>
+        <h1>ElPredio<span>Fútbol</span></h1>
+        </div>
+
+        <div className={styles.footerwidget}>
+        <h3>Dirección</h3>
+        <p>Las Heras 1500</p>
+        </div>
+
+        <div className={styles.footerwidget}>
+        <h3>Teléfono</h3>
+        <p>0-800-0000-000</p>
+        </div>
+
+        <div className={styles.footerwidget}>
         <h3>Redes</h3>
-        <a href="https://www.facebook.com/">Facebook</a>
-        <p>
-          <a href="https://twitter.com/">Twitter</a>
-        </p>
-        <p>
-          <a href="https://www.instagram.com/">Instagram</a>
-        </p>
-      </div>
-      <div className="footer-column">
-        <h3>Telefono</h3>
-        <p>+549381693437</p>
-      </div>
+        <div className={styles.redsocial}>
+            <a href="" class="fa fa-instagram"></a>
+            <a href="" class="fa fa-twitter"></a>
+            <a href="" class="fa fa-facebook"></a>
+        </div>
+        </div>
+
+        <div className={styles.footerwidget}>
+        <h3>Desarrolladores</h3>
+        <p>anonimous@gmail.com</p>
+        </div>
     </div>
-  );
+
+    <div className={styles.divsmall}>
+        <small>&copy; 2023 El Predio Fútbol - Todos los derechos Reservados</small>
+    </div>
+    </footer>
+);
 };
 
 export default Footer;

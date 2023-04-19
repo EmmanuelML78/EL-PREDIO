@@ -15,6 +15,7 @@ const Home = () => {
       <Cards />
       <Promociones />
       <Nosotros />
+      <Footer />
     
     </div>
   );
