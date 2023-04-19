@@ -1,0 +1,200 @@
+:root {
+  --blanco: #FFF;
+  --negro: #111111;
+  --gris: #343A40;
+
+  --fuentePrincipal: 'Raleway', sans-serif;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+*,*:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: var(--fuentePrincipal);
+  font-size: 1.6rem;
+  line-height: 1.8;
+}
+
+h1 {
+  font-weight: 900;
+  margin: 1rem 0 4rem 0;
+}
+
+h1 {
+  font-size: 4.8rem;
+}
+
+a {
+  text-decoration: none
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+.contenedor {
+  max-width: 120rem;
+  margin: 0 auto;
+  width: 90%;
+}
+
+.btn {
+  color: var(--gris);
+  background-color: var(--blanco);
+  border: 1px solid var(--gris);
+  transition: background-color .3s;
+}
+
+.btn:hover {
+  background-color: var(--gris);
+  color: var(--blanco);
+}
+
+.text-center {
+  text-align: center;
+}
+.mt-5 {
+  margin-top: 5rem;
+}
+
+
+.header {
+  min-height: 45rem;
+  background-image: url(../../assets/pelota1.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  padding: 5rem 0;
+}
+
+@media (min-width: 768px) {
+  .header {
+  padding: 2rem 0;
+  }
+}
+
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  color: var(--blanco);
+}
+
+.nombresitio {
+  font-weight: 300;
+  text-align: center;
+  font-size: 3rem;
+}
+@media (min-width: 768px) {
+  .nombresitio {
+  font-size: 5rem;
+  }
+}
+.nombresitio span {
+  font-weight: 900;
+}
+
+@media (min-width: 768px) {
+  .barra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  }
+}
+
+
+.contacto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media (min-width: 768px) {
+  .contacto {
+  align-items: flex-end;
+  }
+}
+
+.telefono {
+  display: flex;
+}
+.telefono::before {
+  content: '';
+  display: block;
+  width: 4rem;
+  height: 4rem;
+  background-image: url('../../assets/telefono.png');
+  background-repeat: no-repeat;
+  background-position: center center;
+  margin-right: 1rem;
+}
+
+.header a {
+  color: var(--blanco);
+  font-size: 2rem;
+}
+
+.navegacion {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .navegacion {
+  flex-direction: row;
+  }
+}
+
+.navegacion a {
+  padding: .5rem;
+  transition: background-color 300ms;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .navegacion a {
+  padding: 1rem 2rem;
+  }
+}
+
+.navegacion a:hover {
+  background-color: rgb(255 255 255 / .5);
+  color: var(--blanco);
+}
+
+.formulario {
+  margin: 5rem auto 2rem auto;
+  background-color: var(--blanco);
+  border-radius: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  max-width: 90rem;
+  box-shadow: 0px 3px 7px 0px;
+}
+
+.campo {
+  padding: 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.campo:hover {
+  background-color: #F0F0F0;
+  border-radius: 1.5rem;
+  box-shadow: 0px 6px 20px rgba(0 0 0 / 40%);
+}
+
+.label {
+  font-size: 1.2rem;
+  font-weight: 900;
+}
+
+.input {
+  width: 100%;
+  color: var(--gris);
+}
