@@ -1,0 +1,71 @@
+:root {
+    --blanco: #FFF;
+    --negro: #111111;
+    --gris: #343A40;
+
+    --fuentePrincipal: 'Raleway', sans-serif;
+}
+
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
+  *,*:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: var(--fuentePrincipal);
+    font-size: 1.6rem;
+    line-height: 1.8;
+}
+
+.sobrepredio {
+    background-image: linear-gradient( to bottom, transparent 50%, var(--gris) 0%), url(../../assets/canchanosotros.jpg);
+    background-position: right;
+    background-repeat: repeat, no-repeat;
+    background-size: 100%, 110rem;
+}
+@media (min-width: 768px) {
+    .sobrepredio {
+        background-image: linear-gradient( to left, transparent 50%, var(--gris) 0%), url(../../assets/Football.jpg);
+        background-repeat: repeat, no-repeat;
+    }
+}
+
+.contenedorgrid {
+    display: grid;
+    grid-template-rows: repeat(2, 40rem);
+    row-gap: 5rem;
+}
+@media (min-width: 768px) {
+    .contenedorgrid {
+        grid-template-rows: unset;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 4rem;
+    }
+}
+
+.texto {
+    grid-row: 2 / 3;
+    color: var(--blanco);
+    display: flex;
+    text-align: left;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-top: 1rem;
+    padding-left: 5rem;
+    padding-right: 5rem;
+    padding-bottom: 5rem;
+}
+
+.texto h2 {
+    font-size: 5rem;
+    font-weight: 600;
+    padding-bottom: 2rem;
+}
+
+.texto p {
+    font-size: 1.5rem;
+    line-height: 2;
+}
