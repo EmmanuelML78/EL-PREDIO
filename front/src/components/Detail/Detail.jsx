@@ -1,50 +1,140 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
-import canchas from "./data.json";
+import { getCanchaById } from "../../redux/actions/canchaActions";
+import s from "./Detail.module.css";
+import moment from "moment";
 
-import styles from "./Detail.module.css";
-// import styled from "styled-components";
+const Detail = ({ cancha, getCanchaById, match }) => {
+  const [selectedDate, setselectedDate] = useState(
+    moment().format("YYYY-MM-DD")
+  );
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedHorario, setSelectedHorario] = useState(null);
+  console.log("horario:", selectedHorario)
+  console.log(selectedDate);
 
-const Detail = (props) => {
-  function randomNumber(min, max) {
-    return Math.random() * (max - min) + min;
+  useEffect(() => {
+    const fetchData = async () => {
+      const id = parseInt(match.params.id);
+      await getCanchaById(id);
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, [getCanchaById, match.params.id]);
+
+  const c = cancha;
+
+  const handleDate = (e) => {
+    const fecha = e.target.value;
+    setselectedDate(fecha);
+    console.log("date: " + selectedDate);
+  };
+
+  const handleHorario = (e) => {
+    e.preventDefault();
+    const hora = e.target.value;
+    setSelectedHorario(hora);
+  };
+  // Verificación de isLoading antes de ejecutar la lógica que usa cancha
+  const openTime = !isLoading ? moment(c.open, "HH:mm:ss") : null;
+  const closeTime = !isLoading ? moment(c.close, "HH:mm:ss") : null;
+
+  const intervaloHoras = [];
+  let actualTime = !isLoading ? moment(openTime) : null; // Si isLoading es true, no hay moment() para openTime
+  while (!isLoading && actualTime.isBefore(closeTime)) {
+    // Verificación de isLoading antes de ejecutar el while loop
+    intervaloHoras.push(moment(actualTime));
+    actualTime.add(1, "hour");
   }
 
-  const canchaRandom = Math.round(randomNumber(0, 2));
+  const reservas = !isLoading
+    ? c.reservas.filter((reserva) => reserva.date === selectedDate)
+    : [];
 
-  const canchaData = canchas.canchas[canchaRandom];
-  console.log("id: ", canchaRandom);
+  console.log("reservas: " + JSON.stringify(reservas));
+
+  const horariosDisponibles = !isLoading
+    ? intervaloHoras.map((hora) => {
+        const horaReserva = reservas.find((reserva) => {
+          return moment(reserva.start, "HH:mm:ss").isSame(hora, "hour");
+        });
+
+        return {
+          hora: hora.format("HH:mm"),
+          disponible: !horaReserva,
+        };
+      })
+    : [];
+
+  const botonesHorarios = !isLoading
+    ? horariosDisponibles.map((horario) => {
+        if (horario.disponible) {
+          const isSelected = horario.hora === selectedHorario
+          const clase = isSelected ? s.seleccionado : s.libre;
+          return (
+            <button
+              onClick={handleHorario}
+              className={clase}
+              value={horario.hora}
+              key={horario.hora}
+            >
+              {horario.hora}
+            </button>
+          );
+        } else {
+          return (
+            <button className={s.ocupado} key={horario.hora} disabled>
+              {horario.hora}
+            </button>
+          );
+        }
+      })
+    : [];
+
   return (
     <>
-      <Header/>
-      <div className={styles.father}>
-        <div className={styles.container}>
-          <h1 className="text-white">Cancha {canchaData.id}</h1>
-          <h2 className="text-white">{canchaData.cesped}</h2>
-          <h2 className="text-white">Jugadores: {canchaData.jugadores}</h2>
-          <h4 className="text-white">{canchaData.descripcion}</h4>
-          <h4 className="text-white">Apertura: {canchaData.open}</h4>
-          <h4 className="text-white">Cierre: {canchaData.close}</h4>
-          <h4 className="text-white">{canchaData.available}</h4>
-          <input className={styles.date} type="date" />
-          <div className="flex-row">
-            {canchaData.turnos.map((turno, index) => (
-              <button
-                key={index}
-                className={turno.taken ? styles.ocupado : styles.libre}
-                disabled={turno.taken}
-              >
-                {turno.time}
-              </button>
-            ))}
-          </div>
-          <button>Agendar turno</button>
+      <Header />
+      <div className={s.father}>
+        <div className={s.container}>
+          <h1>Cancha {c.id}</h1>
+          <p>Césped: {c.grass}</p>
+          <p>Jugadores: {c.players}</p>
+          <p>Descripción: {c.description}</p>
+          <p>{c.availability ? "Disponible" : "No disponible"}</p>
+          <form>
+            <p style={{ fontSize: "16pt", fontWeight: "600" }}>
+              Reservar un turno:
+            </p>
+            <div className={s.dateContainer}>
+              <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
+                Fecha:
+              </p>
+              <input
+                className={s.date}
+                type="date"
+                value={selectedDate}
+                onChange={handleDate}
+              />
+            </div>
+            <div>{botonesHorarios}</div>
+            <button>Reservar turno</button>
+          </form>
         </div>
-        <img src={canchaData.image} alt="" />
+        <img src={c.image} alt="Imagen de cancha" />
       </div>
+      <Footer />
     </>
   );
 };
 
-export default Detail;
+const mapStateToProps = (state) => {
+  console.log("State in Detail component: ", state.canchas);
+  return {
+    cancha: state.canchas,
+  };
+};
+// export default Detail;
+export default connect(mapStateToProps, { getCanchaById })(Detail);
