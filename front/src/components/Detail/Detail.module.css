@@ -2,12 +2,23 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  text-align: left;
 }
+
+.container form {
+ /* border: 2px solid white; */
+ padding: 1rem;
+ margin-top: 1rem;
+ border-radius: 1rem;
+ background-color: #303030;
+}
+
 .father {
   display: flex;
   flex-direction: row;
   margin-bottom: 10rem;
   margin-top: 10rem;
+  color: white;
 }
 .father img {
   width: 500px;
@@ -49,6 +60,15 @@
   cursor: pointer;
 }
 
+.seleccionado {
+  padding: 5px 10px 5px 10px;
+  border-radius: 1.5rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  background-color: rgb(39, 83, 204);
+}
+
 .date {
   font-size: 1.1em;
   border: 2px solid white;
@@ -57,4 +77,10 @@
   margin-top: 0.5em;
   margin-bottom: 0.5em;
   color: white;
+}
+
+.dateContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;;
 }

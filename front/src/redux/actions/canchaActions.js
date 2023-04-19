@@ -21,8 +21,8 @@ export const getCanchas = () => {
 export const getCanchaById = (canchaId) => {
   return async (dispatch) => {
     const res = await axios.get(`http://localhost:3001/canchas/${canchaId}`);
-    const data = res.data[0];
-
+    const data = res.data;
+    console.log('action data', data);
     dispatch({
       type: GET_CANCHAS,
       payload: data,
