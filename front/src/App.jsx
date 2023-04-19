@@ -16,7 +16,6 @@ function App() {
         </Route>
         <Route path="/home">
           <Home />
-          <Footer />
         </Route>
         <Route
           path="/canchas/:id"
@@ -24,7 +23,6 @@ function App() {
         />
         <Route exact path="/dashboard">
           <DashBoard />
-          <Footer/>
         </Route>
         <Route path="/creador">
           <CreadorCanchas/>

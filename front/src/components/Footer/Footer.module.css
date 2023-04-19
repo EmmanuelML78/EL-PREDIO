@@ -1,0 +1,69 @@
+:root {
+  --blanco: #FFF;
+  --negro: #111111;
+  --gris: #343A40;
+
+  --fuentePrincipal: 'Raleway', sans-serif;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+*,*:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+  font-family: var(--fuentePrincipal);
+  font-size: 1.6rem;
+  line-height: 1.8;
+}
+
+.footer {
+  /* width: 100%; */
+  background-color: var(--gris);
+  color: var(--blanco);
+}
+
+.contenedorfootergrid {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 0.5rem;
+  padding-top: 5rem;
+  padding-bottom: 2rem;
+  /* padding: 45px 0px; */
+}
+
+/* .footerwidget {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+} */
+.footerwidget h1 {
+  font-size: 4rem;
+}
+.footerwidget h1 span {
+  font-weight: 600;
+}
+.footerwidget h3 {
+  padding-bottom: 1rem;
+  font-weight: 600;
+}
+
+.redsocial a {
+  color: var(--blanco);
+  display: inline-block;
+  width: 45px;
+  height: 45px;
+  line-height: 45px;
+}
+
+.divsmall {
+  background-color: rgba(0, 0, 0, 0.151)
+}
