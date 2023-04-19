@@ -7,7 +7,6 @@ import reservasData from "./reservasData.json";
 
 import Header from "../Header/Header";
 
-
 function DashBoard() {
   const [users, setUsers] = useState([]);
   // const [canchas, setCanchas] = useState([]);
@@ -19,7 +18,7 @@ function DashBoard() {
   useEffect(() => {
     const getData = async () => {
       try {
-        const usersResponse = await axios.get("http://localhost:3001/users");
+        const usersResponse = await axios.get("/users");
         setUsers(usersResponse.data);
         // const canchasResponse = await axios.get(
         //   "http://localhost:3001/canchas"
@@ -103,7 +102,6 @@ function DashBoard() {
                 ))}
               </ul>
               <ul>
-
                 <p className={s.heads}>Jugadores</p>
 
                 {canchas.map((cancha) => (
@@ -130,7 +128,6 @@ function DashBoard() {
                 ))}
               </ul>
               <ul>
-
                 <p className={s.heads}>Cierre</p>
                 {canchas.map((cancha) => (
                   <li className={s.item} key={cancha.id}>
@@ -177,7 +174,6 @@ function DashBoard() {
                 ))}
               </ul>
               <ul>
-
                 <p className={s.heads}>Hasta</p>
 
                 {reservas.map((reserva) => (
@@ -187,7 +183,6 @@ function DashBoard() {
                 ))}
               </ul>
               <ul>
-
                 <p className={s.heads}>Cancha</p>
 
                 {reservas.map((reserva) => (
