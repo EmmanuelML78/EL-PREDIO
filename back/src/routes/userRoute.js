@@ -1,4 +1,5 @@
 const { Router } = require("express");
+const bcrypt = require("bcrypt");
 const {
   getUsersDb,
   deleteUser,
@@ -58,12 +59,15 @@ router.get("/users/:id", async (req, res) => {
 router.post("/users", async (req, res) => {
   let { name, lastName, email, isAdmin, password, phone } = req.body;
   try {
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(password, salt);
+    // const hashPassword = await bcrypt.hash(password, 10);
     let createUser = await User.create({
       name,
       lastName,
       email,
       isAdmin,
-      password,
+      password: hashPassword,
       phone,
     });
     res.status(201).send(createUser);
