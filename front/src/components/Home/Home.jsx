@@ -4,6 +4,7 @@ import Footer from "../Footer/Footer";
 
 import Header from "../Header/Header";
 import { Promociones } from "../Promociones/Promociones";
+import { Nosotros } from "../Nosotros/Nosotros";
 import "./Home.module.css"
 
 const Home = () => {
@@ -13,6 +14,7 @@ const Home = () => {
       <Carousel />
       <Cards />
       <Promociones />
+      <Nosotros />
     
     </div>
   );
