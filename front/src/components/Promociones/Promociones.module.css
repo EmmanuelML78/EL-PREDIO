@@ -1,0 +1,168 @@
+:root {
+    --blanco: #FFF;
+    --negro: #111111;
+    --gris: #343A40;
+
+    --fuentePrincipal: 'Raleway', sans-serif;
+}
+
+html {
+    font-size: 62.5%;
+    box-sizing: border-box;
+}
+  *,*:before, *:after {
+    box-sizing: inherit;
+}
+
+body {
+    font-family: var(--fuentePrincipal);
+    font-size: 1.6rem;
+    line-height: 1.8;
+}
+
+h1 {
+    font-weight: 900;
+    margin: 1rem 0 4rem 0;
+}
+
+h1 {
+    font-size: 4.8rem;
+}
+
+a {
+    text-decoration: none
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+.contenedor {
+    max-width: 120rem;
+    margin: 0 auto;
+    width: 90%;
+}
+
+.btn {
+    color: var(--gris);
+    background-color: var(--blanco);
+    border: 1px solid var(--gris);
+    transition: background-color .3s;
+}
+
+.btn:hover {
+    background-color: var(--gris);
+    color: var(--blanco);
+}
+
+.text-center {
+    text-align: center;
+}
+.mt-5 {
+    margin-top: 5rem;
+}
+
+
+.contenedormodelos {
+    padding-top: 5rem;
+    padding-bottom: 1rem;
+    margin-bottom: 5rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    color: #FFF;
+    min-height: 20rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contenedormodelos h1 {
+    font-size: 5rem;
+    font-weight: 600;
+    text-align: left;
+    padding-left: 2rem;
+}
+
+.contenedormodelos p {
+    text-align: left;
+    padding-bottom: 2rem;
+    padding-left: 2.4rem;
+}
+
+.listadopromociones {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 992px) {
+    .listadopromociones {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 20rem);
+        gap: 4rem;
+    }
+}
+
+.promouno {
+    font-size: 2.4rem;
+    font-weight: 600;
+    text-align: left;
+    padding: 2rem;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    background-image: url(../../assets/canchanoche2.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom center;
+
+    background-color: rgb(255 255 255 / .5);
+    margin-bottom: 2rem;
+    border-radius: 1.5rem;
+}
+
+.promodos {
+    font-size: 2.4rem;
+    font-weight: 600;
+    text-align: left;
+    padding: 2rem;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    background-image: url(../../assets/birra.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+
+    background-color: rgb(255 255 255 / .5);
+    margin-bottom: 2rem;
+    border-radius: 1.5rem;
+}
+
+.promotres {
+    font-size: 3.6rem;
+    font-weight: 600;
+    text-align: left;
+    padding: 2rem;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+
+    background-color: rgba(255, 255, 255, 0.315);
+    background-image: url(../../assets/FutbolFigma4.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 2rem;
+    border-radius: 1.5rem;
+}
+
+@media (min-width: 992px) {
+    .promotres {
+        grid-column: 2 / 3;
+        grid-row: 1 / 3;
+    }
+}
