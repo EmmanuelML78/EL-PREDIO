@@ -7,6 +7,6 @@ const router = Router();
 
 router.use("/", userRoute);
 router.use("/canchas", canchaRoute);
-router.use("/reserva", reservaRoute);
+router.use("/reservas", reservaRoute);
 
 module.exports = router;
