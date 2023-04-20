@@ -1,5 +1,4 @@
 import Cards from "../Cards/Cards";
-import Carousel from "../Carousel/Carousel";
 import Footer from "../Footer/Footer";
 
 import Header from "../Header/Header";
@@ -11,7 +10,6 @@ const Home = () => {
   return (
     <div className="home-container">
       <Header />
-      {/* <Carousel /> */}
       <Cards />
       <Promociones />
       <Nosotros />

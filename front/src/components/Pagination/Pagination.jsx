@@ -1,6 +1,6 @@
 import React from "react";
 
-// import p from "./Pagination.module.css";
+
 // import styled from "styled-components";
 
 const Pagination = ({ itemsPerPage, totalItems, currentPage, setCurrentPage }) => {
@@ -18,11 +18,11 @@ const Pagination = ({ itemsPerPage, totalItems, currentPage, setCurrentPage }) =
   
 	return (
 	  <div style={{ display: 'flex', justifyContent: 'center', marginBottom: "1.5rem" }}>
-		<button onClick={handleClickPrev} disabled={currentPage === 1}>
+		<button onClick={handleClickPrev} disabled={currentPage === 1} className="button-pagination">
 		  {'<'}
 		</button>
-		<span style={{marginLeft: "1rem", marginRight: "1rem", fontSize: "1.5rem"}}>{currentPage}</span>
-		<button onClick={handleClickNext} disabled={currentPage === Math.ceil(totalItems / itemsPerPage)}>
+		<span style={{marginLeft: "1rem", marginRight: "1rem", fontSize: "2.5rem", color:"white"}}>{currentPage}</span>
+		<button onClick={handleClickNext} disabled={currentPage === Math.ceil(totalItems / itemsPerPage)} className="button-pagination">
 		  {'>'}
 		</button>
 	  </div>
