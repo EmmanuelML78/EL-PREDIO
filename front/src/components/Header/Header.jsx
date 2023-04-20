@@ -1,101 +1,37 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
-import icon from "../../assets/icon.png";
-import "./Header.css";
-import styles from './Header.module.css';
-
+import styles from "./Header.module.css";
+import Carousel from "../Carousel/Carousel";
 function Header() {
   return (
-    <header>
-      <div className="header-container">
-        <Link to="/">
-          <img
-            src={icon}
-            alt="cancha"
-            style={{ height: "5rem", width: "5rem" }}
-          />
-        </Link>
-        <Link to="/home">
-          <h1 className="nav-title">El Predio</h1>
-        </Link>
-        <div className="user">
-          <Link style={{ color: "white" }} to="/dashboard">
-            <FaUser />
-          </Link>
-    return (
-    <header className={styles.header}>
+    <>  
+    <Carousel/>
+      <header className={styles.header}>
         <div className={styles.contenedor}>
-        <div className={styles.barra}>
+          <div className={styles.barra}>
             <div className={styles.logo}>
-            <h1 className={styles.nombresitio}>
+              <h1 className={styles.nombresitio}>
                 ElPredio<span>Fútbol</span>
-            </h1>
+              </h1>
             </div>
             <div className={styles.contacto}>
-            <a className={styles.telefono} href="">01-800-0000-000</a>
+              <span className={styles.telefono} href="">
+                01-800-0000-000
+              </span>
 
-            <nav className={styles.navegacion}>
+              <nav className={styles.navegacion}>
                 {/* <a href="#">Inicio</a> */}
                 <a href="#">Nosotros</a>
                 <a href="#">Mis reservas</a>
                 <a href="#">Promociones</a>
                 <a href="#">Contacto</a>
                 <a href="#">Dashboard</a>
-            </nav>
+              </nav>
             </div>
+          </div>
         </div>
-        </div>
-        <form className={styles.formulario}>
-
-        <div className={styles.campo}>
-            <label className={styles.label} for="N°dejugadores">N° de jugadores</label>
-            <input type="number" className={styles.input} id="N°dejugadores" placeholder="¿Cuántos juegan?"/>
-        </div>
-
-        <div className={styles.campo}>
-            <label className={styles.label} for="fecha">Fecha</label>
-            <input type="date" className={styles.input} id="fecha"/>
-        </div>
-      </div>
-      <nav className="navbar">
-        <ul className="navbar-nav">
-          <li className="nav-item">
-            <Link to="/reservas" className="nav-link">
-              Reservas
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/contacto" className="nav-link">
-              Contacto
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/faq" className="nav-link">
-              Nosotros
-            </Link>
-          </li>
-          <li className="nav-item">
-            <Link to="/faq" className="nav-link">
-              FAQ
-            </Link>
-          </li>
-        </ul>
-      </nav>
-
-        <div className={styles.campo}>
-            <label className={styles.label} for="hora">Horario</label>
-            <input type="time" className={styles.input} id="hora"/>
-        </div>
-
-        <div className={styles.campo}>
-            <input type="submit" className={styles.submit} value="Buscar cancha"/>
-        </div>
-
-        </form>
-    </header>
+        
+      </header>
+    </>
   );
-    );
 }
 
 export default Header;
