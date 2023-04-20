@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <div className="home-container">
       <Header />
-      <Carousel />
+      {/* <Carousel /> */}
       <Cards />
       <Promociones />
       <Nosotros />
