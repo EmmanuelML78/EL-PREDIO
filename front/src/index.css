@@ -40,7 +40,7 @@ body {
   background-image: linear-gradient(to right, #434343 0%, black 100%);
   /* agregado */
   font-family: var(--fuentePrincipal);
-  /* font-family: "Barlow", sans-serif; */
+
   font-size: 1.6rem;
   line-height: 1.8;
 }
