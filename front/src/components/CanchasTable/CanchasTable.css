@@ -1,0 +1,41 @@
+.canchas-table-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    background-color: #2a2a2a;
+    padding: 1rem;
+    border-radius: 5px;
+  }
+  
+  .canchas-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #f0f0f0;
+  }
+  
+  .canchas-table th {
+    background-color: #3a3a3a;
+    padding: 0.5rem;
+    text-align: left;
+  }
+  
+  .canchas-table td {
+    padding: 0.5rem;
+    border-bottom: 1px solid #3a3a3a;
+  }
+  
+  .canchas-table button {
+    background-color: transparent;
+    border: none;
+    color: #f0f0f0;
+    cursor: pointer;
+    margin-right: 0.5rem;
+  }
+  
+  .canchas-table button:hover {
+    color: #d0d0d0;
+  }
+  
+.error-message{
+  color: red;
+}

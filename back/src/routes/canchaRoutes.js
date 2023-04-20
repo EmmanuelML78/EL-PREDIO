@@ -62,7 +62,7 @@ router
       players,
     } = req.body;
     try {
-      if ((!name, !price, !open, !close, !availability)) {
+      if ((!name, !price, !open, !close)) {
         return res.status(400).json({
           error:
             "Debe ingresar los campos (name/price/open/close/availability)",
