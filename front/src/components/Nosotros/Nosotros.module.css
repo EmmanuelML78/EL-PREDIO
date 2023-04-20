@@ -1,4 +1,4 @@
-:root {
+/* :root {
     --blanco: #FFF;
     --negro: #111111;
     --gris: #343A40;
@@ -18,7 +18,7 @@ body {
     font-family: var(--fuentePrincipal);
     font-size: 1.6rem;
     line-height: 1.8;
-}
+} */
 
 .sobrepredio {
     background-image: linear-gradient( to bottom, transparent 50%, var(--gris) 0%), url(../../assets/canchanosotros.jpg);

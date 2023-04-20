@@ -14,6 +14,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+  /* agregado */
+  --blanco: #FFF;
+  --negro: #111111;
+  --gris: #343A40;
+
+  --fuentePrincipal: 'Raleway', sans-serif;
 }
 
 a {
@@ -32,6 +38,18 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background-image: linear-gradient(to right, #434343 0%, black 100%);
+  /* agregado */
+  font-family: var(--fuentePrincipal);
+  font-size: 1.6rem;
+  line-height: 1.8;
+}
+/* agregado */
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+*,*:before, *:after {
+  box-sizing: inherit;
 }
 
 h1 {
