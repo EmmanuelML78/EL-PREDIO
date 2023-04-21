@@ -10,8 +10,8 @@ const {
   getUsersInactive,
   getUserById,
 } = require("../controllers/userController");
-const { User } = require("../db");
-const authMiddleware = require("../middlewares/auth");
+const { User, Reserva } = require("../db");
+const { authMiddleware } = require("../middlewares/auth");
 
 const router = Router();
 
@@ -81,6 +81,22 @@ router.get("/users/:id", async (req, res) => {
     return res
       .status(500)
       .json({ message: "Error al obtener usuario mediante ID" });
+  }
+});
+
+router.get("/me", authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id, {
+      include: { model: Reserva, as: "reservas" },
+      paranoid: false,
+    });
+    if (!user) {
+      return res.status(404).json({ message: "No se encontró el usuario" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error en el servidor" });
   }
 });
 
