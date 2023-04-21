@@ -2,20 +2,20 @@ import React, { useState, useEffect } from "react";
 import "./Card.css";
 import { Link } from "react-router-dom";
 
-function Card({ id, image, title, description, availability, players }) {
-  const [isAvailable, setIsAvailable] = useState(false);
 
+function Card({ image, title, description, availability, players, id }) {
+
+  const [isAvailable, setIsAvailable] = useState(false);
+  
   useEffect(() => {
     setIsAvailable(availability);
   }, [availability]);
 
-  const handleClick = () => {
-    if (isAvailable) {
-      onclick();
-    }
-  };
+  
 
   return (
+    <>
+    
     <div
       className="card"
       style={{
@@ -38,11 +38,12 @@ function Card({ id, image, title, description, availability, players }) {
         <p >Disponibilidad: <span style={{color: "red", fontWeight: "800"}}>No Disponible</span></p>
       )}
       <Link to={`/canchas/${id}`}>
-        <button onClick={handleClick} disabled={!isAvailable}>
+        <button  disabled={!isAvailable}>
           Reservar
         </button>
       </Link>
     </div>
+    </>
   );
 }
 

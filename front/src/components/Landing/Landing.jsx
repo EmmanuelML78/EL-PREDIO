@@ -6,6 +6,7 @@ import isAlpha from "validator/lib/isAlpha";
 import g from "./../../assets/google logo.svg";
 import "./Landing.css";
 import { postUser } from "../../redux/actions/userActions";
+import { loginUser } from "../../redux/actions/authActions";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
@@ -53,8 +54,8 @@ const Landing = () => {
         const { email, password, name, lastName } = values;
         try {
           await dispatch(postUser({ email, password, name, lastName }));
-          toast.success('Usuario creado exitosamente! Inicie sesión', {
-            position: 'bottom-right',
+          toast.success("Usuario creado exitosamente! Inicie sesión", {
+            position: "bottom-right",
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: false,
@@ -77,7 +78,37 @@ const Landing = () => {
           }
         }
       } else {
-        // Login logic
+        const { email, password } = values;
+        try {
+          const response = await dispatch(loginUser({ email, password }));
+          const token = response.data.token;
+          console.log("data:", response.data);
+          localStorage.setItem("token", token);
+          toast.success("Sesión iniciada exitosamente!", {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          });
+          history.push("/home");
+        } catch (error) {
+          console.log(error);
+          toast.error(
+            "El correo y/o la contraseña no son correctos",
+            {
+              position: "bottom-right",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined,
+            }
+          );
+        }
       }
     },
   });
