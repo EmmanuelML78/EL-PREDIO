@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import "./Card.css";
 import { Link } from "react-router-dom";
 
+
 function Card({ image, title, description, availability, players, id }) {
+
   const [isAvailable, setIsAvailable] = useState(false);
   
   useEffect(() => {
