@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Card.css";
 import { Link } from "react-router-dom";
 
-function Card({ image, title, description, availability, players }) {
+function Card({ id, image, title, description, availability, players }) {
   const [isAvailable, setIsAvailable] = useState(false);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ function Card({ image, title, description, availability, players }) {
       ) : (
         <p >Disponibilidad: <span style={{color: "red", fontWeight: "800"}}>No Disponible</span></p>
       )}
-      <Link to="/canchas/detail">
+      <Link to={`/canchas/${id}`}>
         <button onClick={handleClick} disabled={!isAvailable}>
           Reservar
         </button>
