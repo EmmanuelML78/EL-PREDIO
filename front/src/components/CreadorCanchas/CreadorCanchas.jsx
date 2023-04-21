@@ -107,7 +107,7 @@ const CreadorCanchas = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="form-container">
       {/* Nombre */}
       <label htmlFor="name">Nombre:</label>
       <input

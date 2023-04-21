@@ -139,7 +139,7 @@ function CanchasTable() {
             <span>CARGANDO....</span>
           ) : (
             <tbody>
-              {canchas?.map((cancha) => (
+              {canchas.canchas?.map((cancha) => (
                 <tr key={cancha.id}>
                   <td>{cancha.name}</td>
                   <td>{cancha.players}</td>
@@ -174,7 +174,7 @@ function CanchasTable() {
         </table>
       )}
       {isEditing && (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="form-container">
           {/* Nombre */}
           <label htmlFor="name">Nombre:</label>
           <input
@@ -305,7 +305,7 @@ function CanchasTable() {
           {formErrors.players && (
             <p className="error-message">{formErrors.players}</p>
           )}
-          <button type="submit">Guardar cambios</button>
+          <button type="submit" style={{backgroundColor: "red"}}>Guardar cambios</button>
           <button type="button" onClick={() => setIsEditing(false)}>
             Cancelar
           </button>
