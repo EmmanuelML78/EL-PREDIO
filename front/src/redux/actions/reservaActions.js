@@ -8,7 +8,16 @@ export const getReservasByUser = (userId) => {};
 
 export const getReservasByCancha = (canchaId) => {};
 
-export const postReserva = (reservaData) => {};
+export const postReserva = (reservaData) => {
+  return async (dispatch) => {
+    const res = await axios.post("http://localhost:3001/reserva", reservaData);
+    const data = res.data;
+    dispatch({
+      type: POST_RESERVA,
+      payload: data,
+    });
+  };
+};
 
 export const deleteReserva = (reservaId) => {};
 
