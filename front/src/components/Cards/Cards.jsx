@@ -34,8 +34,8 @@ function Cards() {
         normalize(searchTerm.toLowerCase())
       ) &&
       (filter === "" ||
-        (filter === "available" && item.available) ||
-        (filter === "notAvailable" && !item.available)) &&
+        (filter === "available" && item.availability) ||
+        (filter === "notAvailable" && !item.availability)) &&
       (playersFilter === "" || parseInt(playersFilter) === item.players)
   );
 
@@ -45,7 +45,7 @@ function Cards() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginTop: "6rem",
+        marginTop: "0.5rem",
         marginBottom: "6rem",
       }}
     >
@@ -63,6 +63,7 @@ function Cards() {
           justifyContent: "center",
           flexWrap: "wrap",
           gap: "2rem",
+          marginTop: "5rem"
         }}
       >
         {filteredData.length > 0 ? (

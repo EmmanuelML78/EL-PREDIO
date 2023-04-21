@@ -26,15 +26,15 @@ const SearchBar = ({
   };
 
   return (
-    <div style={{ display: "flex", gap: "1rem	" }}>
+    <div style={{ display: "flex", gap: "3.5rem	" }}>
       <input
         type="text"
         placeholder="Buscar Tipo De Cancha"
         value={searchTerm}
         onChange={handleChange}
         style={{
-          padding: "0.5rem",
-          fontSize: "1rem",
+          padding: "1rem",
+          fontSize: "1.7rem",
           borderRadius: "0.25rem",
           border: "none",
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
@@ -44,8 +44,8 @@ const SearchBar = ({
         value={filter}
         onChange={handleFilterChange}
         style={{
-          padding: "0.5rem",
-          fontSize: "1rem",
+          padding: "1rem",
+          fontSize: "1.7rem",
           borderRadius: "0.25rem",
           border: "none",
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
@@ -60,8 +60,8 @@ const SearchBar = ({
         value={playersFilter}
         onChange={handleFilterPlayers}
         style={{
-          padding: "0.5rem",
-          fontSize: "1rem",
+          padding: "1rem",
+          fontSize: "1.7rem",
           borderRadius: "0.25rem",
           border: "none",
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",

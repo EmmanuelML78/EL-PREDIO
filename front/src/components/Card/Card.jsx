@@ -27,15 +27,15 @@ function Card({ image, title, description, availability, players }) {
       <img
         src={image}
         alt={title}
-        style={{ maxWidth: "100%", height: "15rem", display:"flex", alignItems: "center", justifyContent: "center"}}
+        style={{ maxWidth: "100%",width: "50rem", height: "25rem", display:"flex", alignItems: "center", justifyContent: "center"}}
       />
       <h2>{title}</h2>
       <p className="description">{description}</p>
       <p>Capacidad: {players} Jugadores</p>
       {isAvailable ? (
-        <p>Disponibilidad: Disponible</p>
+        <p >Disponibilidad: <span style={{color: "lightgreen", fontWeight: "800"}}>Disponible</span></p>
       ) : (
-        <p style={{ color: "red" }}>Disponibilidad: No Disponible</p>
+        <p >Disponibilidad: <span style={{color: "red", fontWeight: "800"}}>No Disponible</span></p>
       )}
       <Link to="/canchas/detail">
         <button onClick={handleClick} disabled={!isAvailable}>

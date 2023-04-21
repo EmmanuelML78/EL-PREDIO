@@ -7,13 +7,20 @@ import axios from "axios";
 
 export const getCanchas = () => {
   return async (dispatch) => {
-    const res = await axios.get("/canchas");
-    const data = res.data;
+    try {
+      const res = await axios.get(`/canchas`);
 
-    dispatch({
-      type: GET_CANCHAS,
-      payload: data,
-    });
+      if (res.status === 200) {
+        dispatch({
+          type: GET_CANCHAS,
+          payload: res.data,
+        });
+      } else {
+        console.error("Error al obtener las canchas");
+      }
+    } catch (error) {
+      console.error("Error al obtener las canchas", error);
+    }
   };
 };
 
@@ -41,6 +48,38 @@ export const postCancha = (canchaData) => {
   };
 };
 
-export const deleteCancha = (canchaId) => {};
+export const deleteCancha = (canchaId) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.delete(`/canchas/${canchaId}`);
 
-export const putCancha = (canchaId) => {};
+      if (res.status === 200) {
+        dispatch({
+          type: DELETE_CANCHA,
+          payload: canchaId,
+        });
+      }
+    } catch (error) {
+      console.error("Error al eliminar la Reserva", error);
+    }
+  };
+};
+
+export const putCancha = (canchaData) => {
+  return async (dispatch) => {
+    try {
+      const res = await axios.put(`/canchas`, canchaData);
+
+      if (res.status === 200) {
+        dispatch({
+          type: PUT_CANCHA,
+          payload: res.data,
+        });
+      } else {
+        console.error("Error al actualizar la cancha");
+      }
+    } catch (error) {
+      console.error("Error al actualizar la cancha", error);
+    }
+  };
+};

@@ -24,13 +24,28 @@ const elprediofutbolReducer = (state = initialState, action) => {
       };
     case GET_CANCHA_BY_ID:
       return {
-      ...state,
+        ...state,
         cancha: action.payload,
-        };
+      };
     case POST_CANCHA:
       return {
-      ...state,
+        ...state,
         canchas: [...state.canchas, action.payload],
+      };
+    case DELETE_CANCHA:
+      return {
+        ...state,
+        canchas: state.canchas.filter((cancha) => cancha.id !== action.payload),
+      };
+    case PUT_CANCHA:
+      return {
+        ...state,
+        canchas: state.canchas.map((cancha) => {
+          if (cancha.id === action.payload.id) {
+            return { ...cancha, ...action.payload };
+          }
+          return cancha;
+        }),
       };
     default:
       return state;

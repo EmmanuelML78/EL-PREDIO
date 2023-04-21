@@ -6,6 +6,7 @@ import Detail from "./components/Detail/Detail";
 import DashBoard from "./components/DashBoard/DashBoard";
 import CreadorCanchas from "./components/CreadorCanchas/CreadorCanchas";
 import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
+import CanchasTable from "./components/CanchasTable/CanchasTable";
 import axios from "axios";
 axios.defaults.baseURL = "http://el-predio-production.up.railway.app/";
 
@@ -28,6 +29,9 @@ function App() {
         </Route>
         <Route path="/creador">
           <CreadorCanchas />
+        </Route>
+        <Route path="/tabla">
+          <CanchasTable />
         </Route>
       </Switch>
     </>
