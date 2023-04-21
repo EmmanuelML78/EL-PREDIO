@@ -71,6 +71,7 @@ function Cards() {
             .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
             .map((item) => (
               <Card
+                id={item.id}
                 key={item.id}
                 image={item.image}
                 title={item.name}
