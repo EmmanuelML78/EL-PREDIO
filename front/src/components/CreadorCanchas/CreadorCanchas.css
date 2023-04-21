@@ -1,4 +1,41 @@
 .card {
+
+  background-color: #343a40;
+  border-radius: 10px;
+  padding: 20px;
+  width: max-content;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+}
+
+.form-container input {
+  color: green;
+  width: 25rem;
+}
+
+.form-container textarea {
+  color: green;
+}
+
+.form-container select {
+  color: green;
+  width: 20rem;
+  height: 5rem;
+}
+
+.form-container label {
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.form-container button{ 
+  background-color: red;
+}
+=======
     background-color: #343a40;
     border-radius: 10px;
     padding: 20px;
@@ -21,3 +58,4 @@ input,
     flex-direction: column;
     justify-content: center;
   }
+
