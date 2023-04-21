@@ -10,7 +10,7 @@ import "./CanchasTable.css";
 import { MdDeleteOutline } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
 function CanchasTable() {
-  let canchas = useSelector((state) => state.canchas);
+  let canchas = useSelector((state) => state.canchas.canchas);
   
   const [editingCancha, setEditingCancha] = useState(null);
   const [reloadTable, setReloadTable] = useState(false);

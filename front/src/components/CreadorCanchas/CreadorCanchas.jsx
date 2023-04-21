@@ -222,7 +222,7 @@ const CreadorCanchas = () => {
       {formErrors.players && (
         <p className="error-message">{formErrors.players}</p>
       )}
-      <button type="submit">Crear Cancha</button>
+      <button style={{backgroundColor: "#404040"}} type="submit">Crear Cancha</button>
     </form>
   );
 };

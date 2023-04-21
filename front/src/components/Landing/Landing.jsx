@@ -82,7 +82,7 @@ const Landing = () => {
         try {
           const response = await dispatch(loginUser({ email, password }));
           const token = response.data.token;
-          console.log("data:", response.data);
+
           localStorage.setItem("token", token);
           toast.success("Sesión iniciada exitosamente!", {
             position: "bottom-right",
@@ -95,19 +95,15 @@ const Landing = () => {
           });
           history.push("/home");
         } catch (error) {
-          console.log(error);
-          toast.error(
-            "El correo y/o la contraseña no son correctos",
-            {
-              position: "bottom-right",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: false,
-              progress: undefined,
-            }
-          );
+          toast.error("El correo y/o la contraseña no son correctos", {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          });
         }
       }
     },
