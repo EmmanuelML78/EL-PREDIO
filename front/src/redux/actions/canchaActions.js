@@ -8,8 +8,9 @@ import axios from "axios";
 export const getCanchas = () => {
   return async (dispatch) => {
     try {
+      console.log("enviando peticion...")
       const res = await axios.get(`http://localhost:3001/canchas`);
-
+      console.log("data: ", res.data)
       if (res.status === 200) {
         dispatch({
           type: GET_CANCHAS,

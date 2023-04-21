@@ -8,7 +8,7 @@ import Card from "../Card/Card";
 
 function Cards() {
   const dispatch = useDispatch();
-  const canchas = useSelector((state) => state.canchas);
+  const canchas = useSelector((state) => state.canchas.canchas);
   console.log(canchas)
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("");
@@ -28,7 +28,7 @@ function Cards() {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   }
 
-  const filteredData = canchas.filter(
+  const filteredData = canchas.length>0 && canchas.filter(
     (item) =>
       normalize(item.description.toLowerCase()).includes(
         normalize(searchTerm.toLowerCase())
