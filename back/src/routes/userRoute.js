@@ -11,6 +11,7 @@ const {
   getUserById,
 } = require("../controllers/userController");
 const { User } = require("../db");
+const authMiddleware = require("../middlewares/auth");
 
 const router = Router();
 
@@ -68,6 +69,7 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/users", getUsersActive);
+// router.get("/users", authMiddleware, getUsersActive);
 router.get("/users/inactivos", getUsersInactive);
 
 router.get("/users/:id", async (req, res) => {
