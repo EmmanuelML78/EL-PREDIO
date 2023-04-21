@@ -22,10 +22,10 @@ router
   .get("/", async (req, res) => {
     try {
       const allReservations = await getAllReservations();
-      const allUsers = await getUsersDb();
+      // const allUsers = await getUsersDb();
       const response = {
         reservations: allReservations,
-        users: allUsers,
+        // users: allUsers,
       };
       res.status(200).send(response);
     } catch (error) {
@@ -58,12 +58,10 @@ router
             {
               model: Cancha,
               as: "cancha",
-              attributes: ["id", "name", "price"],
             },
             {
               model: User,
               as: "user",
-              attributes: ["id", "name"],
             },
           ],
         });
