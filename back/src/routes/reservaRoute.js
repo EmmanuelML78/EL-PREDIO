@@ -4,6 +4,7 @@ const {
   deleteReserva,
   updateReserva,
   getUsersDb,
+  payReserver,
 } = require("../controllers/ReservaControllers");
 const { Reserva, Cancha, User } = require("../db");
 
@@ -21,10 +22,10 @@ router
   .get("/", async (req, res) => {
     try {
       const allReservations = await getAllReservations();
-      const allUsers = await getUsersDb();
+      // const allUsers = await getUsersDb();
       const response = {
         reservations: allReservations,
-        users: allUsers,
+        // users: allUsers,
       };
       res.status(200).send(response);
     } catch (error) {
@@ -57,12 +58,10 @@ router
             {
               model: Cancha,
               as: "cancha",
-              attributes: ["id", "name"],
             },
             {
               model: User,
               as: "user",
-              attributes: ["id", "name"],
             },
           ],
         });
@@ -98,6 +97,8 @@ router
       res.status(500).json({ error: "Error al crear la reserva" });
     }
   })
+
+  .post("/pagos/:id", payReserver)
 
   .delete("/:id", async (req, res) => {
     const id = req.params.id;

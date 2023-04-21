@@ -10,6 +10,11 @@ import CanchasTable from "./components/CanchasTable/CanchasTable";
 import About from "./components/About/About";
 import Contactos from "./components/Contactos/Contactos";
 
+import Navbar from "./components/Navbar/Navbar";
+
+import MercadoPago from "./components/MercadoPago/MercadoPagoIntegracion"
+
+
 function App() {
   return (
     <>
@@ -28,16 +33,21 @@ function App() {
           <DashBoard />
         </Route>
         <Route path="/creador">
-          <CreadorCanchas/>
+          <CreadorCanchas />
         </Route>
         <Route path="/tabla">
-          <CanchasTable/>
+          <CanchasTable />
+        </Route>
+        <Route path="/pagos/:id">
+          <MercadoPago />
         </Route>
         <Route path="/nosotros">
+        <Navbar/>
         <About/>
         <Footer/>
         </Route>
         <Route path="/contactos">
+          <Navbar/>
           <Contactos/>
           <Footer/>
         </Route>

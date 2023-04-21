@@ -72,11 +72,11 @@ export const putCancha = (canchaData) => {
   return async (dispatch) => {
     try {
       const res = await axios.put(`http://localhost:3001/canchas`, canchaData);
-
+      console.log(res.data)
       if (res.status === 200) {
         dispatch({
           type: PUT_CANCHA,
-          payload: res.data,
+          payload: res.data.data,
         });
       } else {
         console.error("Error al actualizar la cancha");

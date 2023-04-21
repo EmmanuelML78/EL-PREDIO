@@ -6,6 +6,7 @@ const {
   updateCanchas,
 } = require("../controllers/CanchaControllers");
 const { Cancha, Reserva } = require("../db");
+const authMiddleware = require("../middlewares/auth");
 
 router
   .get("/", async (req, res) => {
@@ -129,7 +130,7 @@ router
           grass,
           players
         );
-        return res.status(200).json({ message: "actualizado correctamente" });
+        return res.status(200).json({ message: "actualizado correctamente", data: canchaUpdate });
       } catch (error) {
         console.log(error);
         return res.status(500).json({ error: "Error al actualizar la cancha" });
