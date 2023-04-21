@@ -35,27 +35,3 @@
 .form-container button{ 
   background-color: red;
 }
-=======
-    background-color: #343a40;
-    border-radius: 10px;
-    padding: 20px;
-    width: max-content;
-  }
-  
-.container-creador  
-input,
-  select,
-  textarea {
-      margin-bottom:10px; 
-  }
-  
-  label{
-     color:white;
-  }
-
-  .container-creador {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
