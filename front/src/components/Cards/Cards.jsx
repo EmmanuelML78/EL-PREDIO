@@ -5,12 +5,12 @@ import Pagination from "../Pagination/Pagination";
 import { getCanchas } from "../../redux/actions/canchaActions";
 import Card from "../Card/Card";
 
-
 function Cards() {
   const dispatch = useDispatch();
   const canchas = useSelector((state) => state.canchas);
-  console.log(canchas)
+  console.log(canchas);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState("");
   const [playersFilter, setPlayersFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,14 +21,18 @@ function Cards() {
   }, [searchTerm, filter]);
 
   useEffect(() => {
-    dispatch(getCanchas(currentPage, itemsPerPage, searchTerm, filter));
+    const fetchCanchas = async () => {
+      await dispatch(getCanchas(currentPage, itemsPerPage, searchTerm, filter));
+      setIsLoading(false);
+    };
+    fetchCanchas();
   }, [dispatch]);
 
   function normalize(str) {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   }
 
-  const filteredData = canchas.filter(
+  const filteredData =   canchas.length > 0 && !isLoading ? canchas?.filter(
     (item) =>
       normalize(item.description.toLowerCase()).includes(
         normalize(searchTerm.toLowerCase())
@@ -37,7 +41,7 @@ function Cards() {
         (filter === "available" && item.availability) ||
         (filter === "notAvailable" && !item.availability)) &&
       (playersFilter === "" || parseInt(playersFilter) === item.players)
-  );
+  ) : [];
 
   return (
     <div
@@ -63,13 +67,13 @@ function Cards() {
           justifyContent: "center",
           flexWrap: "wrap",
           gap: "2rem",
-          marginTop: "5rem"
+          marginTop: "5rem",
         }}
       >
-        {filteredData.length > 0 ? (
+        {filteredData.length > 0 && !isLoading ? (
           filteredData
-            .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
-            .map((item) => (
+            ?.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+            ?.map((item) => (
               <Card
                 id={item.id}
                 image={item.image}
@@ -80,6 +84,16 @@ function Cards() {
                 key={item.id}
               />
             ))
+        ) : isLoading ? (
+          <div
+            style={{
+              fontSize: "1.2rem",
+              fontWeight: "bold",
+              marginTop: "2rem",
+            }}
+          >
+            Cargando canchas...
+          </div>
         ) : (
           <div
             style={{
