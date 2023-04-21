@@ -18,7 +18,7 @@ function CanchasTable() {
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState({});
-
+  
   useEffect(() => {
     const fetchCanchas = async () => {
       await dispatch(getCanchas());
@@ -53,6 +53,8 @@ function CanchasTable() {
     }
   };
 
+  
+  
   const handleValidationAndChangeInput = (field, value) => {
     validateField(field, value);
     handleInputChange(field, value);

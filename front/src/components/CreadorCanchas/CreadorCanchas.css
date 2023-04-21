@@ -5,12 +5,3 @@
     width: max-content;
   }
   
-  input,
-  select,
-  textarea {
-      margin-bottom:10px; 
-  }
-  
-  label{
-     color:white;
-  }
