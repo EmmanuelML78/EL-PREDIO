@@ -29,27 +29,16 @@ const updateCanchas = async (
 
   if (!cancha) return { error: "Cancha no existe" };
   else {
-    name
-      ? (cancha.name = name)
-      : image
-      ? (cancha.image = image)
-      : price
-      ? (cancha.price = price)
-      : open
-      ? (cancha.open = open)
-      : close
-      ? (cancha.close = close)
-      : hasPromo
-      ? (cancha.hasPromo = hasPromo)
-      : description
-      ? (cancha.description = description)
-      : availability
-      ? (cancha.availability = availability)
-      : grass
-      ? (cancha.grass = grass)
-      : players
-      ? (cancha.players = players)
-      : null;
+    if (name) cancha.name = name;
+    if (image) cancha.image = image;
+    if (price) cancha.price = price;
+    if (open) cancha.open = open;
+    if (close) cancha.close = close;
+    if (hasPromo) cancha.hasPromo = hasPromo;
+    if (description) cancha.description = description;
+    if (availability) cancha.availability = availability;
+    if (grass) cancha.grass = grass;
+    if (players) cancha.players = players;
 
     await cancha.save();
     return cancha;

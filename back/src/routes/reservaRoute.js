@@ -4,6 +4,7 @@ const {
   deleteReserva,
   updateReserva,
   getUsersDb,
+  payReserver,
 } = require("../controllers/ReservaControllers");
 const { Reserva, Cancha, User } = require("../db");
 
@@ -57,7 +58,7 @@ router
             {
               model: Cancha,
               as: "cancha",
-              attributes: ["id", "name"],
+              attributes: ["id", "name", "price"],
             },
             {
               model: User,
@@ -98,6 +99,8 @@ router
       res.status(500).json({ error: "Error al crear la reserva" });
     }
   })
+
+  .post("/pagos/:id", payReserver)
 
   .delete("/:id", async (req, res) => {
     const id = req.params.id;

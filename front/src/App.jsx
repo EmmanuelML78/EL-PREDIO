@@ -28,10 +28,13 @@ function App() {
           <DashBoard />
         </Route>
         <Route path="/creador">
-          <CreadorCanchas/>
+          <CreadorCanchas />
         </Route>
         <Route path="/tabla">
-          <CanchasTable/>
+          <CanchasTable />
+        </Route>
+        <Route path="/pagos/:id">
+          <MercadoPago />
         </Route>
         <Route path="/nosotros">
         <About/>
