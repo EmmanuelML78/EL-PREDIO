@@ -37,15 +37,21 @@ const elprediofutbolReducer = (state = initialState, action) => {
         ...state,
         canchas: state.canchas.filter((cancha) => cancha.id !== action.payload),
       };
-    case PUT_CANCHA:
-      return {
-        ...state,
-        canchas: state.canchas.map((cancha) => {
+      case PUT_CANCHA:
+        
+        const updatedCanchas = state.canchas.map((cancha) => {
           if (cancha.id === action.payload.id) {
             return { ...cancha, ...action.payload };
           }
           return cancha;
-        }),
+        });
+        
+        console.log("Antes:", state.canchas);
+        console.log("Después:", updatedCanchas);
+      
+        return {
+          ...state,
+          canchas: updatedCanchas,
       };
     default:
       return state;

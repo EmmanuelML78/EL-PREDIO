@@ -14,7 +14,7 @@ const CreadorCanchas = () => {
     close: "",
     hasPromo: false,
     description: "",
-    availability: null,
+    availability: true,
     grass: "",
     players: "",
   });
@@ -189,7 +189,12 @@ const CreadorCanchas = () => {
         id="availability"
         name="availability"
         value={formData.availability}
-        onChange={(e) => handleChange(e.target.value)}
+        onChange={(e) =>
+          setFormData({
+            ...formData,
+            availability: e.target.value === 'true'
+          })
+        }
         style={{ width: "20rem", height: "4rem" }}
       >
         <option value="true">Disponible</option>
