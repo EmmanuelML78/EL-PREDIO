@@ -4,10 +4,11 @@ const routes = require("./routes/index.js");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-
-// require("./db.js");
+const passport = require("passport");
 
 const app = express();
+require("./db.js");
+require("./passport/localAuth.js");
 
 app.name = "API";
 
@@ -18,7 +19,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header("Access-Control-Allow-Origin", "http://127.0.0.1:5173");
   // res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header(
@@ -28,6 +29,8 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
   next();
 });
+
+app.use(passport.initialize());
 
 app.use("/", routes);
 

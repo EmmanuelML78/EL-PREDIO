@@ -1,5 +1,6 @@
 const { User, Reserva } = require("../db");
 const { Op } = require("sequelize");
+const bcryptjs = require("bcryptjs");
 
 const getUsersDb = async () => {
   try {
@@ -127,6 +128,10 @@ const updateUser = async (req, res) => {
   }
 };
 
+const comparePassword = async (password, userPassword) => {
+  return await bcryptjs.compare(password, userPassword);
+};
+
 module.exports = {
   getUsersDb,
   deleteUser,
@@ -134,4 +139,5 @@ module.exports = {
   getUsersActive,
   getUsersInactive,
   getUserById,
+  comparePassword,
 };
