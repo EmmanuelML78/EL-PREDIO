@@ -6,6 +6,7 @@ const {
   updateCanchas,
 } = require("../controllers/CanchaControllers");
 const { Cancha, Reserva } = require("../db");
+const authMiddleware = require("../middlewares/auth");
 
 router
   .get("/", async (req, res) => {

@@ -9,7 +9,11 @@ import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
 import CanchasTable from "./components/CanchasTable/CanchasTable";
 import About from "./components/About/About";
 import Contactos from "./components/Contactos/Contactos";
+
 import Navbar from "./components/Navbar/Navbar";
+
+import MercadoPago from "./components/MercadoPago/MercadoPagoIntegracion"
+
 
 function App() {
   return (
