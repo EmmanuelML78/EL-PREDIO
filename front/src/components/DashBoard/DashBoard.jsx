@@ -4,10 +4,9 @@ import { useState } from "react";
 import s from "./DashBoard.module.css";
 import canchasData from "./canchas.json";
 import reservasData from "./reservasData.json";
-
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import Header from "../Header/Header";
-
-
+import Tabla from "../CanchasTable/CanchasTable";
 function DashBoard() {
   const [users, setUsers] = useState([]);
   // const [canchas, setCanchas] = useState([]);
@@ -38,7 +37,12 @@ function DashBoard() {
 
   return (
     <>
-      <Header />
+      <Link to="/creador">
+        <button>Creador</button>
+      </Link>
+      <Link to="/tabla">
+        <button>Tabla</button>
+      </Link>
       <div className={s.dashboardContainer}>
         <h1 className={s.panel}>Panel de control</h1>
         <div>
@@ -92,71 +96,7 @@ function DashBoard() {
                 ))}
               </ul>
             </div>
-            <div className={s.titles}>Canchas</div>
-            <div className={s.list}>
-              <ul>
-                <p className={s.heads}>ID</p>
-                {canchas.map((cancha) => (
-                  <li className={s.item} key={cancha.id}>
-                    {cancha.id}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-
-                <p className={s.heads}>Jugadores</p>
-
-                {canchas.map((cancha) => (
-                  <li className={s.item} key={cancha.id}>
-                    {cancha.jugadores}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Superficie</p>
-                {canchas.map((cancha) => (
-                  <li className={s.item} key={cancha.id}>
-                    {cancha.cesped}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Apertura</p>
-
-                {canchas.map((cancha) => (
-                  <li className={s.item} key={cancha.id}>
-                    {cancha.open}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-
-                <p className={s.heads}>Cierre</p>
-                {canchas.map((cancha) => (
-                  <li className={s.item} key={cancha.id}>
-                    {cancha.close}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Estado</p>
-
-                {canchas.map((cancha) => (
-                  <li className={s.item} key={cancha.id}>
-                    {cancha.availability}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Precio/Hora</p>
-
-                {canchas.map((cancha) => (
-                  <li className={s.item} key={cancha.id}>
-                    {cancha.price}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <CanchasTable/>
             <div className={s.titles}>Reservas</div>
             <div className={s.list}>
               <ul>
@@ -177,7 +117,6 @@ function DashBoard() {
                 ))}
               </ul>
               <ul>
-
                 <p className={s.heads}>Hasta</p>
 
                 {reservas.map((reserva) => (
@@ -187,7 +126,6 @@ function DashBoard() {
                 ))}
               </ul>
               <ul>
-
                 <p className={s.heads}>Cancha</p>
 
                 {reservas.map((reserva) => (

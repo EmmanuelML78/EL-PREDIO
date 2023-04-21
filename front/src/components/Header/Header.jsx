@@ -1,5 +1,6 @@
 import styles from "./Header.module.css";
 import Carousel from "../Carousel/Carousel";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 function Header() {
   return (
     <>  
@@ -19,11 +20,11 @@ function Header() {
 
               <nav className={styles.navegacion}>
                 {/* <a href="#">Inicio</a> */}
-                <a href="#">Nosotros</a>
+                <Link to="/nosotros">Nosotros</Link>
                 <a href="#">Mis reservas</a>
                 <a href="#">Promociones</a>
-                <a href="#">Contacto</a>
-                <a href="#">Dashboard</a>
+                <Link to="/contactos">Contacto</Link>
+                <Link to="/dashboard">Dashboard</Link>
               </nav>
             </div>
           </div>
