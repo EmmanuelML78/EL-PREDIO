@@ -4,7 +4,7 @@ import {
   POST_RESERVA,
   DELETE_RESERVA,
   PUT_RESERVA,
-} from "./types";
+} from "../actions/reservaActions.js";
 
 const initialState = {
   reservas: [],

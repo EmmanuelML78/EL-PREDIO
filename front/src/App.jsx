@@ -7,7 +7,8 @@ import DashBoard from "./components/DashBoard/DashBoard";
 import CreadorCanchas from "./components/CreadorCanchas/CreadorCanchas";
 import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
 import CanchasTable from "./components/CanchasTable/CanchasTable";
-import MercadoPago from "./components/MercadoPago/MercadoPagoIntegracion";
+import About from "./components/About/About";
+import Contactos from "./components/Contactos/Contactos";
 
 function App() {
   return (
@@ -34,6 +35,14 @@ function App() {
         </Route>
         <Route path="/pagos/:id">
           <MercadoPago />
+        </Route>
+        <Route path="/nosotros">
+        <About/>
+        <Footer/>
+        </Route>
+        <Route path="/contactos">
+          <Contactos/>
+          <Footer/>
         </Route>
       </Switch>
     </>

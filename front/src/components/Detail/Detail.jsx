@@ -12,8 +12,8 @@ const Detail = ({ cancha, getCanchaById, match }) => {
   );
   const [isLoading, setIsLoading] = useState(true);
   const [selectedHorario, setSelectedHorario] = useState(null);
-  console.log("horario:", selectedHorario)
-  console.log(selectedDate);
+  // console.log("horario:", selectedHorario)
+  // console.log(selectedDate);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,12 +25,12 @@ const Detail = ({ cancha, getCanchaById, match }) => {
     fetchData();
   }, [getCanchaById, match.params.id]);
 
-  const c = cancha;
-
+  const c = cancha.canchas;
+  console.log("c:", c);
   const handleDate = (e) => {
     const fecha = e.target.value;
     setselectedDate(fecha);
-    console.log("date: " + selectedDate);
+    // console.log("date: " + selectedDate);
   };
 
   const handleHorario = (e) => {
@@ -54,7 +54,7 @@ const Detail = ({ cancha, getCanchaById, match }) => {
     ? c.reservas.filter((reserva) => reserva.date === selectedDate)
     : [];
 
-  console.log("reservas: " + JSON.stringify(reservas));
+  // console.log("reservas: " + JSON.stringify(reservas));
 
   const horariosDisponibles = !isLoading
     ? intervaloHoras.map((hora) => {
@@ -131,7 +131,7 @@ const Detail = ({ cancha, getCanchaById, match }) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log("State in Detail component: ", state.canchas);
+  // console.log("State in Detail component: ", state.canchas);
   return {
     cancha: state.canchas,
   };
