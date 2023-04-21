@@ -107,7 +107,7 @@ const CreadorCanchas = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="container-creador" onSubmit={handleSubmit}>
       {/* Nombre */}
       <label htmlFor="name">Nombre:</label>
       <input
@@ -190,7 +190,7 @@ const CreadorCanchas = () => {
         name="availability"
         value={formData.availability}
         onChange={(e) => handleChange(e.target.value)}
-        style={{ width: "20rem", height: "4rem" }}
+        style={{ width: "30rem", height: "4rem" }}
       >
         <option value="true">Disponible</option>
         <option value="false">No disponible</option>
@@ -217,7 +217,7 @@ const CreadorCanchas = () => {
       {formErrors.players && (
         <p className="error-message">{formErrors.players}</p>
       )}
-      <button type="submit">Crear Cancha</button>
+      <button style={{backgroundColor: "#404040"}} type="submit">Crear Cancha</button>
     </form>
   );
 };

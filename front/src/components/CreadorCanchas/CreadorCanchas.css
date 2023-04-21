@@ -5,7 +5,8 @@
     width: max-content;
   }
   
-  input,
+.container-creador  
+input,
   select,
   textarea {
       margin-bottom:10px; 
@@ -13,4 +14,10 @@
   
   label{
      color:white;
+  }
+
+  .container-creador {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
