@@ -25,8 +25,8 @@ const Detail = ({ cancha, getCanchaById, match }) => {
     fetchData();
   }, [getCanchaById, match.params.id]);
 
-  const c = cancha;
-
+  const c = cancha.canchas;
+  console.log("c:", c);
   const handleDate = (e) => {
     const fecha = e.target.value;
     setselectedDate(fecha);

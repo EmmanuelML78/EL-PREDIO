@@ -7,7 +7,7 @@ import Card from "../Card/Card";
 
 function Cards() {
   const dispatch = useDispatch();
-  const canchas = useSelector((state) => state.canchas);
+  const canchas = useSelector((state) => state.canchas.canchas);
   console.log(canchas);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -32,16 +32,19 @@ function Cards() {
     return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
   }
 
-  const filteredData =   canchas.length > 0 && !isLoading ? canchas?.filter(
-    (item) =>
-      normalize(item.description.toLowerCase()).includes(
-        normalize(searchTerm.toLowerCase())
-      ) &&
-      (filter === "" ||
-        (filter === "available" && item.availability) ||
-        (filter === "notAvailable" && !item.availability)) &&
-      (playersFilter === "" || parseInt(playersFilter) === item.players)
-  ) : [];
+  const filteredData =
+    canchas.length > 0 && !isLoading
+      ? canchas?.filter(
+          (item) =>
+            normalize(item.description.toLowerCase()).includes(
+              normalize(searchTerm.toLowerCase())
+            ) &&
+            (filter === "" ||
+              (filter === "available" && item.availability) ||
+              (filter === "notAvailable" && !item.availability)) &&
+            (playersFilter === "" || parseInt(playersFilter) === item.players)
+        )
+      : [];
 
   return (
     <div
@@ -72,7 +75,10 @@ function Cards() {
       >
         {filteredData.length > 0 && !isLoading ? (
           filteredData
-            ?.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage)
+            ?.slice(
+              (currentPage - 1) * itemsPerPage,
+              currentPage * itemsPerPage
+            )
             ?.map((item) => (
               <Card
                 id={item.id}

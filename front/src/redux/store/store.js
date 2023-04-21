@@ -1,10 +1,10 @@
 import { applyMiddleware, createStore } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
-import elprediofutbolReducer from "../reducer/elprediofutbolReducer";
+import rootReducer from "../reducer/rootReducer.js";
 
 const store = createStore(
-	elprediofutbolReducer,
+	rootReducer,
 	composeWithDevTools(applyMiddleware(thunk))
 );
 

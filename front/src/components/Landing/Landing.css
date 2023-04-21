@@ -1,0 +1,52 @@
+.container {
+  background-color: rgb(15, 15, 15);
+  border-radius: 1rem;
+  font-weight: 500;
+
+}
+.container h1 {
+  color: #007c00;
+  font-weight: 600;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 3rem;
+}
+
+.form input {
+  margin-top: 1rem;
+  padding: 5px;
+  border-radius: 0.8rem;
+  color: white;
+  font-weight: 500;
+  font-size: 12pt;
+}
+.google {
+  color: black;
+  display: flex;
+  align-items: center;;
+}
+.container form button {
+  margin-top: 2rem;
+  background-color: rgb(41, 41, 41);
+  font-weight: 600;
+}
+
+.switch {
+  color:white;
+  text-decoration: underline;
+  font-weight: 600;
+  margin-top: 2rem;
+}
+.switch:hover {
+  cursor: pointer;
+}
+
+.error {
+  font-size: 10pt;
+  font-weight: 500;
+  color:rgb(182, 0, 0)
+}
