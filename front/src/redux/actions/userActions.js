@@ -1,4 +1,4 @@
-import axios from "axios";
+import instance from "../axiosCfg";
 
 export const GET_USERS = "GET_USERS";
 export const GET_USER_BY_ID = "GET_USER_BY_ID";
@@ -12,7 +12,7 @@ export const getUserById = (userId) => {};
 
 export const postUser = (userData) => {
   return async function (dispatch) {
-    const response = await axios.post("http://localhost:3001/users", userData);
+    const response = await instance.post("users", userData);
     dispatch({
       type: POST_USER,
       payload: response.data,
