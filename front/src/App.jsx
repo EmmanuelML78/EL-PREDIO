@@ -9,7 +9,6 @@ import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
 import CanchasTable from "./components/CanchasTable/CanchasTable";
 import About from "./components/About/About";
 import Contactos from "./components/Contactos/Contactos";
-import MercadoPago from "./components/MercadoPago/MercadoPagoIntegracion"
 
 function App() {
   return (
@@ -34,16 +33,13 @@ function App() {
         <Route path="/tabla">
           <CanchasTable />
         </Route>
-        <Route path="/pagos/:id">
-          <MercadoPago />
-        </Route>
         <Route path="/nosotros">
-        <About/>
-        <Footer/>
+          <About />
+          <Footer />
         </Route>
         <Route path="/contactos">
-          <Contactos/>
-          <Footer/>
+          <Contactos />
+          <Footer />
         </Route>
       </Switch>
     </>

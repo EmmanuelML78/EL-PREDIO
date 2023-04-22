@@ -1,5 +1,5 @@
-const { Reserva, User } = require("../db");
-const mercadopago = require("../utils/mercadoPago");
+const { Reserva, User, Cancha } = require("../db");
+const { mercadopago } = require("../utils/mercadoPago");
 
 const getAllReservations = async (reservaid) => {
   try {
@@ -54,49 +54,62 @@ const updateReserva = async (id, date, start, end, status, hasPromo) => {
 };
 
 const payReserver = async (req, res) => {
-  const reservaId = req.params.id;
-  const datos = req.body.items;
-  const reserva = await Reserva.findById(reservaId);
+  const reservaId = 2;
+  const datos = req.body;
+  const reserva = await Reserva.findOne({
+    where: { id: reservaId },
+    include: [
+      {
+        model: Cancha,
+        as: "cancha",
+      },
+    ],
+  });
   let preference = {
-    transaction_amount: parseInt(reserva.cancha.price),
-    binary_mode: true,
+    items: [
+      {
+        id: reservaId,
+        title: "Reserva de cancha",
+        description: "Reserva de cancha deportiva",
+        quantity: 1,
+        currency_id: "ARS",
+        unit_price: reserva.dataValues.cancha.price,
+      },
+    ],
     payer: {
       name: datos.name,
       surname: datos.surname,
       email: datos.email,
-      identification: datos.identification,
+      identification: {
+        type: "DNI",
+        number: datos.identification,
+      },
       phone: {
+        area_code: "",
         number: parseInt(datos.phone),
-        area_code: "54",
       },
       address: {
-        municipio: datos.municipio,
-        address: datos.address,
+        zip_code: "",
+        street_name: datos.address,
+        street_number: 2,
       },
     },
     back_urls: {
-      success: "http://localhost:3000/",
-      failure: "http://localhost:3000/",
-      pending: "http://localhost:3000/",
+      success: "http://localhost:3000/pago-exitoso",
+      pending: "http://localhost:3000/pago-pendiente",
+      failure: "http://localhost:3000/pago-fallido",
     },
     auto_return: "approved",
+    binary_mode: true,
   };
 
-  mercadopago.preferences
-    .create(preference)
-    .then(function (response) {
-      // Este valor reemplazará el string "<%= global.id %>" en tu HTML
-      console.log(response);
-      res.josn({
-        global: response.body.id,
-      });
-    })
-    .catch(function (error) {
-      console.log(error);
-      res.status(400).json({
-        error: error.message,
-      });
-    });
+  try {
+    const response = await mercadopago.preferences.create(preference);
+    res.json({ preferenceId: response.body.id }); // devolver el ID de preferencia al frontend
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Error al crear la preferencia de pago" });
+  }
 };
 
 module.exports = {
