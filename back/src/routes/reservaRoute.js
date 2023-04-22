@@ -7,11 +7,11 @@ const {
   payReserver,
 } = require("../controllers/ReservaControllers");
 const { Reserva, Cancha, User } = require("../db");
+const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 // const mercadopago = require("../utils/mercadoPago");
 
 router
-
-  .get("/", async (req, res) => {
+  .get("/", adminMiddleware, async (req, res) => {
     try {
       const allReservations = await getAllReservations();
       // const allUsers = await getUsersDb();
@@ -25,7 +25,7 @@ router
     }
   })
 
-  .get("/:id", async (req, res) => {
+  .get("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;
     // let allreserva = await getAllReservations();
     // try {
@@ -72,7 +72,7 @@ router
     }
   })
 
-  .post("/", async (req, res) => {
+  .post("/", authMiddleware, async (req, res) => {
     const { date, start, end, status, hasPromo, userId, canchaId } = req.body;
     try {
       const reservation = await Reserva.create({
@@ -119,7 +119,7 @@ router
   //     .catch((error) => res.status(500).send({ error: error.mesage }));
   // })
 
-  .delete("/:id", async (req, res) => {
+  .delete("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;
     try {
       const deletedReserva = await deleteReserva(id);
@@ -131,7 +131,7 @@ router
     }
   })
 
-  .put("/", async (req, res) => {
+  .put("/", adminMiddleware, async (req, res) => {
     const { id, date, start, end, status, hasPromo } = req.body;
 
     if (id && (date || start || end || status || hasPromo)) {

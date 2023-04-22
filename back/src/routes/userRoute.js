@@ -11,7 +11,7 @@ const {
   getUserById,
 } = require("../controllers/userController");
 const { User, Reserva } = require("../db");
-const { authMiddleware } = require("../middlewares/auth");
+const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 
 const router = Router();
 
@@ -64,11 +64,11 @@ router.post("/login", (req, res, next) => {
 //   }
 // });
 
-router.get("/users", getUsersActive);
+router.get("/users", adminMiddleware, getUsersActive);
 // router.get("/users", authMiddleware, getUsersActive);
-router.get("/users/inactivos", getUsersInactive);
+router.get("/users/inactivos", adminMiddleware, getUsersInactive);
 
-router.get("/users/:id", async (req, res) => {
+router.get("/users/:id", adminMiddleware, async (req, res) => {
   const { id } = req.params;
   try {
     const user = await getUserById(id);
@@ -120,9 +120,38 @@ router.post("/users", async (req, res) => {
   }
 });
 
-router.put("/users/:id", updateUser);
+router.put("/users/:id", adminMiddleware, updateUser);
 
-router.delete("/users/:id", async (req, res) => {
+router.put("/me", authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id);
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    const { name, lastName, email, password, phone } = req.body;
+
+    user.name = name || user.name;
+    user.lastName = lastName || user.lastName;
+    user.email = email || user.email;
+    user.phone = phone || user.phone;
+
+    if (password) {
+      const salt = await bcryptjs.genSalt(10);
+      const hashPassword = await bcryptjs.hash(password, salt);
+      user.password = hashPassword;
+    }
+
+    await user.save();
+
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error en el servidor" });
+  }
+});
+
+router.delete("/users/:id", adminMiddleware, async (req, res) => {
   const id = req.params.id;
   try {
     const deletedUser = await deleteUser(id);
