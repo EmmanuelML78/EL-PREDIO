@@ -2,8 +2,6 @@ import React, { useEffect } from "react";
 import axios from "axios";
 import { useState } from "react";
 import s from "./DashBoard.module.css";
-import canchasData from "./canchas.json";
-import reservasData from "./reservasData.json";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import Header from "../Header/Header";
 import Tabla from "../CanchasTable/CanchasTable";
@@ -12,8 +10,7 @@ function DashBoard() {
   // const [canchas, setCanchas] = useState([]);
   // const [reservas, setReservas] = useState([]);
 
-  const canchas = canchasData;
-  const reservas = reservasData;
+
 
   useEffect(() => {
     const getData = async () => {
@@ -39,9 +36,6 @@ function DashBoard() {
     <>
       <Link to="/creador">
         <button>Creador</button>
-      </Link>
-      <Link to="/tabla">
-        <button>Tabla</button>
       </Link>
       <div className={s.dashboardContainer}>
         <h1 className={s.panel}>Panel de control</h1>
