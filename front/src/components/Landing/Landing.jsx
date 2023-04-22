@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import isEmail from "validator/lib/isEmail";
@@ -12,73 +12,58 @@ import { useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const initialValues = {
-  email: "",
-  password: "",
-  name: "",
-  lastName: "",
-  confirmPassword: "",
-};
-
-const validationSchema = Yup.object({
-  email: Yup.string()
-    .test("isEmail", "Correo electrónico inválido", (value) => isEmail(value))
-    .required("Requerido"),
-  password: Yup.string()
-    .min(8, "Mínimo 8 caracteres")
-    .max(20, "Máximo 20 caracteres")
-    .matches(/[a-zA-Z]/, "Debe contener al menos una letra")
-    .matches(/\d/, "Debe contener al menos un número")
-    .required("Requerido"),
-  name: Yup.string()
-    .test("isAlpha", "Solo caracteres alfabéticos", (value) => isAlpha(value))
-    .required("Requerido"),
-  lastName: Yup.string()
-    .test("isAlpha", "Solo caracteres alfabéticos", (value) => isAlpha(value))
-    .required("Requerido"),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref("password")], "Las contraseñas deben coincidir")
-    .required("Requerido"),
-});
-
 const Landing = () => {
+  const [isRegistering, setIsRegistering] = useState(false);
+  const initialValues = {
+    email: "",
+    password: "",
+    name: "",
+    lastName: "",
+    confirmPassword: "",
+  };
+
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .test("isEmail", "Correo electrónico inválido", (value) => isEmail(value))
+      .required("Requerido"),
+    password:
+      isRegistering &&
+      Yup.string()
+        .min(8, "Mínimo 8 caracteres")
+        .max(20, "Máximo 20 caracteres")
+        .matches(/[a-zA-Z]/, "Debe contener al menos una letra")
+        .matches(/\d/, "Debe contener al menos un número")
+        .required("Requerido"),
+    name:
+      isRegistering &&
+      Yup.string()
+        .test("isAlpha", "Solo caracteres alfabéticos", (value) =>
+          isAlpha(value)
+        )
+        .required("Requerido"),
+    lastName:
+      isRegistering &&
+      Yup.string()
+        .test("isAlpha", "Solo caracteres alfabéticos", (value) =>
+          isAlpha(value)
+        )
+        .required("Requerido"),
+    confirmPassword:
+      isRegistering &&
+      Yup.string()
+        .oneOf([Yup.ref("password")], "Las contraseñas deben coincidir")
+        .required("Requerido"),
+  });
   const history = useHistory();
   const dispatch = useDispatch();
-  const [isRegistering, setIsRegistering] = React.useState(false);
 
   const formik = useFormik({
     initialValues,
     validationSchema,
     onSubmit: async (values) => {
-      if (isRegistering) {
-        const { email, password, name, lastName } = values;
-        try {
-          await dispatch(postUser({ email, password, name, lastName }));
-          toast.success("Usuario creado exitosamente! Inicie sesión", {
-            position: "bottom-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: false,
-            progress: undefined,
-          });
-          setIsRegistering(false);
-        } catch (error) {
-          if (error.response.status === 500) {
-            toast.error("El correo electrónico ya está registrado", {
-              position: "bottom-rightz",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: false,
-              progress: undefined,
-            });
-          }
-        }
-      } else {
+      if (!isRegistering) {
         const { email, password } = values;
+
         try {
           const response = await dispatch(loginUser({ email, password }));
           const token = response.data.token;
@@ -104,6 +89,33 @@ const Landing = () => {
             draggable: false,
             progress: undefined,
           });
+        }
+      } else if (isRegistering) {
+        const { email, password, name, lastName } = values;
+        try {
+          await dispatch(postUser({ email, password, name, lastName }));
+          toast.success("Usuario creado exitosamente! Inicie sesión", {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          });
+          setIsRegistering(false);
+        } catch (error) {
+          if (error.response.status === 500) {
+            toast.error("El correo electrónico ya está registrado", {
+              position: "bottom-rightz",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined,
+            });
+          }
         }
       }
     },

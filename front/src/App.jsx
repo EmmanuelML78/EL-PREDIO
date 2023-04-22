@@ -9,6 +9,11 @@ import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
 import CanchasTable from "./components/CanchasTable/CanchasTable";
 import About from "./components/About/About";
 import Contactos from "./components/Contactos/Contactos";
+import Navbar from "./components/Navbar/Navbar";
+
+
+
+
 
 function App() {
   return (
@@ -40,6 +45,14 @@ function App() {
         <Route path="/contactos">
           <Contactos />
           <Footer />
+          <Navbar/>
+          <About/>
+          <Footer/>
+        </Route>
+        <Route path="/contactos">
+          <Navbar/>
+          <Contactos/>
+          <Footer/>
         </Route>
       </Switch>
     </>

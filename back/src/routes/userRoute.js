@@ -10,23 +10,46 @@ const {
   getUsersInactive,
   getUserById,
 } = require("../controllers/userController");
-const { User } = require("../db");
-const authMiddleware = require("../middlewares/auth");
+const { User, Reserva } = require("../db");
+const { authMiddleware } = require("../middlewares/auth");
 
 const router = Router();
 
+router.post("/login", (req, res, next) => {
+  passport.authenticate("local", { session: false }, (err, user, info) => {
+    if (err) {
+      return res.status(500).json({ message: "Error al iniciar sesión" });
+    }
+    if (!user) {
+      return res.status(401).json({ message: info.message });
+    }
+    req.logIn(user, { session: false }, (err) => {
+      if (err) {
+        return res.status(500).json({ message: "Error al iniciar sesión" });
+      }
+      const token = jwt.sign(
+        { userId: user.id, email: user.email },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" }
+      );
+      return res.status(200).json({ token });
+    });
+  })(req, res, next);
+});
+
 // router.post("/login", async (req, res) => {
 //   try {
-//     const authenticate = promisify(
-//       passport.authenticate("local", { session: false })
-//     );
-//     // console.log("authenticate:", authenticate);
-//     const [user, info] = await authenticate(req, res);
-
-//     if (!user) {
-//       // console.log(info);
-//       return res.status(401).json({ message: info.message });
-//     }
+//     const user = await new Promise((resolve, reject) => {
+//       passport.authenticate("local", { session: false }, (err, user, info) => {
+//         if (err) {
+//           return reject(err);
+//         }
+//         if (!user) {
+//           return reject(new Error(info.message));
+//         }
+//         resolve(user);
+//       })(req, res);
+//     });
 
 //     const token = await jwt.sign(
 //       { userId: user.id, email: user.email },
@@ -40,33 +63,6 @@ const router = Router();
 //     return res.status(500).json({ message: "Error al iniciar sesión" });
 //   }
 // });
-
-router.post("/login", async (req, res) => {
-  try {
-    const user = await new Promise((resolve, reject) => {
-      passport.authenticate("local", { session: false }, (err, user, info) => {
-        if (err) {
-          return reject(err);
-        }
-        if (!user) {
-          return reject(new Error(info.message));
-        }
-        resolve(user);
-      })(req, res);
-    });
-
-    const token = await jwt.sign(
-      { userId: user.id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
-
-    return res.status(200).json({ token });
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({ message: "Error al iniciar sesión" });
-  }
-});
 
 router.get("/users", getUsersActive);
 // router.get("/users", authMiddleware, getUsersActive);
@@ -85,6 +81,22 @@ router.get("/users/:id", async (req, res) => {
     return res
       .status(500)
       .json({ message: "Error al obtener usuario mediante ID" });
+  }
+});
+
+router.get("/me", authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findByPk(req.user.id, {
+      include: { model: Reserva, as: "reservas" },
+      paranoid: false,
+    });
+    if (!user) {
+      return res.status(404).json({ message: "No se encontró el usuario" });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error en el servidor" });
   }
 });
 
