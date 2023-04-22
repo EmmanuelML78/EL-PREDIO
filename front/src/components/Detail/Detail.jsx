@@ -5,6 +5,7 @@ import Footer from "../Footer/Footer";
 import { getCanchaById } from "../../redux/actions/canchaActions";
 import s from "./Detail.module.css";
 import moment from "moment";
+import axios from "axios";
 
 const Detail = ({ cancha, getCanchaById, match }) => {
   const [selectedDate, setselectedDate] = useState(
@@ -72,7 +73,7 @@ const Detail = ({ cancha, getCanchaById, match }) => {
   const botonesHorarios = !isLoading
     ? horariosDisponibles.map((horario) => {
         if (horario.disponible) {
-          const isSelected = horario.hora === selectedHorario
+          const isSelected = horario.hora === selectedHorario;
           const clase = isSelected ? s.seleccionado : s.libre;
           return (
             <button
