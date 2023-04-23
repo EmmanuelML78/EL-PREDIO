@@ -1,0 +1,15 @@
+.profile-container {
+    display: flex;
+    flex-direction: column;
+    place-items: start;
+    width: 1000px;
+    justify-content: space-around;
+}
+
+.profile-container p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 1rem;
+}
