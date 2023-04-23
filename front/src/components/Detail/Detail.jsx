@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { getCanchaById } from "../../redux/actions/canchaActions";
 import s from "./Detail.module.css";
 import moment from "moment";
-import axios from "axios";
 
-const Detail = ({ cancha, getCanchaById, match }) => {
+import { postReserva } from "../../redux/actions/reservaActions";
+
+const Detail = ({ cancha, getCanchaById, match, reserva }) => {
+  const dispatch = useDispatch();
+
   const [selectedDate, setselectedDate] = useState(
     moment().format("YYYY-MM-DD")
   );
@@ -43,6 +46,11 @@ const Detail = ({ cancha, getCanchaById, match }) => {
   const openTime = !isLoading ? moment(c.open, "HH:mm:ss") : null;
   const closeTime = !isLoading ? moment(c.close, "HH:mm:ss") : null;
 
+  const handlePago = async (e) => {
+    e.preventDefault();
+    await dispatch(postReserva());
+  };
+
   const intervaloHoras = [];
   let actualTime = !isLoading ? moment(openTime) : null; // Si isLoading es true, no hay moment() para openTime
   while (!isLoading && actualTime.isBefore(closeTime)) {
@@ -54,8 +62,6 @@ const Detail = ({ cancha, getCanchaById, match }) => {
   const reservas = !isLoading
     ? c.reservas.filter((reserva) => reserva.date === selectedDate)
     : [];
-
-  // console.log("reservas: " + JSON.stringify(reservas));
 
   const horariosDisponibles = !isLoading
     ? intervaloHoras.map((hora) => {
@@ -105,7 +111,7 @@ const Detail = ({ cancha, getCanchaById, match }) => {
           <p>Jugadores: {c.players}</p>
           <p>Descripción: {c.description}</p>
           <p>{c.availability ? "Disponible" : "No disponible"}</p>
-          <form>
+          <form onSubmit={handlePago}>
             <p style={{ fontSize: "16pt", fontWeight: "600" }}>
               Reservar un turno:
             </p>
@@ -121,7 +127,7 @@ const Detail = ({ cancha, getCanchaById, match }) => {
               />
             </div>
             <div>{botonesHorarios}</div>
-            <button>Reservar turno</button>
+            <button type="submit"> Reserva Cancha</button>
           </form>
         </div>
         <img src={c.image} alt="Imagen de cancha" />
