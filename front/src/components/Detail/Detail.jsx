@@ -17,13 +17,19 @@ const Detail = ({ cancha, getCanchaById, match }) => {
     moment().format("YYYY-MM-DD")
   );
   const [isLoading, setIsLoading] = useState(true);
+  const [isUserLoading, setIsUserLoading] = useState(true);
   const [selectedHorario, setSelectedHorario] = useState(null);
 
   useEffect(() => {
-    if (!user) {
-      dispatch(setUser());
-    }
+    const fetchData = async () => {
+      if (!user) {
+        await dispatch(setUser());
+      }
+      setIsUserLoading(false);
+    };
+    fetchData();
   }, [dispatch, user]);
+  console.log("user:", user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -104,41 +110,45 @@ const Detail = ({ cancha, getCanchaById, match }) => {
   return (
     <>
       {" "}
-      {user ? (
+      {!isUserLoading && user.error ? (
         <>
-          <Header />
-          <div className={s.father}>
-            <div className={s.container}>
-              <h1>Cancha {c.id}</h1>
-              <p>Césped: {c.grass}</p>
-              <p>Jugadores: {c.players}</p>
-              <p>Descripción: {c.description}</p>
-              <p>{c.availability ? "Disponible" : "No disponible"}</p>
-              <form>
-                <p style={{ fontSize: "16pt", fontWeight: "600" }}>
-                  Reservar un turno:
-                </p>
-                <div className={s.dateContainer}>
-                  <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
-                    Fecha:
-                  </p>
-                  <input
-                    className={s.date}
-                    type="date"
-                    value={selectedDate}
-                    onChange={handleDate}
-                  />
-                </div>
-                <div>{botonesHorarios}</div>
-                <button>Reservar turno</button>
-              </form>
-            </div>
-            <img src={c.image} alt="Imagen de cancha" />
-          </div>
-          <Footer />
+          <Error401 />
         </>
       ) : (
-        <Error401 />
+        user.id && (
+          <>
+            <Header />
+            <div className={s.father}>
+              <div className={s.container}>
+                <h1>Cancha {c.id}</h1>
+                <p>Césped: {c.grass}</p>
+                <p>Jugadores: {c.players}</p>
+                <p>Descripción: {c.description}</p>
+                <p>{c.availability ? "Disponible" : "No disponible"}</p>
+                <form>
+                  <p style={{ fontSize: "16pt", fontWeight: "600" }}>
+                    Reservar un turno:
+                  </p>
+                  <div className={s.dateContainer}>
+                    <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
+                      Fecha:
+                    </p>
+                    <input
+                      className={s.date}
+                      type="date"
+                      value={selectedDate}
+                      onChange={handleDate}
+                    />
+                  </div>
+                  <div>{botonesHorarios}</div>
+                  <button>Reservar turno</button>
+                </form>
+              </div>
+              <img src={c.image} alt="Imagen de cancha" />
+            </div>
+            <Footer />
+          </>
+        )
       )}
     </>
   );
