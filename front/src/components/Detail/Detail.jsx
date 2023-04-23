@@ -5,16 +5,25 @@ import Footer from "../Footer/Footer";
 import { getCanchaById } from "../../redux/actions/canchaActions";
 import s from "./Detail.module.css";
 import moment from "moment";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../redux/actions/authActions";
+import Error401 from "../Error401/Error401";
 
 const Detail = ({ cancha, getCanchaById, match }) => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+
   const [selectedDate, setselectedDate] = useState(
     moment().format("YYYY-MM-DD")
   );
   const [isLoading, setIsLoading] = useState(true);
   const [selectedHorario, setSelectedHorario] = useState(null);
-  // console.log("horario:", selectedHorario)
-  // console.log(selectedDate);
+
+  useEffect(() => {
+    if (!user) {
+      dispatch(setUser());
+    }
+  }, [dispatch, user]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,11 +36,10 @@ const Detail = ({ cancha, getCanchaById, match }) => {
   }, [getCanchaById, match.params.id]);
 
   const c = cancha.canchas;
-  console.log("c:", c);
+  console.log("user:", user);
   const handleDate = (e) => {
     const fecha = e.target.value;
     setselectedDate(fecha);
-    // console.log("date: " + selectedDate);
   };
 
   const handleHorario = (e) => {
@@ -54,8 +62,6 @@ const Detail = ({ cancha, getCanchaById, match }) => {
   const reservas = !isLoading
     ? c.reservas.filter((reserva) => reserva.date === selectedDate)
     : [];
-
-  // console.log("reservas: " + JSON.stringify(reservas));
 
   const horariosDisponibles = !isLoading
     ? intervaloHoras.map((hora) => {
@@ -97,45 +103,50 @@ const Detail = ({ cancha, getCanchaById, match }) => {
 
   return (
     <>
-      <Header />
-      <div className={s.father}>
-        <div className={s.container}>
-          <h1>Cancha {c.id}</h1>
-          <p>Césped: {c.grass}</p>
-          <p>Jugadores: {c.players}</p>
-          <p>Descripción: {c.description}</p>
-          <p>{c.availability ? "Disponible" : "No disponible"}</p>
-          <form>
-            <p style={{ fontSize: "16pt", fontWeight: "600" }}>
-              Reservar un turno:
-            </p>
-            <div className={s.dateContainer}>
-              <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
-                Fecha:
-              </p>
-              <input
-                className={s.date}
-                type="date"
-                value={selectedDate}
-                onChange={handleDate}
-              />
+      {" "}
+      {user ? (
+        <>
+          <Header />
+          <div className={s.father}>
+            <div className={s.container}>
+              <h1>Cancha {c.id}</h1>
+              <p>Césped: {c.grass}</p>
+              <p>Jugadores: {c.players}</p>
+              <p>Descripción: {c.description}</p>
+              <p>{c.availability ? "Disponible" : "No disponible"}</p>
+              <form>
+                <p style={{ fontSize: "16pt", fontWeight: "600" }}>
+                  Reservar un turno:
+                </p>
+                <div className={s.dateContainer}>
+                  <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
+                    Fecha:
+                  </p>
+                  <input
+                    className={s.date}
+                    type="date"
+                    value={selectedDate}
+                    onChange={handleDate}
+                  />
+                </div>
+                <div>{botonesHorarios}</div>
+                <button>Reservar turno</button>
+              </form>
             </div>
-            <div>{botonesHorarios}</div>
-            <button>Reservar turno</button>
-          </form>
-        </div>
-        <img src={c.image} alt="Imagen de cancha" />
-      </div>
-      <Footer />
+            <img src={c.image} alt="Imagen de cancha" />
+          </div>
+          <Footer />
+        </>
+      ) : (
+        <Error401 />
+      )}
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  // console.log("State in Detail component: ", state.canchas);
   return {
     cancha: state.canchas,
   };
 };
-// export default Detail;
 export default connect(mapStateToProps, { getCanchaById })(Detail);
