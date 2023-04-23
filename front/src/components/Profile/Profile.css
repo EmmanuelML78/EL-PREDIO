@@ -1,7 +1,7 @@
 .profile-container {
     display: flex;
     flex-direction: column;
-    place-items: start;
+    place-items: flex-start;
     width: 1000px;
     justify-content: space-around;
 }
