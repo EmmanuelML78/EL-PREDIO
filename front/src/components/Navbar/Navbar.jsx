@@ -23,10 +23,12 @@ const Navbar = () => {
 
               <nav className={styles.navegacion}>
                 {/* <a href="#">Inicio</a> */}
-                <a href="#">Canchas</a>
-                <a href="/nosotros">Nosotros</a>
-                <a href="#">Contacto</a>
-                <a href="#">Perfil</a>
+                <Link to="/nosotros">Nosotros</Link>
+                <a href="#">Mis reservas</a>
+                <a href="#">Promociones</a>
+                <Link to="/contactos">Contacto</Link>
+                <Link to="/dashboard">Dashboard</Link>
+                <a onClick="">Cerrar sesion</a>
               </nav>
             </div>
           </div>
