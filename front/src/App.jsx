@@ -11,7 +11,7 @@ import About from "./components/About/About";
 import Contactos from "./components/Contactos/Contactos";
 import Navbar from "./components/Navbar/Navbar";
 import axios from "axios";
-axios.defaults.baseURL = "http://el-predio-production.up.railway.app/";
+axios.defaults.baseURL = "el-predio-production-32b7.up.railway.app";
 
 function App() {
   return (
