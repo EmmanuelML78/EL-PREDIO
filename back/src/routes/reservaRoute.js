@@ -7,25 +7,17 @@ const {
   payReserver,
 } = require("../controllers/ReservaControllers");
 const { Reserva, Cancha, User } = require("../db");
+const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
+// const mercadopago = require("../utils/mercadoPago");
 
 router
-
-  // .get("/", async (req, res) => {
-  //   let allreserva = await getAllReservations();
-  //   let user = await getUsersDb();
-  //   try {
-  //     res.status(200).send(allreserva, user);
-  //   } catch (error) {
-  //     res.status(400).send({ error: error.message });
-  //   }
-  // })
-  .get("/", async (req, res) => {
+  .get("/", adminMiddleware, async (req, res) => {
     try {
       const allReservations = await getAllReservations();
-      const allUsers = await getUsersDb();
+      // const allUsers = await getUsersDb();
       const response = {
         reservations: allReservations,
-        users: allUsers,
+        // users: allUsers,
       };
       res.status(200).send(response);
     } catch (error) {
@@ -33,7 +25,7 @@ router
     }
   })
 
-  .get("/:id", async (req, res) => {
+  .get("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;
     // let allreserva = await getAllReservations();
     // try {
@@ -58,12 +50,10 @@ router
             {
               model: Cancha,
               as: "cancha",
-              attributes: ["id", "name", "price"],
             },
             {
               model: User,
               as: "user",
-              attributes: ["id", "name"],
             },
           ],
         });
@@ -82,7 +72,7 @@ router
     }
   })
 
-  .post("/", async (req, res) => {
+  .post("/", authMiddleware, async (req, res) => {
     const { date, start, end, status, hasPromo, userId, canchaId } = req.body;
     try {
       const reservation = await Reserva.create({
@@ -99,10 +89,37 @@ router
       res.status(500).json({ error: "Error al crear la reserva" });
     }
   })
+  .post("/pagos", payReserver)
 
-  .post("/pagos/:id", payReserver)
+  // .post("/pagos", (res, req) => {
+  //   const reservaId = req.params.id;
+  //   const datos = req.body;
+  //   let preference = {
+  //     items: [
+  //       {
+  //         id: reservaId,
+  //         title: datos.Cancha.name,
+  //         description: datos.Cancha.description,
+  //         quantity: 1,
+  //         currency_id: "ARS",
+  //         unit_price: parseInt(datos.Cancha.price),
+  //       },
+  //     ],
+  //     back_urls: {
+  //       success: "http://localhost:5173/pago-exitoso",
+  //       pending: "http://localhost:5173/pago-pendiente",
+  //       failure: "http://localhost:5173/pago-fallido",
+  //     },
+  //     auto_return: "approved",
+  //     binary_mode: "true",
+  //   };
+  //   mercadopago.preferences
+  //     .create(preference)
+  //     .then((response) => res.status(200).send({ preference }))
+  //     .catch((error) => res.status(500).send({ error: error.mesage }));
+  // })
 
-  .delete("/:id", async (req, res) => {
+  .delete("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;
     try {
       const deletedReserva = await deleteReserva(id);
@@ -114,7 +131,7 @@ router
     }
   })
 
-  .put("/", async (req, res) => {
+  .put("/", adminMiddleware, async (req, res) => {
     const { id, date, start, end, status, hasPromo } = req.body;
 
     if (id && (date || start || end || status || hasPromo)) {

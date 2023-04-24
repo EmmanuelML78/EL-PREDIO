@@ -34,13 +34,16 @@ function App() {
         <Route path="/tabla">
           <CanchasTable />
         </Route>
-        <Route path="/pagos/:id">
-          <MercadoPago />
-        </Route>
         <Route path="/nosotros">
-        <Navbar/>
-        <About/>
-        <Footer/>
+          <About />
+          <Footer />
+        </Route>
+        <Route path="/contactos">
+          <Contactos />
+          <Footer />
+          <Navbar/>
+          <About/>
+          <Footer/>
         </Route>
         <Route path="/contactos">
           <Navbar/>
