@@ -57,7 +57,7 @@ function Header() {
                 <Link to="/misreservas">Mis reservas</Link>
                 <a href="#">Promociones</a>
                 <Link to="/contactos">Contacto</Link>
-                <Link to="/dashboard">Dashboard</Link>
+                <Link to="/dashboard">{user && user.isAdmin ? "Administración" : "Perfil"}</Link>
                 <a style={{cursor: "pointer"}} onClick={handleLogout}>Salir</a>
               </nav>
             </div>
