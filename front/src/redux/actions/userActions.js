@@ -6,7 +6,16 @@ export const POST_USER = "POST_USER";
 export const PUT_USER = "PUT_USER";
 export const DELETE_USER = "DELETE_USER";
 
-export const getUsers = () => {};
+export const getUsers = () => {
+  return async function (dispatch) {
+    const response = await instance.get("users");
+    dispatch({
+      type: GET_USERS,
+      payload: response.data,
+    });
+    return response;
+  };
+};
 
 export const getUserById = (userId) => {};
 

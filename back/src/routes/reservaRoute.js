@@ -14,12 +14,7 @@ router
   .get("/", adminMiddleware, async (req, res) => {
     try {
       const allReservations = await getAllReservations();
-      // const allUsers = await getUsersDb();
-      const response = {
-        reservations: allReservations,
-        // users: allUsers,
-      };
-      res.status(200).send(response);
+      res.status(200).send(allReservations);
     } catch (error) {
       res.status(400).send({ error: error.message });
     }

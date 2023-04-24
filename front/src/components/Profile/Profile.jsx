@@ -4,9 +4,10 @@ import { setUser } from "../../redux/actions/authActions";
 import Loading from "../Loading/Loading.jsx";
 import DashBoard from "../DashBoard/DashBoard";
 import "./Profile.css";
+import moment from "moment";
 // import styled from "styled-components";
 
-const Profile = (props) => {
+const Profile = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [isLoading, setIsLoading] = useState(true);
@@ -26,22 +27,56 @@ const Profile = (props) => {
       ) : user.isAdmin ? (
         <DashBoard />
       ) : (
-        <div className="profile-container">
+        <>
           <h1 style={{ color: "white", fontWeight: "600" }}>Panel de perfil</h1>
-          <p>
-            Nombre: {user.name} <button style={{marginLeft: "1rem", height: "4rem"}}>Editar</button>
-          </p>
-          <p>
-            Apellido: {user.lastName}
-            <button style={{marginLeft: "1rem", height: "4rem"}}>Editar</button>
-          </p>
-          <p>
-            Email: {user.email}
-            <button style={{marginLeft: "1rem", height: "4rem"}}>Cambiar</button>
-          </p>
-
-          <button>Cambiar contraseña</button>
-        </div>
+          <div className="profile-container">
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                placeItems: "flex-start",
+                width: "40rem",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", marginBottom:"1rem" }}>
+                <p style={{ marginRight: "1rem" }}>Nombre:</p>
+                <p>{user.name}</p>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", marginBottom:"1rem" }}>
+                <p style={{ marginRight: "1rem" }}>Apellido:</p>
+                <p>{user.lastName}</p>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", marginBottom:"1rem" }}>
+                <p style={{ marginRight: "1rem" }}>Email:</p>
+                <p>{user.email}</p>
+              </div>
+              <div style={{ display: "flex", alignItems: "center", marginBottom:"1rem" }}>
+                <p style={{ marginRight: "1rem" }}>Miembro desde:</p>
+                <p>{moment(user.createdAt).format("DD/MM/YYYY")}</p>
+              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                placeItems: "flex-start",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <button style={{ height: "4rem", marginBottom:"1rem" }}>Cambiar</button>
+              </div>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <button style={{ height: "4rem", marginBottom:"1rem" }}>Cambiar</button>
+              </div>
+              <div style={{ display: "flex", alignItems: "center" }}>
+                <button style={{ height: "4rem", marginBottom:"1rem" }}>Cambiar</button>
+              </div>
+              <button style={{ marginTop: "1rem", height: "4rem" }}>
+                Cambiar contraseña
+              </button>
+            </div>
+          </div>
+        </>
       )}
     </>
   );
