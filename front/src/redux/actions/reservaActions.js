@@ -1,4 +1,3 @@
-
 import instance from "../axiosCfg";
 
 export const GET_ALL_RESERVAS = "GET_ALL_RESERVAS";
@@ -17,7 +16,7 @@ export const getAllReservas = () => {
       payload: reservas,
     });
   };
-}
+};
 
 export const getReservasByUser = (userId) => {};
 
@@ -27,15 +26,15 @@ export const postReserva = (reservaData) => {
   return async (dispatch) => {
     const responseReserva = await instance.post("reserva", reservaData);
     const reserva = responseReserva.data;
-    console.log('reserva:', reserva)
-    const responsePago = await instance.post("reserva/pagos", reserva);
-    const referenceToken = responsePago.data.preferenceId;
-    console.log(referenceToken)
+    console.log("reserva:", reserva);
+    // const responsePago = await instance.post("reserva/pagos", reserva);
+    // const referenceToken = responsePago.data.preferenceId;
+    // console.log(referenceToken)
     dispatch({
       type: POST_RESERVA,
       payload: reserva,
     });
-    window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?${referenceToken}`;
+    // window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?${referenceToken}`;
   };
 };
 
