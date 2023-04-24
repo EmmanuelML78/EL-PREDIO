@@ -10,10 +10,8 @@ import CanchasTable from "./components/CanchasTable/CanchasTable";
 import About from "./components/About/About";
 import Contactos from "./components/Contactos/Contactos";
 import Navbar from "./components/Navbar/Navbar";
-
-
-
-
+import axios from "axios";
+axios.defaults.baseURL = "http://el-predio-production.up.railway.app/";
 
 function App() {
   return (
@@ -43,9 +41,9 @@ function App() {
           <Footer />
         </Route>
         <Route path="/contactos">
-          <Navbar/>
-          <Contactos/>
-          <Footer/>
+          <Navbar />
+          <Contactos />
+          <Footer />
         </Route>
       </Switch>
     </>
