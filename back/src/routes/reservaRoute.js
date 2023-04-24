@@ -91,34 +91,6 @@ router
   })
   .post("/pagos", payReserver)
 
-  // .post("/pagos", (res, req) => {
-  //   const reservaId = req.params.id;
-  //   const datos = req.body;
-  //   let preference = {
-  //     items: [
-  //       {
-  //         id: reservaId,
-  //         title: datos.Cancha.name,
-  //         description: datos.Cancha.description,
-  //         quantity: 1,
-  //         currency_id: "ARS",
-  //         unit_price: parseInt(datos.Cancha.price),
-  //       },
-  //     ],
-  //     back_urls: {
-  //       success: "http://localhost:5173/pago-exitoso",
-  //       pending: "http://localhost:5173/pago-pendiente",
-  //       failure: "http://localhost:5173/pago-fallido",
-  //     },
-  //     auto_return: "approved",
-  //     binary_mode: "true",
-  //   };
-  //   mercadopago.preferences
-  //     .create(preference)
-  //     .then((response) => res.status(200).send({ preference }))
-  //     .catch((error) => res.status(500).send({ error: error.mesage }));
-  // })
-
   .delete("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;
     try {

@@ -1,29 +1,35 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { getCanchaById } from "../../redux/actions/canchaActions";
 import s from "./Detail.module.css";
 import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/actions/authActions";
 import Error401 from "../Error401/Error401";
+import { postReserva } from "../../redux/actions/reservaActions";
 
-const Detail = ({ cancha, getCanchaById, match }) => {
+const Detail = ({ cancha, getCanchaById, match, reserva }) => {
+
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-
   const [selectedDate, setselectedDate] = useState(
     moment().format("YYYY-MM-DD")
   );
   const [isLoading, setIsLoading] = useState(true);
+  const [isUserLoading, setIsUserLoading] = useState(true);
   const [selectedHorario, setSelectedHorario] = useState(null);
 
   useEffect(() => {
-    if (!user) {
-      dispatch(setUser());
-    }
+    const fetchData = async () => {
+      if (!user) {
+        await dispatch(setUser());
+      }
+      setIsUserLoading(false);
+    };
+    fetchData();
   }, [dispatch, user]);
+  console.log("user:", user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -50,6 +56,11 @@ const Detail = ({ cancha, getCanchaById, match }) => {
   // Verificación de isLoading antes de ejecutar la lógica que usa cancha
   const openTime = !isLoading ? moment(c.open, "HH:mm:ss") : null;
   const closeTime = !isLoading ? moment(c.close, "HH:mm:ss") : null;
+
+  const handlePago = async (e) => {
+    e.preventDefault();
+    await dispatch(postReserva());
+  };
 
   const intervaloHoras = [];
   let actualTime = !isLoading ? moment(openTime) : null; // Si isLoading es true, no hay moment() para openTime
@@ -103,42 +114,45 @@ const Detail = ({ cancha, getCanchaById, match }) => {
 
   return (
     <>
-      {" "}
-      {user ? (
+      {!isUserLoading && user.error ? (
         <>
-          <Header />
-          <div className={s.father}>
-            <div className={s.container}>
-              <h1>Cancha {c.id}</h1>
-              <p>Césped: {c.grass}</p>
-              <p>Jugadores: {c.players}</p>
-              <p>Descripción: {c.description}</p>
-              <p>{c.availability ? "Disponible" : "No disponible"}</p>
-              <form>
-                <p style={{ fontSize: "16pt", fontWeight: "600" }}>
-                  Reservar un turno:
-                </p>
-                <div className={s.dateContainer}>
-                  <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
-                    Fecha:
-                  </p>
-                  <input
-                    className={s.date}
-                    type="date"
-                    value={selectedDate}
-                    onChange={handleDate}
-                  />
-                </div>
-                <div>{botonesHorarios}</div>
-                <button>Reservar turno</button>
-              </form>
-            </div>
-            <img src={c.image} alt="Imagen de cancha" />
-          </div>
-          <Footer />
+          <Error401 />
         </>
       ) : (
-        <Error401 />
+        user.id && (
+          <>
+            <Header />
+            <div className={s.father}>
+              <div className={s.container}>
+                <h1>Cancha {c.id}</h1>
+                <p>Césped: {c.grass}</p>
+                <p>Jugadores: {c.players}</p>
+                <p>Descripción: {c.description}</p>
+                <p>{c.availability ? "Disponible" : "No disponible"}</p>
+                <form onSubmit={handlePago}>
+                  <p style={{ fontSize: "16pt", fontWeight: "600" }}>
+                    Reservar un turno:
+                  </p>
+                  <div className={s.dateContainer}>
+                    <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
+                      Fecha:
+                    </p>
+                    <input
+                      className={s.date}
+                      type="date"
+                      value={selectedDate}
+                      onChange={handleDate}
+                    />
+                  </div>
+                  <div>{botonesHorarios}</div>
+                  <button type="submit"> Reserva Cancha</button>
+                </form>
+              </div>
+              <img src={c.image} alt="Imagen de cancha" />
+            </div>
+            <Footer />
+          </>
+        )
       )}
     </>
   );

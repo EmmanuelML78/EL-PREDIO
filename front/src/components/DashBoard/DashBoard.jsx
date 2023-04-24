@@ -1,33 +1,34 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import { useState } from "react";
 import s from "./DashBoard.module.css";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import CanchasTable from "../CanchasTable/CanchasTable";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/actions/authActions";
-import Profile from "../Profile/Profile.jsx"
+import Profile from "../Profile/Profile.jsx";
 
 import Error401 from "../Error401/Error401";
 function DashBoard() {
   const [users, setUsers] = useState([]);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const [userIsAdmin, setUserIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) {
-      dispatch(setUser());
+    const fetchData = async () => {
+      if (!user) {
+        await dispatch(setUser());
+      }
       setIsLoading(false);
-    }
+    };
+    fetchData();
   }, [dispatch, user]);
 
   return (
     <>
-      {!user ? (
+      {!isLoading && user.error ? (
         <Error401 />
-      ) : user.isAdmin ? (
+      ) : !isLoading && !user.error && user.isAdmin ? (
         <>
           <Link to="/creador">
             <button>Creador</button>
@@ -137,8 +138,8 @@ function DashBoard() {
             </div>
           </div>
         </>
-      ) : (
-        <Profile/>
+      ) : user.id && (
+        <Profile />
       )}
     </>
   );
