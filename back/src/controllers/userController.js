@@ -1,4 +1,4 @@
-const { User, Reserva } = require("../db");
+const { User, Reserva, Cancha } = require("../db");
 const { Op } = require("sequelize");
 const bcryptjs = require("bcryptjs");
 
@@ -81,7 +81,9 @@ const getUserById = async (id) => {
   try {
     const user = await User.findOne({
       where: { id },
-      include: { model: Reserva, as: "reservas", paranoid: false },
+      include: [
+        { model: Reserva, as: "reservas", paranoid: false, include: {model: Cancha, as: "cancha"} },
+      ],
       paranoid: false,
     });
     return user;
