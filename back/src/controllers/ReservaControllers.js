@@ -13,6 +13,10 @@ const getAllReservations = async (reservaid) => {
             model: User,
             as: "user",
           },
+          {
+            model: Cancha,
+            as: "cancha",
+          }
         ],
       });
     }

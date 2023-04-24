@@ -7,7 +7,7 @@ const { PORT } = process.env;
 //   console.log("listening on port 3001");
 // });y
 
-conn.sync({ alter: true }).then(() => {
+conn.sync({ force: false }).then(() => {
   app.listen(PORT, () => {
     console.log("%s listening at", PORT);
   });

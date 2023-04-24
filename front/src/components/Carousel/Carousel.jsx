@@ -41,7 +41,7 @@
       <div style={{zIndex: "1"}}>
         <img
           src={selectedImage.url}
-          style={{ height: "75rem", width: "100%", opacity: "0.7"}}
+          style={{ height: "75rem", width: "100%", opacity: "0.7", objectFit: "cover"}}
           alt={selectedImage.title}
         />
         <div

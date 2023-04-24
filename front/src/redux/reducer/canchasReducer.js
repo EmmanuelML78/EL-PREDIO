@@ -43,8 +43,7 @@ const canchasReducer = (state = initialState, action) => {
           return cancha;
         });
         
-        console.log("Antes:", state.canchas);
-        console.log("Después:", updatedCanchas);
+
       
         return {
           ...state,

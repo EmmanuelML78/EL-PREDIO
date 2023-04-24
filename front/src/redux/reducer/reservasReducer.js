@@ -1,4 +1,5 @@
 import {
+  GET_ALL_RESERVAS,
   GET_RESERVAS_BY_USER,
   GET_RESERVAS_BY_CANCHA,
   POST_RESERVA,
@@ -13,6 +14,11 @@ const initialState = {
 // Define el reducer
 const reservasReducer = (state = initialState, action) => {
   switch (action.type) {
+    case GET_ALL_RESERVAS:
+      return {
+       ...state,
+        reservas: action.payload,
+      };
     case GET_RESERVAS_BY_USER:
       return {
         ...state,

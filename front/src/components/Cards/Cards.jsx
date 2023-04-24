@@ -8,7 +8,6 @@ import Card from "../Card/Card";
 function Cards() {
   const dispatch = useDispatch();
   const canchas = useSelector((state) => state.canchas.canchas);
-  console.log(canchas);
   const [searchTerm, setSearchTerm] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [filter, setFilter] = useState("");
