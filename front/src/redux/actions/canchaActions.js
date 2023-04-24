@@ -25,7 +25,7 @@ export const getCanchas = () => {
 
 export const getCanchaById = (canchaId) => {
   return async (dispatch) => {
-    const res = await axios.get(`/canchas/${canchaId}`);
+    const res = await instance.get(`canchas/${canchaId}`);
     const data = res.data;
     console.log("action data", data);
     dispatch({
@@ -37,7 +37,7 @@ export const getCanchaById = (canchaId) => {
 
 export const postCancha = (canchaData) => {
   return async (dispatch) => {
-    const res = await axios.post("/canchas", canchaData);
+    const res = await instance.post("canchas", canchaData);
     const data = res.data;
 
     dispatch({
@@ -50,9 +50,7 @@ export const postCancha = (canchaData) => {
 export const deleteCancha = (canchaId) => {
   return async (dispatch) => {
     try {
-      const res = await axios.delete(
-        `/canchas/${canchaId}`
-      );
+      const res = await instance.delete(`canchas/${canchaId}`);
 
       if (res.status === 200) {
         dispatch({
@@ -69,7 +67,7 @@ export const deleteCancha = (canchaId) => {
 export const putCancha = (canchaData) => {
   return async (dispatch) => {
     try {
-      const res = await axios.put(`/canchas`, canchaData);
+      const res = await instance.put(`canchas`, canchaData);
 
       if (res.status === 200) {
         dispatch({
