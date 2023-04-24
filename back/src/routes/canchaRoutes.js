@@ -6,9 +6,10 @@ const {
   updateCanchas,
 } = require("../controllers/CanchaControllers");
 const { Cancha, Reserva } = require("../db");
+const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 
 router
-  .get("/", async (req, res) => {
+  .get("/", authMiddleware, async (req, res) => {
     try {
       let canchas = await getAllcanchas();
       res.status(200).send(canchas);
@@ -16,7 +17,7 @@ router
       return res.status(404).json({ error: error.message });
     }
   })
-  .get("/:id", async (req, res) => {
+  .get("/:id", authMiddleware, async (req, res) => {
     const id = req.params.id;
     try {
       if (id) {
@@ -48,7 +49,7 @@ router
       res.status(500).json({ message: "Error al obtener la Cancha" });
     }
   })
-  .post("/", async (req, res) => {
+  .post("/", adminMiddleware, async (req, res) => {
     const {
       name,
       image,
@@ -87,7 +88,7 @@ router
       return res.status(500).json({ error: "Error al crear la cancha" });
     }
   })
-  .put("/", async (req, res) => {
+  .put("/", adminMiddleware, async (req, res) => {
     const {
       id,
       name,
@@ -129,7 +130,9 @@ router
           grass,
           players
         );
-        return res.status(200).json({ message: "actualizado correctamente" });
+        return res
+          .status(200)
+          .json({ message: "actualizado correctamente", data: canchaUpdate });
       } catch (error) {
         console.log(error);
         return res.status(500).json({ error: "Error al actualizar la cancha" });
@@ -138,7 +141,7 @@ router
       return res.status(400).json({ message: error });
     }
   })
-  .delete("/:id", async (req, res) => {
+  .delete("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;
     try {
       const eraseReserva = await deleteCancha(id);

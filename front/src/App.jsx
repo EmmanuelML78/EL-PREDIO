@@ -7,6 +7,9 @@ import DashBoard from "./components/DashBoard/DashBoard";
 import CreadorCanchas from "./components/CreadorCanchas/CreadorCanchas";
 import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
 import CanchasTable from "./components/CanchasTable/CanchasTable";
+import About from "./components/About/About";
+import Contactos from "./components/Contactos/Contactos";
+import Navbar from "./components/Navbar/Navbar";
 import axios from "axios";
 axios.defaults.baseURL = "http://el-predio-production.up.railway.app/";
 

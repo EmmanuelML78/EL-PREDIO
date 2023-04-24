@@ -14,7 +14,7 @@ const CreadorCanchas = () => {
     close: "",
     hasPromo: false,
     description: "",
-    availability: null,
+    availability: true,
     grass: "",
     players: "",
   });
@@ -107,7 +107,10 @@ const CreadorCanchas = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+
+    <form onSubmit={handleSubmit} className="form-container">
+
+   
       {/* Nombre */}
       <label htmlFor="name">Nombre:</label>
       <input
@@ -189,8 +192,15 @@ const CreadorCanchas = () => {
         id="availability"
         name="availability"
         value={formData.availability}
-        onChange={(e) => handleChange(e.target.value)}
+
+        onChange={(e) =>
+          setFormData({
+            ...formData,
+            availability: e.target.value === 'true'
+          })
+        }
         style={{ width: "20rem", height: "4rem" }}
+
       >
         <option value="true">Disponible</option>
         <option value="false">No disponible</option>
@@ -217,7 +227,7 @@ const CreadorCanchas = () => {
       {formErrors.players && (
         <p className="error-message">{formErrors.players}</p>
       )}
-      <button type="submit">Crear Cancha</button>
+      <button style={{backgroundColor: "#404040"}} type="submit">Crear Cancha</button>
     </form>
   );
 };

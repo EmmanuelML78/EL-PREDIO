@@ -1,4 +1,4 @@
-// Importar Primero Los Tipos De acciones
+
 import {
   GET_CANCHAS,
   GET_CANCHA_BY_ID,
@@ -9,14 +9,11 @@ import {
 // Estado Inicial
 const initialState = {
   canchas: [],
-  allCanchas: [],
-  cancha: [],
+  cancha: {},
 };
 
-const elprediofutbolReducer = (state = initialState, action) => {
+const canchasReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "POST_USER":
-      return action.payload;
     case GET_CANCHAS:
       return {
         ...state,
@@ -37,19 +34,25 @@ const elprediofutbolReducer = (state = initialState, action) => {
         ...state,
         canchas: state.canchas.filter((cancha) => cancha.id !== action.payload),
       };
-    case PUT_CANCHA:
-      return {
-        ...state,
-        canchas: state.canchas.map((cancha) => {
+      case PUT_CANCHA:
+        
+        const updatedCanchas = state.canchas.map((cancha) => {
           if (cancha.id === action.payload.id) {
             return { ...cancha, ...action.payload };
           }
           return cancha;
-        }),
+        });
+        
+        console.log("Antes:", state.canchas);
+        console.log("Después:", updatedCanchas);
+      
+        return {
+          ...state,
+          canchas: updatedCanchas,
       };
     default:
       return state;
   }
 };
 
-export default elprediofutbolReducer;
+export default canchasReducer;

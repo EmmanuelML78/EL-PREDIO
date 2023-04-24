@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
+  margin-left: 1rem;
 }
 
 .container form {
@@ -10,14 +11,21 @@
  padding: 1rem;
  margin-top: 1rem;
  border-radius: 1rem;
- background-color: #303030;
+ background-color: #202020;
 }
+
+.container form button[type="submit"] {
+  background-color: rgb(255, 255, 255);
+  color: black;
+  font-weight: 700;
+ }
+ 
 
 .father {
   display: flex;
   flex-direction: row;
-  margin-bottom: 10rem;
-  margin-top: 10rem;
+  margin-bottom: 2rem;
+  margin-top: 0rem;
   color: white;
 }
 .father img {

@@ -1,209 +1,146 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import { useState } from "react";
 import s from "./DashBoard.module.css";
-import canchasData from "./canchas.json";
-import reservasData from "./reservasData.json";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+import CanchasTable from "../CanchasTable/CanchasTable";
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../redux/actions/authActions";
+import Profile from "../Profile/Profile.jsx";
 
-import Header from "../Header/Header";
-
+import Error401 from "../Error401/Error401";
 function DashBoard() {
   const [users, setUsers] = useState([]);
-  // const [canchas, setCanchas] = useState([]);
-  // const [reservas, setReservas] = useState([]);
-
-  const canchas = canchasData;
-  const reservas = reservasData;
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const usersResponse = await axios.get("/users");
-        setUsers(usersResponse.data);
-        // const canchasResponse = await axios.get(
-        //   "http://localhost:3001/canchas"
-        // );
-        // setCanchas(canchasResponse.data);
-        // const reservasResponse = await axios.get(
-        //   "http://localhost:3001/reserva"
-        // );
-        // setReservas(reservasResponse.data);
-      } catch (error) {
-        console.log(error);
+    const fetchData = async () => {
+      if (!user) {
+        await dispatch(setUser());
       }
+      setIsLoading(false);
     };
-    getData();
-  }, []);
+    fetchData();
+  }, [dispatch, user]);
 
   return (
     <>
-      <Header />
-      <div className={s.dashboardContainer}>
-        <h1 className={s.panel}>Panel de control</h1>
-        <div>
-          <select className={s.input}>
-            <option value="">Ordenar por</option>
-            <option value="asc">Nombre ascendente</option>
-            <option value="desc">Nombre descendente</option>
-            <option value="menor">Menor precio</option>
-            <option value="mayor">Mayor precio</option>
-          </select>
-          <input className={s.input} type="text" placeholder="Buscar..." />
-          <button>Buscar</button>
-        </div>
-        <div>
-          <div>
-            <div className={s.titles}>Usuarios</div>
-            <div className={s.list}>
-              <ul>
-                <p className={s.heads}>ID</p>
-                {users.map((user) => (
-                  <li className={s.item} key={user.id}>
-                    {user.id}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Nombre</p>
-
-                {users.map((user) => (
-                  <li className={s.item} key={user.id}>
-                    {user.name}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Apellido</p>
-
-                {users.map((user) => (
-                  <li className={s.item} key={user.id}>
-                    {user.lastName}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Correo</p>
-
-                {users.map((user) => (
-                  <li className={s.item} key={user.id}>
-                    {user.email}
-                  </li>
-                ))}
-              </ul>
+      {!isLoading && user.error ? (
+        <Error401 />
+      ) : !isLoading && !user.error && user.isAdmin ? (
+        <>
+          <Link to="/creador">
+            <button>Creador</button>
+          </Link>
+          <div className={s.dashboardContainer}>
+            <h1 className={s.panel}>Panel de control</h1>
+            <div>
+              <select className={s.input}>
+                <option value="">Ordenar por</option>
+                <option value="asc">Nombre ascendente</option>
+                <option value="desc">Nombre descendente</option>
+                <option value="menor">Menor precio</option>
+                <option value="mayor">Mayor precio</option>
+              </select>
+              <input className={s.input} type="text" placeholder="Buscar..." />
+              <button>Buscar</button>
             </div>
-            <div className={s.titles}>Canchas</div>
-            <div className={s.list}>
-              <ul>
-                <p className={s.heads}>ID</p>
-                {canchas.map((cancha) => (
-                  <li className={s.item} key={cancha.id}>
-                    {cancha.id}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Jugadores</p>
+            <div>
+              <div>
+                <div className={s.titles}>Usuarios</div>
+                <div className={s.list}>
+                  <ul>
+                    <p className={s.heads}>ID</p>
+                    {users.map((user) => (
+                      <li className={s.item} key={user.id}>
+                        {user.id}
+                      </li>
+                    ))}
+                  </ul>
+                  <ul>
+                    <p className={s.heads}>Nombre</p>
 
-                {canchas.map((cancha) => (
-                  <li className={s.item} key={cancha.id}>
-                    {cancha.jugadores}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Superficie</p>
-                {canchas.map((cancha) => (
-                  <li className={s.item} key={cancha.id}>
-                    {cancha.cesped}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Apertura</p>
+                    {users.map((user) => (
+                      <li className={s.item} key={user.id}>
+                        {user.name}
+                      </li>
+                    ))}
+                  </ul>
+                  <ul>
+                    <p className={s.heads}>Apellido</p>
 
-                {canchas.map((cancha) => (
-                  <li className={s.item} key={cancha.id}>
-                    {cancha.open}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Cierre</p>
-                {canchas.map((cancha) => (
-                  <li className={s.item} key={cancha.id}>
-                    {cancha.close}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Estado</p>
+                    {users.map((user) => (
+                      <li className={s.item} key={user.id}>
+                        {user.lastName}
+                      </li>
+                    ))}
+                  </ul>
+                  <ul>
+                    <p className={s.heads}>Correo</p>
 
-                {canchas.map((cancha) => (
-                  <li className={s.item} key={cancha.id}>
-                    {cancha.availability}
-                  </li>
-                ))}
+                    {users.map((user) => (
+                      <li className={s.item} key={user.id}>
+                        {user.email}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <CanchasTable />
+                {/* <div className={s.titles}>Reservas</div>
+          <div className={s.list}>
+          <ul>
+          <p className={s.heads}>Fecha</p>
+          {reservas.map((reserva) => (
+            <li className={s.item} key={reserva.id}>
+            {reserva.date}
+            </li>
+            ))}
+            </ul>
+            <ul>
+            <p className={s.heads}>Desde</p>
+            
+            {reservas.map((reserva) => (
+              <li className={s.item} key={reserva.id}>
+              {reserva.start}
+              </li>
+              ))}
               </ul>
               <ul>
-                <p className={s.heads}>Precio/Hora</p>
-
-                {canchas.map((cancha) => (
-                  <li className={s.item} key={cancha.id}>
-                    {cancha.price}
-                  </li>
+              <p className={s.heads}>Hasta</p>
+              
+              {reservas.map((reserva) => (
+                <li className={s.item} key={reserva.id}>
+                {reserva.end}
+                </li>
                 ))}
-              </ul>
-            </div>
-            <div className={s.titles}>Reservas</div>
-            <div className={s.list}>
-              <ul>
-                <p className={s.heads}>Fecha</p>
-                {reservas.map((reserva) => (
-                  <li className={s.item} key={reserva.id}>
-                    {reserva.date}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Desde</p>
-
-                {reservas.map((reserva) => (
-                  <li className={s.item} key={reserva.id}>
-                    {reserva.start}
-                  </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Hasta</p>
-
-                {reservas.map((reserva) => (
-                  <li className={s.item} key={reserva.id}>
-                    {reserva.end}
-                  </li>
-                ))}
-              </ul>
-              <ul>
+                </ul>
+                <ul>
                 <p className={s.heads}>Cancha</p>
-
+                
                 {reservas.map((reserva) => (
                   <li className={s.item} key={reserva.id}>
-                    {reserva.cancha}
+                  {reserva.cancha}
                   </li>
-                ))}
-              </ul>
-              <ul>
-                <p className={s.heads}>Correo del usuario</p>
-
-                {reservas.map((reserva) => (
-                  <li className={s.item} key={reserva.id}>
+                  ))}
+                  </ul>
+                  <ul>
+                  <p className={s.heads}>Correo del usuario</p>
+                  
+                  {reservas.map((reserva) => (
+                    <li className={s.item} key={reserva.id}>
                     {reserva.userEmail}
-                  </li>
-                ))}
-              </ul>
+                    </li>
+                    ))}
+            </ul>
+          </div> */}
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </>
+      ) : (
+        user.id && <Profile />
+      )}
     </>
   );
 }

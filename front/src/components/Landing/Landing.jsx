@@ -1,201 +1,248 @@
 import React, { useState } from "react";
-import pelota from "../../assets/pelota.jpg";
-import styles from "./Landing.module.css";
-import G from "../../assets/google logo.svg";
-import { Link, useHistory } from "react-router-dom";
-import validator from "validator";
-import { useDispatch } from "react-redux";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import isEmail from "validator/lib/isEmail";
+import isAlpha from "validator/lib/isAlpha";
+import g from "./../../assets/google logo.svg";
+import "./Landing.css";
 import { postUser } from "../../redux/actions/userActions";
+import { loginUser } from "../../redux/actions/authActions";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
-export default function Landing() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [name, setName] = useState("");
-  const [lastName, setLastName] = useState("");
+const Landing = () => {
   const [isRegistering, setIsRegistering] = useState(false);
-  const [passwordMatch, setPasswordMatch] = useState(false);
-  const [emailValid, setEmailValid] = useState(true);
-  const [nameValid, setNameValid] = useState(true);
-  const [lastNameValid, setLastNameValid] = useState(true);
-  const [passwordValid, setPasswordValid] = useState(true);
+  const initialValues = {
+    email: "",
+    password: "",
+    name: "",
+    lastName: "",
+    confirmPassword: "",
+  };
 
-  const dispatch = useDispatch();
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .test("isEmail", "Correo electrónico inválido", (value) => isEmail(value))
+      .required("Requerido"),
+    password:
+      isRegistering &&
+      Yup.string()
+        .min(8, "Mínimo 8 caracteres")
+        .max(20, "Máximo 20 caracteres")
+        .matches(/[a-zA-Z]/, "Debe contener al menos una letra")
+        .matches(/\d/, "Debe contener al menos un número")
+        .required("Requerido"),
+    name:
+      isRegistering &&
+      Yup.string()
+        .test("isAlpha", "Solo caracteres alfabéticos", (value) =>
+          isAlpha(value)
+        )
+        .required("Requerido"),
+    lastName:
+      isRegistering &&
+      Yup.string()
+        .test("isAlpha", "Solo caracteres alfabéticos", (value) =>
+          isAlpha(value)
+        )
+        .required("Requerido"),
+    confirmPassword:
+      isRegistering &&
+      Yup.string()
+        .oneOf([Yup.ref("password")], "Las contraseñas deben coincidir")
+        .required("Requerido"),
+  });
   const history = useHistory();
+  const dispatch = useDispatch();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (isRegistering) {
-      if (
-        emailValid &&
-        nameValid &&
-        lastNameValid &&
-        passwordValid &&
-        passwordMatch &&
-        !validator.isEmpty(name) &&
-        !validator.isEmpty(lastName) &&
-        !validator.isEmpty(email) &&
-        !validator.isEmpty(password)
-      )
-        console.log("mail:", emailValid)
-        console.log("name:", nameValid)
-        console.log("lastName:",lastNameValid)
-        console.log("password:", passwordValid)
-        console.log("passMatch:", passwordMatch)
-      {
-      try {
-        dispatch(
-          postUser({
-            name,
-            lastName,
-            email,
-            password,
-          })
-        );
-        history.push('/home')
-      } catch (error) {
-        console.log('error:', error);
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      if (!isRegistering) {
+        const { email, password } = values;
+
+        try {
+          const response = await dispatch(loginUser({ email, password }));
+          const token = response.data.token;
+
+          localStorage.setItem("token", token);
+          toast.success("Sesión iniciada exitosamente!", {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          });
+          history.push("/home");
+        } catch (error) {
+          toast.error("El correo y/o la contraseña no son correctos", {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          });
+        }
+      } else if (isRegistering) {
+        const { email, password, name, lastName } = values;
+        try {
+          await dispatch(postUser({ email, password, name, lastName }));
+          toast.success("Usuario creado exitosamente! Inicie sesión", {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          });
+          setIsRegistering(false);
+        } catch (error) {
+          if (error.response.status === 500) {
+            toast.error("El correo electrónico ya está registrado", {
+              position: "bottom-rightz",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined,
+            });
+          }
+        }
       }
-      }
-    } else {
-      // logica del login
-    }
-  };
+    },
+  });
 
-  const handleEmail = (e) => {
-    const emailValue = e.target.value;
-    setEmail(emailValue);
-    setEmailValid(validator.isEmail(emailValue));
-  };
-
-  const handleName = (e) => {
-    const name = e.target.value;
-    setName(name);
-    setNameValid(!validator.isEmpty(name) && validator.isAlpha(name));
-  };
-  const handleLastName = (e) => {
-    const lastName = e.target.value;
-    setLastName(lastName);
-    setLastNameValid(
-      !validator.isEmpty(lastName) && validator.isAlpha(lastName)
-    );
-  };
-
-  const handlePassword = (e) => {
-    const passwordValue = e.target.value;
-    if (isRegistering) {
-      const isLengthValid = validator.isLength(passwordValue, {
-        min: 8,
-        max: 20,
-      });
-      const containsLetter = /[a-zA-Z]/.test(passwordValue);
-      const containsNumber = /[0-9]/.test(passwordValue);
-      const isAlphanumeric = validator.isAlphanumeric(passwordValue);
-      const isPasswordValid =
-        containsLetter && containsNumber && isAlphanumeric && isLengthValid;
-      setPasswordValid(() => isPasswordValid); 
-      setPassword(() => passwordValue); 
-    } else {
-      setPassword(() => passwordValue); 
-    }
-  };
-
-  const handleConfirmPasswordChange = (e) => {
-    const confirmPwd = e.target.value;
-    setConfirmPassword(confirmPwd);
-    setPasswordMatch(password === confirmPwd);
+  const handleRegisterClick = () => {
+    isRegistering ? setIsRegistering(false) : setIsRegistering(true);
   };
 
   return (
-    <div
-      className={styles.container}
-      style={{ backgroundImage: `url(${pelota})` }}
-    >
-      <div className={styles.loginContainer}>
+    <div className="container">
+      <ToastContainer />
+      <form className="form" onSubmit={formik.handleSubmit}>
         <h1>El Predio</h1>
-        {isRegistering ? <h2>Regístrate</h2> : <h2>Inicia sesión</h2>}
-        <form onSubmit={handleSubmit}>
+        <input
+          type="email"
+          name="email"
+          placeholder="Correo electrónico"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+          className={formik.touched.email && formik.errors.email ? "error" : ""}
+        />
+        {formik.touched.email && formik.errors.email && (
+          <div className="error">{formik.errors.email}</div>
+        )}
+        <>
           {isRegistering && (
-            <div>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={handleName}
-                placeholder="Nombre"
-                style={{border: nameValid ? "none" : "2px solid #660a00"}}
-              />
-              <input
-                type="text"
-                id="lastName"
-                value={lastName}
-                onChange={handleLastName}
-                placeholder="Apellido"
-                style={{border: lastNameValid ? "none" : "2px solid #660a00"}}
-              />
-            </div>
-          )}
-          <div>
             <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={handleEmail}
-              placeholder="Correo electrónico"
-              style={{border: isRegistering && emailValid ? "none" : isRegistering && "2px solid #660a00"}}
-            />
-          </div>
-          <div>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={handlePassword}
-              placeholder="Contraseña"
-              style={{border: isRegistering && passwordValid ? "none" : isRegistering && "2px solid #660a00"}}
-            />
-          </div>
-          {isRegistering && (
-            <div>
-              <input
-                type="password"
-                id="confirmPassword"
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-                placeholder="Confirmar contraseña"
-                style={{border: (password.length>1) && passwordMatch ? "none" : (password.length>0) && "2px solid #660a00"}}
-              />
-            </div>
-          )}
-          <button type="submit">
-            {isRegistering ? "Registrarse" : "Iniciar sesión"}
-          </button>
-        </form>
-        <div>
-          <p>{isRegistering ? "¿Ya tienes cuenta?" : "¿No tienes cuenta?"}</p>
-          <p
-            onClick={() => setIsRegistering(!isRegistering)}
-            className={styles.switch}
-          >
-            {isRegistering ? "Iniciar sesión" : "Registrarse"}
-          </p>
-        </div>
-        <div className={styles.socialButtons}>
-          <Link to="/home">
-            <button
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-                alignItems: "center",
-                alignContent: "center",
+              type="text"
+              name="name"
+              placeholder="Nombre"
+              onChange={(e) => {
+                formik.setFieldValue(
+                  "name",
+                  e.target.value.charAt(0).toUpperCase() +
+                    e.target.value.slice(1)
+                );
               }}
-            >
-              <img style={{ width: "20px", margin: "0" }} src={G} alt="" />
-              <p>Ingresar con Google</p>
-            </button>
-          </Link>
-        </div>
-      </div>
+              onBlur={formik.handleBlur}
+              value={formik.values.name}
+              className={
+                formik.touched.name && formik.errors.name ? "error" : ""
+              }
+            />
+          )}
+          {isRegistering && formik.touched.name && formik.errors.name && (
+            <div className="error">{formik.errors.name}</div>
+          )}
+          {isRegistering && (
+            <input
+              type="text"
+              name="lastName"
+              placeholder="Apellido"
+              onChange={(e) => {
+                formik.setFieldValue(
+                  "lastName",
+                  e.target.value.charAt(0).toUpperCase() +
+                    e.target.value.slice(1)
+                );
+              }}
+              onBlur={formik.handleBlur}
+              value={formik.values.lastName}
+              className={
+                formik.touched.lastName && formik.errors.lastName ? "error" : ""
+              }
+            />
+          )}
+          {isRegistering &&
+            formik.touched.lastName &&
+            formik.errors.lastName && (
+              <div className="error">{formik.errors.lastName}</div>
+            )}
+        </>
+        <input
+          type="password"
+          name="password"
+          placeholder="Contraseña"
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+          className={
+            formik.touched.password && formik.errors.password ? "error" : ""
+          }
+        />
+        {isRegistering && formik.touched.password && formik.errors.password && (
+          <div className="error">{formik.errors.password}</div>
+        )}
+        {isRegistering && (
+          <input
+            type="password"
+            name="confirmPassword"
+            placeholder="Confirmar contraseña"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.confirmPassword}
+            className={
+              formik.touched.confirmPassword && formik.errors.confirmPassword
+                ? "error"
+                : ""
+            }
+          />
+        )}
+        {isRegistering &&
+          formik.touched.confirmPassword &&
+          formik.errors.confirmPassword && (
+            <div className="error">{formik.errors.confirmPassword}</div>
+          )}
+
+        <p className="switch" type="button" onClick={handleRegisterClick}>
+          {isRegistering ? "Ya tengo cuenta" : "Crear cuenta"}
+        </p>
+        <button onClick={formik.handleSubmit} type="submit">
+          {isRegistering ? "Registrarse" : "Iniciar sesión"}
+        </button>
+        <button
+          style={{ backgroundColor: "white" }}
+          className="google"
+          type="button"
+          // onClick={history.push("/home")}
+        >
+          <img style={{ height: "2rem", marginRight: "1rem" }} src={g} alt="" />
+          <p>Iniciar sesión con Google</p>
+        </button>
+      </form>
     </div>
   );
-}
+};
+
+export default Landing;
