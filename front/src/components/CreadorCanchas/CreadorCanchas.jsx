@@ -107,10 +107,7 @@ const CreadorCanchas = () => {
   };
 
   return (
-
     <form onSubmit={handleSubmit} className="form-container">
-
-   
       {/* Nombre */}
       <label htmlFor="name">Nombre:</label>
       <input
@@ -192,7 +189,6 @@ const CreadorCanchas = () => {
         id="availability"
         name="availability"
         value={formData.availability}
-
         onChange={(e) =>
           setFormData({
             ...formData,
@@ -200,7 +196,6 @@ const CreadorCanchas = () => {
           })
         }
         style={{ width: "20rem", height: "4rem" }}
-
       >
         <option value="true">Disponible</option>
         <option value="false">No disponible</option>
