@@ -70,7 +70,7 @@ const About = () => {
     },
     {
       nombre: "Harold",
-      apellido: "Cadenas",
+      apellido: "Cadena",
       rol: "Programador Backend",
       githubUrl: "https://github.com/Seijuro6",
       linkedinUrl:
@@ -80,7 +80,7 @@ const About = () => {
     },
     {
       nombre: "Emmanuel",
-      apellido: "Cadena",
+      apellido: "Medina",
       rol: "Programador Backend",
       githubUrl: "https://github.com/EmmanuelML78",
       linkedinUrl: "https://www.linkedin.com/in/emmanuel-medina88",
