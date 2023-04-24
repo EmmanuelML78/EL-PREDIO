@@ -35,15 +35,9 @@ function App() {
           <CanchasTable />
         </Route>
         <Route path="/nosotros">
+          <Navbar/>
           <About />
           <Footer />
-        </Route>
-        <Route path="/contactos">
-          <Contactos />
-          <Footer />
-          <Navbar/>
-          <About/>
-          <Footer/>
         </Route>
         <Route path="/contactos">
           <Navbar/>
