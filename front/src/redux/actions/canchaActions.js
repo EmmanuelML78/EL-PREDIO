@@ -67,8 +67,8 @@ export const deleteCancha = (canchaId) => {
 export const putCancha = (canchaData) => {
   return async (dispatch) => {
     try {
-      const res = await instance.put(`canchas`, canchaData);
-
+      const res = await instance.put(`/canchas`, canchaData);
+      console.log(res.data);
       if (res.status === 200) {
         dispatch({
           type: PUT_CANCHA,
