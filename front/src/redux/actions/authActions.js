@@ -22,7 +22,7 @@ export const logoutUser = () => {
     localStorage.removeItem("token");
     dispatch({
       type: LOGOUT_USER,
-      payload: undefined
+      payload: undefined,
     });
   };
 };
@@ -38,9 +38,8 @@ export const setUser = () => {
     } catch (error) {
       dispatch({
         type: SET_USER,
-        payload: undefined
+        payload: undefined,
       });
     }
   };
 };
-
