@@ -8,7 +8,6 @@ import instance from "../axiosCfg";
 export const getCanchas = () => {
   return async (dispatch) => {
     try {
-
       const res = await instance.get("canchas");
       if (res.status === 200) {
         dispatch({

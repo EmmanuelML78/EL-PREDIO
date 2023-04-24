@@ -22,6 +22,7 @@ export const logoutUser = () => {
     localStorage.removeItem("token");
     dispatch({
       type: LOGOUT_USER,
+      payload: undefined
     });
   };
 };
@@ -30,19 +31,16 @@ export const setUser = () => {
   return async function (dispatch) {
     try {
       const response = await instance.get("me");
-      console.log("data me:", response.data);
       dispatch({
         type: SET_USER,
         payload: response.data,
       });
     } catch (error) {
-      console.log("setUser error:", error);
       dispatch({
         type: SET_USER,
-        payload: {
-          error: error.response.status
-        },
+        payload: undefined
       });
     }
   };
 };
+

@@ -10,7 +10,7 @@ const {
   getUsersInactive,
   getUserById,
 } = require("../controllers/userController");
-const { User, Reserva } = require("../db");
+const { User, Reserva, Cancha } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 
 const router = Router();
@@ -87,7 +87,9 @@ router.get("/users/:id", adminMiddleware, async (req, res) => {
 router.get("/me", authMiddleware, async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id, {
-      include: { model: Reserva, as: "reservas" },
+      include: [
+        { model: Reserva, as: "reservas", paranoid: false, include: {model: Cancha, as: "cancha"} },
+      ],
       paranoid: false,
     });
     if (!user) {

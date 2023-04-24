@@ -8,9 +8,10 @@ import moment from "moment";
 import { setUser } from "../../redux/actions/authActions";
 import Error401 from "../Error401/Error401";
 import { postReserva } from "../../redux/actions/reservaActions";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Detail = ({ cancha, getCanchaById, match, reserva }) => {
-
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [selectedDate, setselectedDate] = useState(
@@ -29,7 +30,6 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
     };
     fetchData();
   }, [dispatch, user]);
-  console.log("user:", user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,8 +41,7 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
     fetchData();
   }, [getCanchaById, match.params.id]);
 
-  const c = cancha.canchas;
-  console.log("user:", user);
+  const c = cancha;
   const handleDate = (e) => {
     const fecha = e.target.value;
     setselectedDate(fecha);
@@ -57,9 +56,33 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
   const openTime = !isLoading ? moment(c.open, "HH:mm:ss") : null;
   const closeTime = !isLoading ? moment(c.close, "HH:mm:ss") : null;
 
+  const createReservation = (selectedDate, selectedHorario) => {
+    const start = selectedHorario;
+    const end = moment(selectedHorario, "HH:mm:ss")
+      .add(1, "hour")
+      .format("HH:mm:ss");
+    const reservation = {
+      date: selectedDate,
+      start,
+      end,
+      status: "pending",
+      hasPromo: false,
+      userId: user.id,
+      canchaId: c.id,
+    };
+    return reservation;
+  };
+
   const handlePago = async (e) => {
     e.preventDefault();
-    await dispatch(postReserva());
+    const reservation = createReservation(selectedDate, selectedHorario);
+    try {
+      await dispatch(postReserva(reservation));
+      toast.info("Redireccionando a MercadoPago");
+    } catch (error) {
+      toast.error("Error al crear la reserva");
+      console.log("error:", error);
+    }
   };
 
   const intervaloHoras = [];
@@ -114,12 +137,13 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
 
   return (
     <>
-      {!isUserLoading && user.error ? (
+      <ToastContainer />
+      {!isUserLoading && !user ? (
         <>
           <Error401 />
         </>
       ) : (
-        user.id && (
+        user && (
           <>
             <Header />
             <div className={s.father}>
@@ -145,7 +169,9 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
                     />
                   </div>
                   <div>{botonesHorarios}</div>
-                  <button type="submit"> Reserva Cancha</button>
+                  <button className={s.submit} type="submit">
+                    Reservar turno
+                  </button>
                 </form>
               </div>
               <img src={c.image} alt="Imagen de cancha" />
@@ -160,7 +186,7 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
 
 const mapStateToProps = (state) => {
   return {
-    cancha: state.canchas,
+    cancha: state.canchas.canchas,
   };
 };
 export default connect(mapStateToProps, { getCanchaById })(Detail);

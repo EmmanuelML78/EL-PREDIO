@@ -13,6 +13,10 @@ const getAllReservations = async (reservaid) => {
             model: User,
             as: "user",
           },
+          {
+            model: Cancha,
+            as: "cancha",
+          }
         ],
       });
     }
@@ -62,8 +66,9 @@ const updateReserva = async (id, date, start, end, status, hasPromo) => {
 };
 
 const payReserver = async (req, res) => {
-  // const reservaId = req.params;
-  const reservaId = 2;
+  // console.log(req.body)
+  const reservaId = req.body.id;
+  // const reservaId = 2;
   const datos = req.body;
   const reserva = await Reserva.findOne({
     where: { id: reservaId },
@@ -86,22 +91,23 @@ const payReserver = async (req, res) => {
       },
     ],
     payer: {
-      name: datos.name,
-      surname: datos.surname,
-      email: datos.email,
-      identification: {
-        type: "DNI",
-        number: datos.identification,
-      },
-      phone: {
-        area_code: "",
-        number: parseInt(datos.phone),
-      },
-      address: {
-        zip_code: "",
-        street_name: datos.address,
-        street_number: 2,
-      },
+      id: datos.userId
+      // name: datos.name,
+      // surname: datos.surname,
+      // email: datos.email,
+      // identification: {
+      //   type: "DNI",
+      //   number: datos.identification,
+      // },
+      // phone: {
+      //   area_code: "",
+      //   number: parseInt(datos.phone),
+      // },
+      // address: {
+      //   zip_code: "",
+      //   street_name: datos.address,
+      //   street_number: 2,
+      // },
     },
     back_urls: {
       success: "http://localhost:3000/pago-exitoso",
