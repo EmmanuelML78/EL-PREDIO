@@ -139,7 +139,7 @@ function CanchasTable() {
             <span>CARGANDO....</span>
           ) : (
             <tbody>
-              {canchas.canchas?.map((cancha) => (
+              {canchas.map((cancha) => (
                 <tr key={cancha.id}>
                   <td>{cancha.name}</td>
                   <td>{cancha.players}</td>
