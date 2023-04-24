@@ -37,35 +37,35 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
-// router.post("/login", async (req, res) => {
-//   try {
-//     const user = await new Promise((resolve, reject) => {
-//       passport.authenticate("local", { session: false }, (err, user, info) => {
-//         if (err) {
-//           return reject(err);
-//         }
-//         if (!user) {
-//           return reject(new Error(info.message));
-//         }
-//         resolve(user);
-//       })(req, res);
-//     });
-
-//     const token = await jwt.sign(
-//       { userId: user.id, email: user.email },
-//       process.env.JWT_SECRET,
-//       { expiresIn: "1h" }
-//     );
-
-//     return res.status(200).json({ token });
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).json({ message: "Error al iniciar sesión" });
-//   }
+// router.get("/home", (req, res) => {
+//   // Aquí puedes enviar la respuesta que desees, por ejemplo renderizar una vista
+//   res.render("home");
 // });
 
+router.get(
+  "/google",
+  passport.authenticate("google", {
+    scope: ["profile", "email"],
+  })
+);
+router.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
+  (req, res) => {
+    // En este punto, la autenticación con Google ha sido exitosa.
+    // Puedes redirigir al usuario a la página que desees.
+    const token = jwt.sign(
+      { userId: req.user.id, email: req.user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+    return res.status(200).json({ token });
+    // res.redirect("/home");
+    // res.redirect("http://localhost:5173/home");
+  }
+);
+
 router.get("/users", adminMiddleware, getUsersActive);
-// router.get("/users", authMiddleware, getUsersActive);
 router.get("/users/inactivos", adminMiddleware, getUsersInactive);
 
 router.get("/users/:id", adminMiddleware, async (req, res) => {
