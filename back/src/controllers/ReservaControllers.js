@@ -1,5 +1,6 @@
 const { Reserva, User, Cancha } = require("../db");
 const { mercadopago } = require("../utils/mercadoPago");
+// console.log(mercadopago);
 
 const getAllReservations = async (reservaid) => {
   try {
@@ -61,6 +62,7 @@ const updateReserva = async (id, date, start, end, status, hasPromo) => {
 };
 
 const payReserver = async (req, res) => {
+  // const reservaId = req.params;
   const reservaId = 2;
   const datos = req.body;
   const reserva = await Reserva.findOne({

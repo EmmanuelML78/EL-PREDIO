@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { getCanchaById } from "../../redux/actions/canchaActions";
@@ -8,11 +8,12 @@ import moment from "moment";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/actions/authActions";
 import Error401 from "../Error401/Error401";
+import { postReserva } from "../../redux/actions/reservaActions";
 
-const Detail = ({ cancha, getCanchaById, match }) => {
+const Detail = ({ cancha, getCanchaById, match, reserva }) => {
+
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-
   const [selectedDate, setselectedDate] = useState(
     moment().format("YYYY-MM-DD")
   );
@@ -56,6 +57,11 @@ const Detail = ({ cancha, getCanchaById, match }) => {
   // Verificación de isLoading antes de ejecutar la lógica que usa cancha
   const openTime = !isLoading ? moment(c.open, "HH:mm:ss") : null;
   const closeTime = !isLoading ? moment(c.close, "HH:mm:ss") : null;
+
+  const handlePago = async (e) => {
+    e.preventDefault();
+    await dispatch(postReserva());
+  };
 
   const intervaloHoras = [];
   let actualTime = !isLoading ? moment(openTime) : null; // Si isLoading es true, no hay moment() para openTime
@@ -109,7 +115,6 @@ const Detail = ({ cancha, getCanchaById, match }) => {
 
   return (
     <>
-      {" "}
       {!isUserLoading && user.error ? (
         <>
           <Error401 />
@@ -125,7 +130,7 @@ const Detail = ({ cancha, getCanchaById, match }) => {
                 <p>Jugadores: {c.players}</p>
                 <p>Descripción: {c.description}</p>
                 <p>{c.availability ? "Disponible" : "No disponible"}</p>
-                <form>
+                <form onSubmit={handlePago}>
                   <p style={{ fontSize: "16pt", fontWeight: "600" }}>
                     Reservar un turno:
                   </p>
@@ -141,7 +146,7 @@ const Detail = ({ cancha, getCanchaById, match }) => {
                     />
                   </div>
                   <div>{botonesHorarios}</div>
-                  <button>Reservar turno</button>
+                  <button type="submit"> Reserva Cancha</button>
                 </form>
               </div>
               <img src={c.image} alt="Imagen de cancha" />

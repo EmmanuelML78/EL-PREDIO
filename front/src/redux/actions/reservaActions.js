@@ -6,19 +6,19 @@ export const POST_RESERVA = "POST_RESERVA";
 export const DELETE_RESERVA = "DELETE_RESERVA";
 export const PUT_RESERVA = "PUT_RESERVA";
 
-
 export const getReservasByUser = (userId) => {};
 
 export const getReservasByCancha = (canchaId) => {};
 
 export const postReserva = (reservaData) => {
   return async (dispatch) => {
-    const res = await instance.post("reserva", reservaData);
+    const res = await instance.post("reserva/pagos", reservaData);
     const data = res.data;
     dispatch({
       type: POST_RESERVA,
       payload: data,
     });
+    window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?${data}`;
   };
 };
 
