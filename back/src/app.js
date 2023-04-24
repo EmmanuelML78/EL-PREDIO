@@ -5,10 +5,12 @@ const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const passport = require("passport");
+const session = require("express-session");
 
 const app = express();
 require("./db.js");
 require("./passport/localAuth.js");
+require("./passport/googleAuth.js");
 
 app.name = "API";
 
@@ -31,6 +33,23 @@ app.use((req, res, next) => {
 });
 
 app.use(passport.initialize());
+// app.use(
+//   session({
+//     secret: "unasecretaclave",
+//     resave: false,
+//     saveUninitialized: false,
+//   })
+// );
+
+// passport.serializeUser(function (user, done) {
+//   done(null, user.id);
+// });
+
+// passport.deserializeUser(function (id, done) {
+//   User.findById(id, function (err, user) {
+//     done(err, user);
+//   });
+// });
 
 app.use("/", routes);
 
