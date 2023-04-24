@@ -1,10 +1,23 @@
+
 import instance from "../axiosCfg";
 
+export const GET_ALL_RESERVAS = "GET_ALL_RESERVAS";
 export const GET_RESERVAS_BY_USER = "GET_RESERVAS_BY_USER";
 export const GET_RESERVAS_BY_CANCHA = "GET_RESERVAS_BY_CANCHA";
 export const POST_RESERVA = "POST_RESERVA";
 export const DELETE_RESERVA = "DELETE_RESERVA";
 export const PUT_RESERVA = "PUT_RESERVA";
+
+export const getAllReservas = () => {
+  return async (dispatch) => {
+    const response = await instance.get("reserva");
+    const reservas = response.data;
+    dispatch({
+      type: GET_ALL_RESERVAS,
+      payload: reservas,
+    });
+  };
+}
 
 export const getReservasByUser = (userId) => {};
 

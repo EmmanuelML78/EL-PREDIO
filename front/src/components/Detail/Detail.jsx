@@ -30,7 +30,6 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
     };
     fetchData();
   }, [dispatch, user]);
-  console.log("user:", user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,7 +42,6 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
   }, [getCanchaById, match.params.id]);
 
   const c = cancha;
-  console.log("user:", user);
   const handleDate = (e) => {
     const fecha = e.target.value;
     setselectedDate(fecha);
@@ -80,7 +78,7 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
     const reservation = createReservation(selectedDate, selectedHorario);
     try {
       await dispatch(postReserva(reservation));
-      // toast.success("Reserva creada con éxito");
+      toast.info("Redireccionando a MercadoPago");
     } catch (error) {
       toast.error("Error al crear la reserva");
       console.log("error:", error);
@@ -140,12 +138,12 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
   return (
     <>
       <ToastContainer />
-      {!isUserLoading && user.error ? (
+      {!isUserLoading && !user ? (
         <>
           <Error401 />
         </>
       ) : (
-        user && user.id && (
+        user && (
           <>
             <Header />
             <div className={s.father}>
@@ -187,7 +185,6 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
 };
 
 const mapStateToProps = (state) => {
-  console.log("state:", state.canchas.canchas);
   return {
     cancha: state.canchas.canchas,
   };
