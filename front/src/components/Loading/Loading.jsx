@@ -8,7 +8,7 @@ const Loading = (props) => {
 	return (
 		<div style={{display: "flex", flexDirection: "column"}}>
 			<h2 style={{color: "white"}}>Cargando...</h2>
-			<img src={spinner} alt="" />
+			<img style={{background: "none"}} src={spinner} alt="" />
 		</div>
 	);
 };
