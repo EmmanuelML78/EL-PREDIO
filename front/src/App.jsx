@@ -43,13 +43,6 @@ function App() {
           <Footer />
         </Route>
         <Route path="/contactos">
-          <Contactos />
-          <Footer />
-          <Navbar/>
-          <About/>
-          <Footer/>
-        </Route>
-        <Route path="/contactos">
           <Navbar/>
           <Contactos/>
           <Footer/>

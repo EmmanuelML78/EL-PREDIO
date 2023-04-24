@@ -5,19 +5,32 @@ import Footer from "../Footer/Footer";
 import { getCanchaById } from "../../redux/actions/canchaActions";
 import s from "./Detail.module.css";
 import moment from "moment";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setUser } from "../../redux/actions/authActions";
+import Error401 from "../Error401/Error401";
 import { postReserva } from "../../redux/actions/reservaActions";
 
 const Detail = ({ cancha, getCanchaById, match, reserva }) => {
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.auth.user);
   const [selectedDate, setselectedDate] = useState(
     moment().format("YYYY-MM-DD")
   );
   const [isLoading, setIsLoading] = useState(true);
+  const [isUserLoading, setIsUserLoading] = useState(true);
   const [selectedHorario, setSelectedHorario] = useState(null);
-  // console.log("horario:", selectedHorario)
-  // console.log(selectedDate);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!user) {
+        await dispatch(setUser());
+      }
+      setIsUserLoading(false);
+    };
+    fetchData();
+  }, [dispatch, user]);
+  console.log("user:", user);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,11 +43,10 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
   }, [getCanchaById, match.params.id]);
 
   const c = cancha.canchas;
-  console.log("c:", c);
+  console.log("user:", user);
   const handleDate = (e) => {
     const fecha = e.target.value;
     setselectedDate(fecha);
-    // console.log("date: " + selectedDate);
   };
 
   const handleHorario = (e) => {
@@ -103,45 +115,53 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
 
   return (
     <>
-      <Header />
-      <div className={s.father}>
-        <div className={s.container}>
-          <h1>Cancha {c.id}</h1>
-          <p>Césped: {c.grass}</p>
-          <p>Jugadores: {c.players}</p>
-          <p>Descripción: {c.description}</p>
-          <p>{c.availability ? "Disponible" : "No disponible"}</p>
-          <form onSubmit={handlePago}>
-            <p style={{ fontSize: "16pt", fontWeight: "600" }}>
-              Reservar un turno:
-            </p>
-            <div className={s.dateContainer}>
-              <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
-                Fecha:
-              </p>
-              <input
-                className={s.date}
-                type="date"
-                value={selectedDate}
-                onChange={handleDate}
-              />
+      {!isUserLoading && user.error ? (
+        <>
+          <Error401 />
+        </>
+      ) : (
+        user.id && (
+          <>
+            <Header />
+            <div className={s.father}>
+              <div className={s.container}>
+                <h1>Cancha {c.id}</h1>
+                <p>Césped: {c.grass}</p>
+                <p>Jugadores: {c.players}</p>
+                <p>Descripción: {c.description}</p>
+                <p>{c.availability ? "Disponible" : "No disponible"}</p>
+                <form onSubmit={handlePago}>
+                  <p style={{ fontSize: "16pt", fontWeight: "600" }}>
+                    Reservar un turno:
+                  </p>
+                  <div className={s.dateContainer}>
+                    <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
+                      Fecha:
+                    </p>
+                    <input
+                      className={s.date}
+                      type="date"
+                      value={selectedDate}
+                      onChange={handleDate}
+                    />
+                  </div>
+                  <div>{botonesHorarios}</div>
+                  <button type="submit"> Reserva Cancha</button>
+                </form>
+              </div>
+              <img src={c.image} alt="Imagen de cancha" />
             </div>
-            <div>{botonesHorarios}</div>
-            <button type="submit"> Reserva Cancha</button>
-          </form>
-        </div>
-        <img src={c.image} alt="Imagen de cancha" />
-      </div>
-      <Footer />
+            <Footer />
+          </>
+        )
+      )}
     </>
   );
 };
 
 const mapStateToProps = (state) => {
-  // console.log("State in Detail component: ", state.canchas);
   return {
     cancha: state.canchas,
   };
 };
-// export default Detail;
 export default connect(mapStateToProps, { getCanchaById })(Detail);
