@@ -93,7 +93,8 @@ const Landing = () => {
             draggable: false,
             progress: undefined,
           });
-          window.location.href = "/home";
+          window.location.href = "/";
+          // goHome()
         } catch (error) {
           toast.error("El correo y/o la contraseña no son correctos", {
             position: "bottom-right",
