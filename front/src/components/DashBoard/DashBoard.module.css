@@ -1,0 +1,62 @@
+.dashboardContainer {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    text-align: start;
+    align-content: stretch;
+    width: max-content;
+    margin-top: 10rem;
+    margin-bottom: 10rem;
+}
+
+
+.list {
+    background-color: rgba(255, 255, 255, 0.815);
+    color: rgb(0, 0, 0);
+    display: flex;
+    width: max-content;
+    border-radius: 0 5px 5px 5px;
+    border: 5px solid #166816;
+    font-size: large;
+}
+.item {
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+    min-width: 30px;
+    border: 1px solid #166816;
+}
+.heads {
+    padding-left: 10px;
+    padding-right: 10px;
+    font-weight: 600;
+    background-color: #166816;
+    color: white;
+
+}
+.titles {
+    background-color: #166816;
+    color: white;
+    font-size: larger;
+    font-weight: 500;
+    margin-top: 1.5rem;
+    padding: 5px 15px 5px 15px;
+    border-top-right-radius: 15px;
+    border-top-left-radius: 15px;
+    width: max-content;
+}
+.input {
+    padding: 5px 5px 5px 15px;
+    margin: 5px;
+    border-radius: .7em;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white
+}
+.panel {
+    padding: 15px;
+    background-color: #166816;
+    border-radius: 25px;
+    color: white
+}

@@ -1,0 +1,29 @@
+[
+  {
+    "cancha": "3",
+    "date": "2023-04-17",
+    "start": "14:00:00",
+    "end": "15:00:00",
+    "status": "confirmed",
+    "hasPromo": true,
+    "userEmail": "usuario1@example.com"
+  },
+  {
+    "cancha": "1",
+    "date": "2023-04-18",
+    "start": "10:00:00",
+    "end": "11:00:00",
+    "status": "pending",
+    "hasPromo": false,
+    "userEmail": "usuario2@example.com"
+  },
+  {
+    "cancha": "2",
+    "date": "2023-04-19",
+    "start": "16:00:00",
+    "end": "17:00:00",
+    "status": "confirmed",
+    "hasPromo": true,
+    "userEmail": "usuario3@example.com"
+  }
+]

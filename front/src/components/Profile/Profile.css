@@ -1,0 +1,17 @@
+.profile-container {
+    display: flex;
+    flex-direction: row;
+    place-items: flex-start;
+    width: 1000px;
+    justify-content: center;
+    color: white;
+    font-weight: 500;
+}
+
+.profile-container p {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 1rem;
+}
