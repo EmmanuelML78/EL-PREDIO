@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { connect, useDispatch } from "react-redux";
+import { connect, useDispatch, useSelector } from "react-redux";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import { getCanchaById } from "../../redux/actions/canchaActions";
 import s from "./Detail.module.css";
 import moment from "moment";
-import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../../redux/actions/authActions";
 import Error401 from "../Error401/Error401";
 import { postReserva } from "../../redux/actions/reservaActions";
