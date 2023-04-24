@@ -12,13 +12,17 @@ export const getReservasByCancha = (canchaId) => {};
 
 export const postReserva = (reservaData) => {
   return async (dispatch) => {
-    const res = await instance.post("reserva/pagos", reservaData);
-    const data = res.data;
+    const responseReserva = await instance.post("reserva", reservaData);
+    const reserva = responseReserva.data;
+    console.log('reserva:', reserva)
+    const responsePago = await instance.post("reserva/pagos", reserva);
+    const referenceToken = responsePago.data.preferenceId;
+    console.log(referenceToken)
     dispatch({
       type: POST_RESERVA,
-      payload: data,
+      payload: reserva,
     });
-    window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?${data}`;
+    window.location.href = `https://www.mercadopago.com.ar/checkout/v1/redirect?${referenceToken}`;
   };
 };
 
