@@ -75,6 +75,7 @@ function DashBoard() {
             <Footer />
           </>
         )
+
       )}
     </>
   );
