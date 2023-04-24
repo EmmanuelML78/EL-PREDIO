@@ -75,6 +75,7 @@ function DashBoard() {
             <Footer />
           </>
         )
+>>>>>>>>> Temporary merge branch 2
       )}
     </>
   );
