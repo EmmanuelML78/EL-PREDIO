@@ -1,7 +1,6 @@
 .contenedor {
-  width: 100% ;
+  width: 100%;
   margin: 0 auto;
-  width: 90%;
   position: relative;
 }
 
@@ -24,8 +23,7 @@
   margin-top: 5rem;
 }
 
-.header {
-}
+
 
 @media (min-width: 768px) {
   .header {
@@ -78,6 +76,7 @@
   display: flex;
   font-size: 20px;
   font-weight: 600;
+  margin-right: 5rem;
 }
 .telefono::before {
   content: "";
@@ -101,6 +100,7 @@
   align-items: center;
   width: 100%;
   gap: 10px;
+  margin-right: 1rem;
 }
 
 @media (min-width: 768px) {

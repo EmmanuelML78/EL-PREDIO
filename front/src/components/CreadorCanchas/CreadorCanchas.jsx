@@ -6,11 +6,14 @@ import "./CreadorCanchas.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
-
+import { AdvancedImage } from "@cloudinary/react";
+import { CloudinaryImage } from "@cloudinary/url-gen";
 const CreadorCanchas = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState({});
+  const [imageUrl, setImageUrl] = useState("");
+  console.log(imageUrl);
   const [formData, setFormData] = useState({
     name: "",
     image: "",
@@ -23,6 +26,26 @@ const CreadorCanchas = () => {
     grass: "",
     players: "",
   });
+
+  const showWidget = () => {
+    const widgetOptions = {
+      cloudName: "ddyk63iig",
+      apiKey: "997972759344332",
+      api_secret: "l2z2jeoHRkh7W04MkawTA46IDZU",
+      uploadPreset: "tw1pqje3",
+      resourceType: "image",
+      multiple: false,
+    };
+    window.cloudinary.openUploadWidget(widgetOptions, (error, result) => {
+      if (!error && result && result.event === "success") {
+        handleChange("image", result.info.secure_url);
+        const cldImgInstance = new CloudinaryImage(result.info.public_id, {
+          cloudName: "ddyk63iig",
+        });
+        setImageUrl(cldImgInstance);
+      }
+    });
+  };
 
   const handleChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
@@ -50,10 +73,10 @@ const CreadorCanchas = () => {
           players: "",
         });
         toast.success("Cancha creada correctamente");
-        history.push("/dashboard")
+        history.push("/dashboard");
       } catch (error) {
         console.error(error);
-        toast.error("Ha ocurrrido un error al crear la cancha")
+        toast.error("Ha ocurrrido un error al crear la cancha");
       }
     } else {
       toast.error("Error: El formulario tiene errores");
@@ -120,7 +143,7 @@ const CreadorCanchas = () => {
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
-      <ToastContainer/>
+      <ToastContainer />
       <label htmlFor="name">Nombre:</label>
       <input
         type="text"
@@ -132,15 +155,19 @@ const CreadorCanchas = () => {
       />
       {formErrors.name && <p className="error-message">{formErrors.name}</p>}
       {/* Imagen */}
-      <label htmlFor="image">Imagen URL:</label>
-      <input
-        type="url"
-        id="image"
-        name="image"
-        value={formData.image}
-        onChange={(e) => handleChange("image", e.target.value)}
-      />
+      
+      <label htmlFor="image">Imagen:</label>
+
       {formErrors.image && <p className="error-message">{formErrors.image}</p>}
+
+      <button onClick={showWidget}>Subir imagen</button>
+
+      {imageUrl && (
+        <div>
+          <AdvancedImage cldImg={imageUrl} style={{width: "560px"}}/>
+        </div>
+      )}
+
       {/* Precio */}
       <label htmlFor="price">Precio:</label>
       <input
@@ -204,7 +231,7 @@ const CreadorCanchas = () => {
         onChange={(e) =>
           setFormData({
             ...formData,
-            availability: e.target.value === 'true'
+            availability: e.target.value === "true",
           })
         }
         style={{ width: "20rem", height: "4rem" }}
@@ -234,7 +261,9 @@ const CreadorCanchas = () => {
       {formErrors.players && (
         <p className="error-message">{formErrors.players}</p>
       )}
-      <button style={{backgroundColor: "#404040"}} type="submit">Crear Cancha</button>
+      <button style={{ backgroundColor: "#404040" }} type="submit">
+        Crear Cancha
+      </button>
     </form>
   );
 };

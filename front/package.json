@@ -9,6 +9,8 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@cloudinary/react": "^1.11.2",
+		"@cloudinary/url-gen": "^1.10.0",
 		"@mercadopago/sdk-react": "^0.0.8",
 		"axios": "^1.1.3",
 		"formik": "^2.2.9",
