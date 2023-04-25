@@ -1,6 +1,6 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { setUser } from "../../redux/actions/authActions";
+import { setUser, logoutUser } from "../../redux/actions/authActions";
 import styles from "./Navbar.module.css";
 import { Link } from "react-router-dom";
 const Navbar = () => {
@@ -13,9 +13,9 @@ const Navbar = () => {
     }
   }, [dispatch, user]);
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     localStorage.removeItem("token");
-    logoutUser();
+    await dispatch(logoutUser());
     window.location.href = "/";
     toast.success("¡Has cerrado sesión correctamente!", {
       position: "bottom-right",
@@ -33,7 +33,7 @@ const Navbar = () => {
         <div className={styles.contenedor}>
           <div className={styles.barra}>
             <div className={styles.logo}>
-              <Link to="/home" style={{color: "white"}}>
+              <Link to="/home" style={{ color: "white" }}>
                 <h1 className={styles.nombresitio}>
                   ElPredio<span>Fútbol</span>
                 </h1>
@@ -49,8 +49,12 @@ const Navbar = () => {
                 <Link to="/misreservas">Mis reservas</Link>
                 <a href="#">Promociones</a>
                 <Link to="/contactos">Contacto</Link>
-                <Link to="/dashboard">{user && user.isAdmin ? "Administración" : "Perfil"}</Link>
-                <a onClick={handleLogout}>Salir</a>
+                <Link to="/dashboard">
+                  {user && user.isAdmin ? "Administración" : "Perfil"}
+                </Link>
+                <a style={{ cursor: "pointer" }} onClick={handleLogout}>
+                  Salir
+                </a>
               </nav>
             </div>
           </div>
