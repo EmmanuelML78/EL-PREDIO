@@ -11,16 +11,16 @@
 }
 
 .form-container input {
-  color: green;
+  color: white;
   width: 25rem;
 }
 
 .form-container textarea {
-  color: green;
+  color: white;
 }
 
 .form-container select {
-  color: green;
+  color: white;
   width: 20rem;
   height: 5rem;
 }
