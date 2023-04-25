@@ -3,7 +3,12 @@ import { useDispatch } from "react-redux";
 import { postCancha } from "../../redux/actions/canchaActions";
 import validator from "validator";
 import "./CreadorCanchas.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+
 const CreadorCanchas = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState({});
   const [formData, setFormData] = useState({
@@ -30,21 +35,28 @@ const CreadorCanchas = () => {
       Object.keys(formErrors).length === 0 &&
       formErrors.constructor === Object
     ) {
-      dispatch(postCancha(formData));
-      setFormData({
-        name: "",
-        image: "",
-        price: "",
-        open: "",
-        close: "",
-        hasPromo: false,
-        description: "",
-        availability: null,
-        grass: "",
-        players: "",
-      });
+      try {
+        dispatch(postCancha(formData));
+        setFormData({
+          name: "",
+          image: "",
+          price: "",
+          open: "",
+          close: "",
+          hasPromo: false,
+          description: "",
+          availability: null,
+          grass: "",
+          players: "",
+        });
+        toast.success("Cancha creada correctamente");
+        history.push("/dashboard")
+      } catch (error) {
+        console.error(error);
+        toast.error("Ha ocurrrido un error al crear la cancha")
+      }
     } else {
-      console.log("Error: El formulario tiene errores");
+      toast.error("Error: El formulario tiene errores");
     }
   };
 
@@ -108,7 +120,7 @@ const CreadorCanchas = () => {
 
   return (
     <form onSubmit={handleSubmit} className="form-container">
-      {/* Nombre */}
+      <ToastContainer/>
       <label htmlFor="name">Nombre:</label>
       <input
         type="text"

@@ -28,6 +28,7 @@ const ReservasTable = () => {
                 <th style={{padding: "5px"}} scope="col">Cancha</th>
                 <th style={{padding: "5px"}} scope="col">Estado</th>
                 <th style={{padding: "5px"}} scope="col">Promo</th>
+                <th style={{padding: "5px"}} scope="col">UserID</th>
             </tr>
         </thead>
         <tbody className="body-tabla">
@@ -37,9 +38,10 @@ const ReservasTable = () => {
                     <td className="celda">{reserva.date}</td>
                     <td className="celda">{reserva.start.slice(0, -3)}</td>
                     <td className="celda">{reserva.user.name + " " + reserva.user.lastName}</td>
-                    <td className="celda">{reserva.cancha.name}</td>
+                    <td className="celda">{reserva.cancha?.name}</td>
                     <td className="celda">{reserva.status}</td>
                     <td className="celda">{reserva.hasPromo ? (<>Si</>) : (<>No</>)}</td>
+                    <td className="celda">{reserva.user.id}</td>
                 </tr>
             ))}
         </tbody>

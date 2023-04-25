@@ -37,7 +37,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background-image: linear-gradient(to right, #434343 0%, black 100%);
+  background: #111111;
   /* agregado */
   font-family: var(--fuentePrincipal);
 
@@ -69,6 +69,9 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
   color: white;
+}
+input {
+  color:white
 }
 button:hover {
   border-color: #646cff;

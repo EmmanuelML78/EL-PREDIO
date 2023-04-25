@@ -8,10 +8,9 @@ import Profile from "../Profile/Profile.jsx";
 import UsersTable from "../UsersTable/UsersTable";
 import CanchasTable from "../CanchasTable/CanchasTable";
 import ReservasTable from "../ReservasTable/ReservasTable";
-
 import Error401 from "../Error401/Error401";
-import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
+import Navbar from "../Navbar/Navbar";
 function DashBoard() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -33,9 +32,9 @@ function DashBoard() {
         <Error401 />
       ) : !isLoading && user.isAdmin ? (
         <>
-          <Header />
+          <Navbar />
           <div className={s.dashboardContainer}>
-            <h1 className={s.panel}>Panel de control</h1>
+            <h1 style={{color: "white", fontWeight: "600", margin: "2rem"}}>Panel de control</h1>
             {/* <div>
               <select className={s.input}>
               <option value="">Ordenar por</option>
@@ -68,7 +67,7 @@ function DashBoard() {
         user &&
         !user.isAdmin && (
           <>
-            <Header />
+            <Navbar />
             <div style={{marginBottom: "5rem", marginTop: "-10rem"}}>
               <Profile />
             </div>
