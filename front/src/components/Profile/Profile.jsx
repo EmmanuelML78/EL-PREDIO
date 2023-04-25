@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser, editUser } from "../../redux/actions/authActions";
+import { setUser, editUser, logoutUser } from "../../redux/actions/authActions";
 import Loading from "../Loading/Loading.jsx";
+import { ToastContainer, toast } from "react-toastify";
 import DashBoard from "../DashBoard/DashBoard";
 import "./Profile.css";
 import moment from "moment";
@@ -43,11 +44,50 @@ const Profile = () => {
   };
 
   const handleEmailChangeClick = async () => {
-    await dispatch(editUser({ email: editEmail }));
+    if (window.confirm("Si cambias tu email tendrás que iniciar sesión nuevamente. ¿Deseas continuar?")) {
+      await dispatch(editUser({ email: editEmail }));
+      localStorage.removeItem("token");
+      logoutUser();
+      window.location.href = "/";
+      toast.success("¡Se cerrado sesión correctamente, ingresa con tu nuevo email!", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
+      
+      console.log("Cambio de correo electrónico confirmado.");
+    } else {
+      console.log("Cambio de correo electrónico cancelado.");
+    }
+
   };
 
   const handlePasswordChangeClick = async () => {
-    await dispatch(editUser({ password: editPassword }));
+    if (window.confirm("Si cambias tu contraseña tendrás que iniciar sesión nuevamente. ¿Deseas continuar?")) {
+      await dispatch(editUser({ password: editPassword }));
+      localStorage.removeItem("token");
+      logoutUser();
+      window.location.href = "/";
+      toast.success("¡Se cerrado sesión correctamente, ingresa con tu nueva contraseña!", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
+      
+      console.log("Cambio de contraseña confirmado.");
+    } else {
+      console.log("Cambio de contraseña cancelado.");
+    }
+    
+    
   };
 
   const handlePhoneChangeClick = async () => {
@@ -64,7 +104,7 @@ const Profile = () => {
         <div style={{ marginTop: "25rem", marginBottom: "20rem" }}>
           <h1
             style={{ color: "white", fontWeight: "600", marginBottom: "10rem" }}
-          >
+            >
             Panel de perfil
           </h1>
           <div
@@ -73,8 +113,9 @@ const Profile = () => {
               justifyContent: "center",
               alignItems: "center",
             }}
-          >
+            >
             <div className="profile-container">
+              <ToastContainer/>
               <div
                 style={{
                   display: "flex",
