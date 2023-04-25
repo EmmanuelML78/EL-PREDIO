@@ -9,16 +9,18 @@ import {
 import "./CanchasTable.css";
 import { MdDeleteOutline } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+
 function CanchasTable() {
-  let canchas = useSelector((state) => state.canchas.canchas);
-  
+  const canchas = useSelector((state) => state.canchas.canchas);
+  console.log(canchas);
   const [editingCancha, setEditingCancha] = useState(null);
   const [reloadTable, setReloadTable] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState({});
-  
+
   useEffect(() => {
     const fetchCanchas = async () => {
       await dispatch(getCanchas());
@@ -53,8 +55,6 @@ function CanchasTable() {
     }
   };
 
-  
-  
   const handleValidationAndChangeInput = (field, value) => {
     validateField(field, value);
     handleInputChange(field, value);
@@ -139,7 +139,7 @@ function CanchasTable() {
             <span>CARGANDO....</span>
           ) : (
             <tbody>
-              {canchas.canchas?.map((cancha) => (
+              {canchas.map((cancha) => (
                 <tr key={cancha.id}>
                   <td>{cancha.name}</td>
                   <td>{cancha.players}</td>
@@ -171,6 +171,9 @@ function CanchasTable() {
               ))}
             </tbody>
           )}
+          <Link to="/creador">
+            <button>Añadir cancha</button>
+          </Link>
         </table>
       )}
       {isEditing && (
@@ -305,7 +308,9 @@ function CanchasTable() {
           {formErrors.players && (
             <p className="error-message">{formErrors.players}</p>
           )}
-          <button type="submit" style={{backgroundColor: "red"}}>Guardar cambios</button>
+          <button type="submit" style={{ backgroundColor: "red" }}>
+            Guardar cambios
+          </button>
           <button type="button" onClick={() => setIsEditing(false)}>
             Cancelar
           </button>

@@ -1,0 +1,12 @@
+.scroll {
+    cursor: pointer;;
+    color: white;
+    font-size: 5rem;
+    background-color: #0005;
+    padding: 1rem 3rem 1rem 3rem;
+    border-radius: 1rem;
+}
+.scroll:hover {
+    color: white;
+    text-decoration: underline;
+}

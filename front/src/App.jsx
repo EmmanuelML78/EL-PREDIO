@@ -12,10 +12,6 @@ import Contactos from "./components/Contactos/Contactos";
 import Navbar from "./components/Navbar/Navbar";
 import MisReservas from "./components/MisReservas/MisReservas";
 
-
-
-
-
 function App() {
   return (
     <>
@@ -43,6 +39,7 @@ function App() {
           <MisReservas />
         </Route>
         <Route path="/nosotros">
+          <Navbar/>
           <About />
           <Footer />
         </Route>

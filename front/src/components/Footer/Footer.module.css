@@ -28,7 +28,7 @@ body {
 
 .contenedorfootergrid {
   width: 100%;
-  max-width: 1200px;
+  /* max-width: 1200px; */
   margin: auto;
   display: grid;
   grid-template-columns: repeat(5, 1fr);

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
-import Header from "../Header/Header";
+
 import Footer from "../Footer/Footer";
 import { getCanchaById } from "../../redux/actions/canchaActions";
 import s from "./Detail.module.css";
@@ -10,6 +10,7 @@ import Error401 from "../Error401/Error401";
 import { postReserva } from "../../redux/actions/reservaActions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Navbar from "../Navbar/Navbar";
 
 const Detail = ({ cancha, getCanchaById, match, reserva }) => {
   const dispatch = useDispatch();
@@ -103,9 +104,14 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
           return moment(reserva.start, "HH:mm:ss").isSame(hora, "hour");
         });
 
+        const esHoy = moment().isSame(selectedDate, "day");
+        const horaActual = moment().format("HH:mm");
+        const horaDisponible =
+          !horaReserva && (!esHoy || hora.format("HH:mm") >= horaActual);
+
         return {
           hora: hora.format("HH:mm"),
-          disponible: !horaReserva,
+          disponible: horaDisponible,
         };
       })
     : [];
@@ -142,43 +148,44 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
         <>
           <Error401 />
         </>
+      ) : user && !c.availability ? (
+        <>La cancha no esta disponible</>
       ) : (
-        user && (
-          <>
-            <Header />
-            <div className={s.father}>
-              <div className={s.container}>
-                <h1>Cancha {c.id}</h1>
-                <p>Césped: {c.grass}</p>
-                <p>Jugadores: {c.players}</p>
-                <p>Descripción: {c.description}</p>
-                <p>{c.availability ? "Disponible" : "No disponible"}</p>
-                <form onSubmit={handlePago}>
-                  <p style={{ fontSize: "16pt", fontWeight: "600" }}>
-                    Reservar un turno:
+        <>
+          <Navbar />
+          <div className={s.father}>
+            <div className={s.container}>
+              <h1>Cancha {c.id}</h1>
+              <p>Césped: {c.grass}</p>
+              <p>Jugadores: {c.players}</p>
+              <p>Descripción: {c.description}</p>
+              <p>{c.availability ? "Disponible" : "No disponible"}</p>
+              <form onSubmit={handlePago}>
+                <p style={{ fontSize: "16pt", fontWeight: "600" }}>
+                  Reservar un turno:
+                </p>
+                <div className={s.dateContainer}>
+                  <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
+                    Fecha:
                   </p>
-                  <div className={s.dateContainer}>
-                    <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
-                      Fecha:
-                    </p>
-                    <input
-                      className={s.date}
-                      type="date"
-                      value={selectedDate}
-                      onChange={handleDate}
-                    />
-                  </div>
-                  <div>{botonesHorarios}</div>
-                  <button className={s.submit} type="submit">
-                    Reservar turno
-                  </button>
-                </form>
-              </div>
-              <img src={c.image} alt="Imagen de cancha" />
+                  <input
+                    min={moment().format("YYYY-MM-DD")}
+                    className={s.date}
+                    type="date"
+                    value={selectedDate}
+                    onChange={handleDate}
+                  />
+                </div>
+                <div>{botonesHorarios}</div>
+                <button className={s.submit} type="submit">
+                  Reservar turno
+                </button>
+              </form>
             </div>
-            <Footer />
-          </>
-        )
+            <img src={c.image} alt="Imagen de cancha" />
+          </div>
+          <Footer />
+        </>
       )}
     </>
   );
