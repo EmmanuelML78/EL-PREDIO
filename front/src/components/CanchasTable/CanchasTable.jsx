@@ -13,7 +13,6 @@ import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 function CanchasTable() {
   const canchas = useSelector((state) => state.canchas.canchas);
-  console.log(canchas);
   const [editingCancha, setEditingCancha] = useState(null);
   const [reloadTable, setReloadTable] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
