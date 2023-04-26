@@ -148,7 +148,11 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
         <>
           <Error401 />
         </>
-      ) : user && !c.availability ? (
+      ) : !isUserLoading && !user ? (
+        <>
+          <Error401 />
+        </>
+      ) : !c.availability ? (
         <>La cancha no esta disponible</>
       ) : (
         <>
@@ -170,6 +174,7 @@ const Detail = ({ cancha, getCanchaById, match, reserva }) => {
                   </p>
                   <input
                     min={moment().format("YYYY-MM-DD")}
+                    max={moment().add(7, "days").format("YYYY-MM-DD")}
                     className={s.date}
                     type="date"
                     value={selectedDate}
