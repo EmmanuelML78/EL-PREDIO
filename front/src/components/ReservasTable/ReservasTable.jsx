@@ -17,35 +17,37 @@ const ReservasTable = () => {
   }, [dispatch]);
 
   return (
-    // <></>
-    <table className="tabla">
-        <thead className="head-tabla">
+    <div className="reservas-table-container">
+    <table className="reservas-table">
+        <thead >
             <tr>
-                <th style={{padding: "5px"}} scope="col">ID</th>
-                <th style={{padding: "5px"}} scope="col">Fecha</th>
-                <th style={{padding: "5px"}} scope="col">Hora</th>
-                <th style={{padding: "5px"}} scope="col">Usuario</th>
-                <th style={{padding: "5px"}} scope="col">Cancha</th>
-                <th style={{padding: "5px"}} scope="col">Estado</th>
-                <th style={{padding: "5px"}} scope="col">Promo</th>
-                <th style={{padding: "5px"}} scope="col">UserID</th>
+                <th scope="col">ID</th>
+                <th scope="col">Fecha</th>
+                <th scope="col">Hora</th>
+                <th scope="col">Usuario</th>
+                <th scope="col">UserID</th>
+                <th scope="col">Cancha</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Promo</th>
+
             </tr>
         </thead>
         <tbody className="body-tabla">
             {reservas.map((reserva) => (
-                <tr key={reserva.id}>
-                    <td className="celda">{reserva.id}</td>
-                    <td className="celda">{reserva.date}</td>
-                    <td className="celda">{reserva.start.slice(0, -3)}</td>
-                    <td className="celda">{reserva.user.name + " " + reserva.user.lastName}</td>
-                    <td className="celda">{reserva.cancha?.name}</td>
-                    <td className="celda">{reserva.status}</td>
-                    <td className="celda">{reserva.hasPromo ? (<>Si</>) : (<>No</>)}</td>
-                    <td className="celda">{reserva.user.id}</td>
+              <tr key={reserva.id}>
+                    <td>{reserva.id}</td>
+                    <td>{reserva.date}</td>
+                    <td>{reserva.start.slice(0, -3)}</td>
+                    <td>{reserva.user.name + " " + reserva.user.lastName}</td>
+                    <td>{reserva.user.id}</td>
+                    <td>{reserva.cancha?.name}</td>
+                    <td>{reserva.status === "pending" ? "Pendiente de pago" : "Confirmada"}</td>
+                    <td>{reserva.hasPromo ? (<>Si</>) : (<>No</>)}</td>
                 </tr>
             ))}
         </tbody>
     </table>
+            </div>
   );
 };
 

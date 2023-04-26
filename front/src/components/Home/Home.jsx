@@ -9,8 +9,8 @@ import "./Home.module.css";
 import { setUser } from "../../redux/actions/authActions";
 import Error401 from "../Error401/Error401";
 import Loading from "../Loading/Loading";
-import s from "./Home.module.css"
-import { FaWhatsapp } from 'react-icons/fa';
+import s from "./Home.module.css";
+import { FaWhatsapp } from "react-icons/fa";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -40,7 +40,7 @@ const Home = () => {
             target="_blank"
             className={s.wpp}
           >
-             <FaWhatsapp size={50}/>
+            <FaWhatsapp size={50} />
           </a>
           <Cards />
           <Promociones />
