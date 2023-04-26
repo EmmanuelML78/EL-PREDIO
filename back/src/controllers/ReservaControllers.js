@@ -1,6 +1,5 @@
 const { Reserva, User, Cancha } = require("../db");
 const { mercadopago } = require("../utils/mercadoPago");
-// console.log(mercadopago);
 
 const getAllReservations = async (reservaid) => {
   try {
@@ -16,7 +15,7 @@ const getAllReservations = async (reservaid) => {
           {
             model: Cancha,
             as: "cancha",
-          }
+          },
         ],
       });
     }
@@ -66,51 +65,20 @@ const updateReserva = async (id, date, start, end, status, hasPromo) => {
 };
 
 const payReserver = async (req, res) => {
-  // console.log(req.body)
   const reservaId = req.body.id;
-  // const reservaId = 2;
   const datos = req.body;
-  const reserva = await Reserva.findOne({
-    where: { id: reservaId },
-    include: [
-      {
-        model: Cancha,
-        as: "cancha",
-      },
-    ],
-  });
   let preference = {
     items: [
       {
         id: reservaId,
-        title: "Reserva de cancha",
-        description: "Reserva de cancha deportiva",
+        title: datos.title,
         quantity: 1,
         currency_id: "ARS",
-        unit_price: reserva.dataValues.cancha.price,
+        unit_price: datos.price,
       },
     ],
-    payer: {
-      id: datos.userId
-      // name: datos.name,
-      // surname: datos.surname,
-      // email: datos.email,
-      // identification: {
-      //   type: "DNI",
-      //   number: datos.identification,
-      // },
-      // phone: {
-      //   area_code: "",
-      //   number: parseInt(datos.phone),
-      // },
-      // address: {
-      //   zip_code: "",
-      //   street_name: datos.address,
-      //   street_number: 2,
-      // },
-    },
     back_urls: {
-      success: "http://localhost:3000/pago-exitoso",
+      success: "http://localhost:3000/pago-exitoso", //!redirija a mis reservas
       pending: "http://localhost:3000/pago-pendiente",
       failure: "http://localhost:3000/pago-fallido",
     },
@@ -120,7 +88,7 @@ const payReserver = async (req, res) => {
 
   try {
     const response = await mercadopago.preferences.create(preference);
-    res.json({ preferenceId: response.body.id }); // devolver el ID de preferencia al frontend
+    res.json(response);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Error al crear la preferencia de pago" });

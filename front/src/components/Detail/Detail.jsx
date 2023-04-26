@@ -12,7 +12,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Navbar/Navbar";
 
-const Detail = ({ cancha, getCanchaById, match, reserva }) => {
+const Detail = ({ cancha, getCanchaById, match }) => {
+  // console.log("esto es cancha", cancha);
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [selectedDate, setselectedDate] = useState(
