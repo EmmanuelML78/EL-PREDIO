@@ -81,6 +81,7 @@ router
       });
       res.status(201).json(reservation);
     } catch (error) {
+      console.log(error);
       res.status(500).json({ error: "Error al crear la reserva" });
     }
   })
