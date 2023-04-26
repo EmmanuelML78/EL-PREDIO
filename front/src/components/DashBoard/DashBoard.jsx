@@ -57,9 +57,6 @@ function DashBoard() {
                 <ReservasTable />
               </div>
             </div>
-            <Link to="/creador">
-              <button>Creador</button>
-            </Link>
           </div>
           <Footer />
         </>
