@@ -78,9 +78,9 @@ const payReserver = async (req, res) => {
       },
     ],
     back_urls: {
-      success: "http://localhost:3000/pago-exitoso", //!redirija a mis reservas
-      pending: "http://localhost:3000/pago-pendiente",
-      failure: "http://localhost:3000/pago-fallido",
+      success: "http://localhost:5173/success", // redirect to this url if payment is successful
+      failure: "http://localhost:5173/failure", // redirect to this url if payment fails
+      pending: "http://localhost:5173/pending", // redirect to this url if payment is pending
     },
     auto_return: "approved",
     binary_mode: true,
