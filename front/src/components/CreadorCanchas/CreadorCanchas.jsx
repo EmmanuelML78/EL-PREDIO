@@ -8,12 +8,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { AdvancedImage } from "@cloudinary/react";
 import { CloudinaryImage } from "@cloudinary/url-gen";
+import { FontStyle } from "@cloudinary/url-gen/qualifiers";
 const CreadorCanchas = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState({});
   const [imageUrl, setImageUrl] = useState("");
-  console.log(imageUrl);
   const [formData, setFormData] = useState({
     name: "",
     image: "",
@@ -155,7 +155,7 @@ const CreadorCanchas = () => {
       />
       {formErrors.name && <p className="error-message">{formErrors.name}</p>}
       {/* Imagen */}
-      
+
       <label htmlFor="image">Imagen:</label>
 
       {formErrors.image && <p className="error-message">{formErrors.image}</p>}
@@ -164,7 +164,7 @@ const CreadorCanchas = () => {
 
       {imageUrl && (
         <div>
-          <AdvancedImage cldImg={imageUrl} style={{width: "560px"}}/>
+          <AdvancedImage cldImg={imageUrl} style={{ width: "560px" }} />
         </div>
       )}
 
@@ -251,13 +251,63 @@ const CreadorCanchas = () => {
       {formErrors.grass && <p className="error-message">{formErrors.grass}</p>}
       {/* Cantidad de jugadores */}
       <label htmlFor="players">Players</label>
-      <input
-        type="number"
-        id="players"
-        name="players"
-        value={formData.players}
-        onChange={(e) => handleChange("players", e.target.value)}
-      />
+      <div style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+        <label style={{ margin: "1rem", height: "20px", fontSize: "18px" }}>
+          <input
+            style={{
+              appearance: "none",
+              borderRadius:"50%",
+              width: "20px",
+              height:"20px",
+              marginRight:"8px",
+              backgroundColor: "rgb(118, 118, 118)"
+            }}
+            type="radio"
+            name="players"
+            value="5"
+            checked={formData.players === "5"}
+            onChange={(e) => handleChange("players", e.target.value)}
+          />
+          5
+        </label>
+        <label style={{ margin: "1rem", height: "20px", fontSize: "18px" }}>
+          <input
+            style={{
+              appearance: "none",
+              borderRadius:"50%",
+              width: "20px",
+              height:"20px",
+              marginRight:"8px",
+              backgroundColor: "rgb(118, 118, 118)"
+            }}
+            type="radio"
+            name="players"
+            value="7"
+            checked={formData.players === "7"}
+            onChange={(e) => handleChange("players", e.target.value)}
+          />
+          7
+        </label>
+        <label style={{ margin: "1rem", height: "20px", fontSize: "18px" }}>
+          <input
+            style={{
+              appearance: "none",
+              borderRadius:"50%",
+              width: "20px",
+              height:"20px",
+              marginRight:"8px",
+              backgroundColor: "rgb(118, 118, 118)"
+            }}
+            type="radio"
+            name="players"
+            value="11"
+            checked={formData.players === "11"}
+            onChange={(e) => handleChange("players", e.target.value)}
+          />
+          11
+        </label>
+      </div>
+
       {formErrors.players && (
         <p className="error-message">{formErrors.players}</p>
       )}
