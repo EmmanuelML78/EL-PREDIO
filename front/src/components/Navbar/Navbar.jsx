@@ -45,7 +45,7 @@ const Navbar = () => {
               </span>
 
               <nav className={styles.navegacion}>
-                <Link to="/nosotros">Nosotros</Link>
+                {/* <Link to="/nosotros">Nosotros</Link> */}
                 <Link to="/misreservas">Mis reservas</Link>
                 <a href="#">Promociones</a>
                 <Link to="/contactos">Contacto</Link>

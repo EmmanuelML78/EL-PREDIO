@@ -20,7 +20,7 @@ function Header() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     logoutUser();
-    window.location.href = "/"
+    window.location.href = "/";
     toast.success("¡Has cerrado sesión correctamente!", {
       position: "bottom-right",
       autoClose: 5000,
@@ -40,7 +40,7 @@ function Header() {
         <div className={styles.contenedor}>
           <div className={styles.barra}>
             <div className={styles.logo}>
-              <Link to="/home" style={{color: "white"}}>
+              <Link to="/home" style={{ color: "white" }}>
                 <h1 className={styles.nombresitio}>
                   ElPredio<span>Fútbol</span>
                 </h1>
@@ -53,12 +53,16 @@ function Header() {
 
               <nav className={styles.navegacion}>
                 {/* <a href="#">Inicio</a> */}
-                <Link to="/nosotros">Nosotros</Link>
+                {/* <Link to="/nosotros">Nosotros</Link> */}
                 <Link to="/misreservas">Mis reservas</Link>
                 <a href="#">Promociones</a>
                 <Link to="/contactos">Contacto</Link>
-                <Link to="/dashboard">{user && user.isAdmin ? "Administración" : "Perfil"}</Link>
-                <a style={{cursor: "pointer"}} onClick={handleLogout}>Salir</a>
+                <Link to="/dashboard">
+                  {user && user.isAdmin ? "Administración" : "Perfil"}
+                </Link>
+                <a style={{ cursor: "pointer" }} onClick={handleLogout}>
+                  Salir
+                </a>
               </nav>
             </div>
           </div>
