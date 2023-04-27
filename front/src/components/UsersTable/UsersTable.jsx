@@ -6,6 +6,7 @@ import "./UsersTable.css";
 import { MdDeleteOutline } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
 import moment from "moment";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 
 const UsersTable = () => {
   const dispatch = useDispatch();
@@ -59,6 +60,9 @@ const UsersTable = () => {
               ))}
             </tbody>
           </table>
+          <Link>
+            <button style={{background: "transparent"}}>Crear usuario</button>
+          </Link>
         </div>
       )}
     </>

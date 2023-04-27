@@ -142,6 +142,7 @@ const Detail = ({ cancha, getCanchaById, match }) => {
       })
     : [];
 
+    const clase = c.availability ? "s.disponible" : "s.ocuped"
   return (
     <>
       <ToastContainer />
@@ -160,11 +161,11 @@ const Detail = ({ cancha, getCanchaById, match }) => {
           <Navbar />
           <div className={s.father}>
             <div className={s.container}>
-              <h1>Cancha {c.id}</h1>
+              <h1>{c.name}</h1>
               <p>Césped: {c.grass}</p>
-              <p>Jugadores: {c.players}</p>
+              <p>Cancha de futbol {c.players}</p>
               <p>Descripción: {c.description}</p>
-              <p>{c.availability ? "Disponible" : "No disponible"}</p>
+              <p style={{color:"green", fontWeight:600}}>{c.availability ? "Disponible" : "No disponible"}</p>
               <form onSubmit={handlePago}>
                 <p style={{ fontSize: "16pt", fontWeight: "600" }}>
                   Reservar un turno:
@@ -184,11 +185,11 @@ const Detail = ({ cancha, getCanchaById, match }) => {
                 </div>
                 <div>{botonesHorarios}</div>
                 <button className={s.submit} type="submit">
-                  Reservar turno
+                  Pagar reserva
                 </button>
               </form>
             </div>
-            <img src={c.image} alt="Imagen de cancha" />
+            <img className={s.canchaimg} src={c.image} alt="Imagen de cancha" />
           </div>
           <Footer />
         </>

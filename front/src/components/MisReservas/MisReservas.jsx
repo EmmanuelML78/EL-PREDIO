@@ -6,7 +6,7 @@ import moment from "moment";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
 import s from "./MisReservas.module.css";
-
+import { AiFillEdit } from "react-icons/ai";
 const MisReservas = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState(true);
@@ -33,49 +33,41 @@ const MisReservas = () => {
         ) : (
           user && (
             <>
-              <h1>Mis reservas</h1>
-              <table className="tabla">
-                <thead className="head-tabla">
-                  <tr>
-                    <th style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                      Cancha
-                    </th>
-                    <th style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                      Fecha
-                    </th>
-                    <th style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                      Hora
-                    </th>
-                    <th style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                      Estado
-                    </th>
-                    <th style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                      Creacion
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="body-tabla">
-                  {user.reservas.map((reserva) => (
-                    <tr key={reserva.id}>
-                      <td style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                        {reserva.cancha?.name}
-                      </td>
-                      <td style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                        {reserva.date}
-                      </td>
-                      <td style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                        {moment(reserva.start, "HH:mm:ss").format("HH:mm")}
-                      </td>
-                      <td style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                        {reserva.status}
-                      </td>
-                      <td style={{ paddingLeft: "5px", paddingRight: "5px" }}>
-                        {moment(user.createdAt).format("DD/MM/YYYY")}
-                      </td>
+              <h1 className={s.title}>Mis reservas</h1>
+              <div className={s.reservasTableContainer}>
+                <table className={s.reservasTable}>
+                  <thead>
+                    <tr>
+                      <th>Cancha</th>
+                      <th>Fecha</th>
+                      <th>Hora</th>
+                      <th>Estado</th>
+                      <th>Creacion</th>
+                      <th>Acción</th>
                     </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {user.reservas.map((reserva) => (
+                      <tr key={reserva.id}>
+                        <td>{reserva.cancha?.name}</td>
+                        <td>{moment(reserva.date).format("DD-MM-YYYY")}</td>
+                        <td>
+                          {moment(reserva.start, "HH:mm:ss").format("HH:mm")}
+                        </td>
+                        <td>{reserva.status}</td>
+                        <td>
+                          {moment(reserva.createdAt).format("DD-MM-YYYY")}
+                        </td>
+                        <td>
+                          <button>
+                            <AiFillEdit />
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </>
           )
         )}

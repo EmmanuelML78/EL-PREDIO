@@ -4,22 +4,23 @@
   align-items: flex-start;
   text-align: left;
   margin-left: 1rem;
+  max-width: 55%;
+  font-weight: 500;
 }
 
 .container form {
- /* border: 2px solid white; */
- padding: 1rem;
- margin-top: 1rem;
- border-radius: 1rem;
- background-color: #202020;
+  /* border: 2px solid white; */
+  padding: 1rem;
+  margin-top: 1rem;
+  border-radius: 1rem;
+  background-color: #202020;
 }
 
 .container form button[type="submit"] {
   background-color: rgb(255, 255, 255);
   color: black;
   font-weight: 700;
- }
- 
+}
 
 .father {
   display: flex;
@@ -90,5 +91,10 @@
 .dateContainer {
   display: flex;
   flex-direction: row;
-  align-items: center;;
+  align-items: center;
+}
+.canchaimg {
+  max-width: 55rem;
+  height: 44rem;
+  object-fit: cover;
 }
