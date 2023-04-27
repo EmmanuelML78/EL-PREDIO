@@ -45,7 +45,7 @@ export const setUser = () => {
   };
 };
 
-export const editUser = (userData, getState) => {
+export const editUser = (userData) => {
   return async function (dispatch) {
     try {
       await instance.put("/me", userData);
