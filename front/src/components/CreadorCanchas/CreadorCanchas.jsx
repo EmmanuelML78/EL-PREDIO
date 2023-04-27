@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { AdvancedImage } from "@cloudinary/react";
 import { CloudinaryImage } from "@cloudinary/url-gen";
-import { FontStyle } from "@cloudinary/url-gen/qualifiers";
+
 const CreadorCanchas = () => {
   const history = useHistory();
   const dispatch = useDispatch();
