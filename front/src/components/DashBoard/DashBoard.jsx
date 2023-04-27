@@ -15,6 +15,7 @@ function DashBoard() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedTable, setSelectedTable] = useState("reservas");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +27,16 @@ function DashBoard() {
     fetchData();
   }, [dispatch, user]);
 
+  const handleReservas = () => {
+    setSelectedTable("reservas");
+  };
+  const handleUsuarios = () => {
+    setSelectedTable("usuarios");
+  };
+  const handleCanchas = () => {
+    setSelectedTable("canchas");
+  };
+
   return (
     <>
       {!isLoading && !user ? (
@@ -34,20 +45,25 @@ function DashBoard() {
         <>
           <Navbar />
           <div className={s.dashboardContainer}>
-            <h1 style={{color: "white", fontWeight: "600", margin: "2rem"}}>Panel de control</h1>
-            {/* <div>
-              <select className={s.input}>
-              <option value="">Ordenar por</option>
-              <option value="asc">Nombre ascendente</option>
-              <option value="desc">Nombre descendente</option>
-              <option value="menor">Menor precio</option>
-              <option value="mayor">Mayor precio</option>
-              </select>
-              <input className={s.input} type="text" placeholder="Buscar..." />
-            <button>Buscar</button> */}
-            {/* </div> */}
-            <div>
-              <div style={{ margin: "1rem" }}>
+            <h1 style={{ color: "white", fontWeight: "600", margin: "2rem" }}>
+              Panel de Administrador
+            </h1>
+            <div style={{ display: "flex" }}>
+              <div className={s.tabContainer}>
+                <button className={s.tab} onClick={handleReservas}>Reservas</button>
+                <button className={s.tab} onClick={handleUsuarios}>Usuarios</button>
+                <button className={s.tab} onClick={handleCanchas}>Canchas</button>
+              </div>
+              <div>
+                {selectedTable === "reservas" ? (
+                  <ReservasTable />
+                ) : selectedTable === "canchas" ? (
+                  <CanchasTable />
+                ) : selectedTable === "usuarios" ? (
+                  <UsersTable />
+                ) : null}
+              </div>
+              {/* <div style={{ margin: "1rem" }}>
                 <CanchasTable />
               </div>
               <div>
@@ -55,7 +71,7 @@ function DashBoard() {
               </div>
               <div>
                 <ReservasTable />
-              </div>
+              </div> */}
             </div>
           </div>
           <Footer />
@@ -65,7 +81,7 @@ function DashBoard() {
         !user.isAdmin && (
           <>
             <Navbar />
-            <div style={{marginBottom: "5rem", marginTop: "-10rem"}}>
+            <div style={{ marginBottom: "5rem", marginTop: "-10rem" }}>
               <Profile />
             </div>
             <Footer />

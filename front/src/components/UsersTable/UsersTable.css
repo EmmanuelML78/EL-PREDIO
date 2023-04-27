@@ -4,8 +4,9 @@
   gap: 1rem;
   background-color: #2a2a2a;
   padding: 1rem;
-  border-radius: 5px;
-  margin: 1rem;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+
 }
 
 .users-table {
