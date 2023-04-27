@@ -131,12 +131,13 @@ router.put("/me", authMiddleware, async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    const { name, lastName, email, password, phone } = req.body;
+    const { name, lastName, email, password, phone, image } = req.body;
 
     user.name = name || user.name;
     user.lastName = lastName || user.lastName;
     user.email = email || user.email;
     user.phone = phone || user.phone;
+    user.image = image || user.image
 
     if (password) {
       const salt = await bcryptjs.genSalt(10);
