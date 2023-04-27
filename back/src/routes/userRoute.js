@@ -11,7 +11,11 @@ const {
   getUserById,
 } = require("../controllers/userController");
 const { User, Reserva } = require("../db");
-const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
+const {
+  authMiddleware,
+  adminMiddleware,
+  requireAuth,
+} = require("../middlewares/auth");
 
 const router = Router();
 
@@ -37,11 +41,6 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
-// router.get("/home", (req, res) => {
-//   // Aquí puedes enviar la respuesta que desees, por ejemplo renderizar una vista
-//   res.render("home");
-// });
-
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -52,23 +51,15 @@ router.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    // En este punto, la autenticación con Google ha sido exitosa.
-    // Puedes redirigir al usuario a la página que desees.
-    const token = jwt.sign(
-      { userId: req.user.id, email: req.user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: "1h" }
-    );
-    return res.status(200).json({ token });
-    // res.redirect("/home");
-    // res.redirect("http://localhost:5173/home");
+    // console.log(req.isAuthenticated());
+    return res.redirect("http://localhost:5173/home");
   }
 );
 
-router.get("/users", adminMiddleware, getUsersActive);
-router.get("/users/inactivos", adminMiddleware, getUsersInactive);
+router.get("/users", getUsersActive);
+router.get("/users/inactivos", getUsersInactive);
 
-router.get("/users/:id", adminMiddleware, async (req, res) => {
+router.get("/users/:id", async (req, res) => {
   const { id } = req.params;
   try {
     const user = await getUserById(id);
@@ -84,7 +75,7 @@ router.get("/users/:id", adminMiddleware, async (req, res) => {
   }
 });
 
-router.get("/me", authMiddleware, async (req, res) => {
+router.get("/me", async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id, {
       include: { model: Reserva, as: "reservas" },
@@ -120,9 +111,9 @@ router.post("/users", async (req, res) => {
   }
 });
 
-router.put("/users/:id", adminMiddleware, updateUser);
+router.put("/users/:id", updateUser);
 
-router.put("/me", authMiddleware, async (req, res) => {
+router.put("/me", async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id);
     if (!user) {
@@ -151,7 +142,7 @@ router.put("/me", authMiddleware, async (req, res) => {
   }
 });
 
-router.delete("/users/:id", adminMiddleware, async (req, res) => {
+router.delete("/users/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const deletedUser = await deleteUser(id);
