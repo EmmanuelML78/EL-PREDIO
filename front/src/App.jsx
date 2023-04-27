@@ -11,6 +11,9 @@ import About from "./components/About/About";
 import Contactos from "./components/Contactos/Contactos";
 import Navbar from "./components/Navbar/Navbar";
 import MisReservas from "./components/MisReservas/MisReservas";
+import Failure from "./components/Results/failure/failure";
+import Pending from "./components/Results/pending/Pending";
+import Succes from "./components/Results/Succes/Succes";
 
 function App() {
   return (
@@ -39,14 +42,23 @@ function App() {
           <MisReservas />
         </Route>
         <Route path="/nosotros">
-          <Navbar/>
+          <Navbar />
           <About />
           <Footer />
         </Route>
         <Route path="/contactos">
-          <Navbar/>
-          <Contactos/>
-          <Footer/>
+          <Navbar />
+          <Contactos />
+          <Footer />
+        </Route>
+        <Route path="/failure">
+          <Failure />
+        </Route>
+        <Route path="/pending">
+          <Pending />
+        </Route>
+        <Route path="/succes">
+          <Succes />
         </Route>
       </Switch>
     </>
