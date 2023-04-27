@@ -12,6 +12,18 @@ const getAllcanchas = async (canchaId) => {
   }
 };
 
+const getCanchaEliminadas = async (req, res) => {
+  try {
+    const canchas = await Cancha.findAll({
+      paranoid: false,
+      where: { deleted_at: { [Op.ne]: null } },
+    });
+    res.status(200).json(canchas);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const updateCanchas = async (
   id,
   name,
@@ -56,6 +68,7 @@ const deleteCancha = async (id) => {
 
 module.exports = {
   getAllcanchas,
+  getCanchaEliminadas,
   deleteCancha,
   updateCanchas,
 };
