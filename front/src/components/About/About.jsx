@@ -39,7 +39,7 @@ const About = () => {
       githubUrl: "https://github.com/agustinfiguered",
       linkedinUrl: "https://www.linkedin.com/in/agustinfigueredo/",
       image:
-        "https://res.cloudinary.com/ddyk63iig/image/upload/v1682084308/Screenshot_1_yupp85.png",
+        "https://res.cloudinary.com/dd5jlib2e/image/upload/v1682607786/fotor-ai-2023042710255_i36b2a.png",
     },
     {
       nombre: "Franco",
@@ -48,7 +48,7 @@ const About = () => {
       githubUrl: "https://github.com/Frann131",
       linkedinUrl: "https://www.linkedin.com/in/fmin131",
       image:
-        "https://res.cloudinary.com/ddyk63iig/image/upload/v1682084456/Screenshot_4_ivfqjf.png",
+        "https://res.cloudinary.com/dd5jlib2e/image/upload/v1682607548/fotor-ai-2023042795838_bzo56n.png",
     },
     {
       nombre: "Lucas ",
@@ -57,7 +57,7 @@ const About = () => {
       githubUrl: "https://github.com/spawn22",
       linkedinUrl: "https://www.linkedin.com/in/lucas-ruiz-68249224b/",
       image:
-        "https://res.cloudinary.com/ddyk63iig/image/upload/v1682085129/1666222593480_ek9rqu.jpg",
+        "https://res.cloudinary.com/dd5jlib2e/image/upload/v1682607335/fotor-ai-2023042795515_biy942.png",
     },
     {
       nombre: "Franco",
@@ -66,7 +66,7 @@ const About = () => {
       githubUrl: "https://github.com/frangabriel13",
       linkedinUrl: "https://www.linkedin.com/in/frangabriel13",
       image:
-        "https://res.cloudinary.com/ddyk63iig/image/upload/v1682084456/Screenshot_3_lgeqk0.png",
+        "https://res.cloudinary.com/dd5jlib2e/image/upload/v1682607069/fotor-ai-2023042795040_n2gf6z.jpg",
     },
     {
       nombre: "Harold",
@@ -76,7 +76,7 @@ const About = () => {
       linkedinUrl:
         "https://www.linkedin.com/in/harold-eduardo-cadena-carreno-122355269/",
       image:
-        "https://res.cloudinary.com/ddyk63iig/image/upload/v1682084456/Screenshot_5_xmyxr3.png",
+        "https://res.cloudinary.com/dd5jlib2e/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1682607333/fotor-ai-2023042791825_2-removebg-preview_ddzk6k.jpg",
     },
     {
       nombre: "Emmanuel",
@@ -85,7 +85,7 @@ const About = () => {
       githubUrl: "https://github.com/EmmanuelML78",
       linkedinUrl: "https://www.linkedin.com/in/emmanuel-medina88",
       image:
-        "https://res.cloudinary.com/ddyk63iig/image/upload/v1682084455/Screenshot_2_kfyohy.png",
+        "https://res.cloudinary.com/dd5jlib2e/image/upload/v1682603109/1682602841922_dwbdnx.jpg",
     },
   ];
 

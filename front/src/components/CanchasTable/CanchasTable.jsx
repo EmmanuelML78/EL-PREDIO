@@ -6,19 +6,20 @@ import {
   deleteCancha,
   putCancha,
 } from "../../redux/actions/canchaActions";
-import "./CanchasTable.css";
+import s from "./CanchasTable.module.css";
 import { MdDeleteOutline } from "react-icons/md";
 import { AiFillEdit } from "react-icons/ai";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+
 function CanchasTable() {
-  let canchas = useSelector((state) => state.canchas.canchas);
-  
+  const canchas = useSelector((state) => state.canchas.canchas);
   const [editingCancha, setEditingCancha] = useState(null);
   const [reloadTable, setReloadTable] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState({});
-  
+
   useEffect(() => {
     const fetchCanchas = async () => {
       await dispatch(getCanchas());
@@ -53,8 +54,6 @@ function CanchasTable() {
     }
   };
 
-  
-  
   const handleValidationAndChangeInput = (field, value) => {
     validateField(field, value);
     handleInputChange(field, value);
@@ -121,61 +120,69 @@ function CanchasTable() {
     setFormErrors(errors);
   };
 
+  canchas.sort((a, b) => a.id - b.id);
   return (
-    <div className="canchas-table-container">
+    <div className={s.canchasTableContainer}>
       {!isEditing && !isLoading && (
-        <table className="canchas-table">
-          <thead>
-            <tr>
-              <th>Nombre</th>
-              <th>Capacidad</th>
-              <th>Descripcion</th>
-              <th>Horario</th>
-              <th>Cesped</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          {isLoading ? (
-            <span>CARGANDO....</span>
-          ) : (
-            <tbody>
-              {canchas.canchas?.map((cancha) => (
-                <tr key={cancha.id}>
-                  <td>{cancha.name}</td>
-                  <td>{cancha.players}</td>
-                  <td>
-                    {cancha.availability ? "Disponible" : "No disponible"}
-                  </td>
-                  <td>
-                    {cancha.open} {cancha.close}
-                  </td>
-                  <td>{cancha.grass}</td>
-                  <td>
-                    <button
-                      className="delete-icon"
-                      onClick={() =>
-                        window.confirm("Estas seguro de querer borrar esto?") &&
-                        dispatch(deleteCancha(cancha.id))
-                      }
-                    >
-                      <MdDeleteOutline />
-                    </button>
-                    <button
-                      className="edit-icon"
-                      onClick={() => handleEditClick(cancha)}
-                    >
-                      <AiFillEdit />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          )}
-        </table>
+        <>
+          <table className={s.canchasTable}>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Capacidad</th>
+                <th>Descripcion</th>
+                <th>Desde</th>
+                <th>Hasta</th>
+                <th>Cesped</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            {isLoading ? (
+              <span>CARGANDO....</span>
+            ) : (
+              <tbody>
+                {canchas.map((cancha) => (
+                  <tr key={cancha.id}>
+                    <td>{cancha.id}</td>
+                    <td>{cancha.name}</td>
+                    <td>{cancha.players}</td>
+                    <td>
+                      {cancha.availability ? "Disponible" : "No disponible"}
+                    </td>
+                    <td>{cancha.open.slice(0, -3)}</td>
+                    <td>{cancha.close.slice(0, -3)}</td>
+                    <td>{cancha.grass}</td>
+                    <td>
+                      <button
+                        className="delete-icon"
+                        onClick={() =>
+                          window.confirm(
+                            "Estas seguro de querer borrar esto?"
+                          ) && dispatch(deleteCancha(cancha.id))
+                        }
+                      >
+                        <MdDeleteOutline />
+                      </button>
+                      <button
+                        className="edit-icon"
+                        onClick={() => handleEditClick(cancha)}
+                      >
+                        <AiFillEdit />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            )}
+          </table>
+          <Link to="/creador">
+            <button className={s.boton}>Añadir cancha</button>
+          </Link>
+        </>
       )}
       {isEditing && (
-        <form onSubmit={handleSubmit} className="form-container">
-          {/* Nombre */}
+        <form onSubmit={handleSubmit} className={s.formContainer}>
           <label htmlFor="name">Nombre:</label>
           <input
             type="text"
@@ -190,7 +197,6 @@ function CanchasTable() {
           {formErrors.name && (
             <p className="error-message">{formErrors.name}</p>
           )}
-          {/* Imagen */}
           <label htmlFor="image">Imagen URL:</label>
           <input
             type="url"
@@ -204,7 +210,6 @@ function CanchasTable() {
           {formErrors.image && (
             <p className="error-message">{formErrors.image}</p>
           )}
-          {/* Precio */}
           <label htmlFor="price">Precio:</label>
           <input
             type="number"
@@ -305,7 +310,9 @@ function CanchasTable() {
           {formErrors.players && (
             <p className="error-message">{formErrors.players}</p>
           )}
-          <button type="submit" style={{backgroundColor: "red"}}>Guardar cambios</button>
+          <button type="submit" style={{ backgroundColor: "red" }}>
+            Guardar cambios
+          </button>
           <button type="button" onClick={() => setIsEditing(false)}>
             Cancelar
           </button>

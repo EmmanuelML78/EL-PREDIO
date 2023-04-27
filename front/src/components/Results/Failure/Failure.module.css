@@ -1,0 +1,29 @@
+/* .failure {
+  background-color: #ada9a9;
+  padding: 20px;
+  border: 1px solid #ff69b4;
+  text-align: center;
+}
+
+.failure h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #fff;
+  text-shadow: 2px 2px #992116;
+}
+
+.failure button {
+  background-color: #15fd00b4;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.failure button:hover {
+  background-color: #5e1414;
+  transform: translateY(-3px);
+  box-shadow: 0 2px 5px rgba(255, 105, 180, 0.5);
+} */

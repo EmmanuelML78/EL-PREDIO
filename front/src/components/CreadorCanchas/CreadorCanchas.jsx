@@ -3,9 +3,17 @@ import { useDispatch } from "react-redux";
 import { postCancha } from "../../redux/actions/canchaActions";
 import validator from "validator";
 import "./CreadorCanchas.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { AdvancedImage } from "@cloudinary/react";
+import { CloudinaryImage } from "@cloudinary/url-gen";
+
 const CreadorCanchas = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [formErrors, setFormErrors] = useState({});
+  const [imageUrl, setImageUrl] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     image: "",
@@ -19,6 +27,26 @@ const CreadorCanchas = () => {
     players: "",
   });
 
+  const showWidget = () => {
+    const widgetOptions = {
+      cloudName: "ddyk63iig",
+      apiKey: "997972759344332",
+      api_secret: "l2z2jeoHRkh7W04MkawTA46IDZU",
+      uploadPreset: "tw1pqje3",
+      resourceType: "image",
+      multiple: false,
+    };
+    window.cloudinary.openUploadWidget(widgetOptions, (error, result) => {
+      if (!error && result && result.event === "success") {
+        handleChange("image", result.info.secure_url);
+        const cldImgInstance = new CloudinaryImage(result.info.public_id, {
+          cloudName: "ddyk63iig",
+        });
+        setImageUrl(cldImgInstance);
+      }
+    });
+  };
+
   const handleChange = (field, value) => {
     setFormData({ ...formData, [field]: value });
     validateForm(field, value);
@@ -30,21 +58,28 @@ const CreadorCanchas = () => {
       Object.keys(formErrors).length === 0 &&
       formErrors.constructor === Object
     ) {
-      dispatch(postCancha(formData));
-      setFormData({
-        name: "",
-        image: "",
-        price: "",
-        open: "",
-        close: "",
-        hasPromo: false,
-        description: "",
-        availability: null,
-        grass: "",
-        players: "",
-      });
+      try {
+        dispatch(postCancha(formData));
+        setFormData({
+          name: "",
+          image: "",
+          price: "",
+          open: "",
+          close: "",
+          hasPromo: false,
+          description: "",
+          availability: null,
+          grass: "",
+          players: "",
+        });
+        toast.success("Cancha creada correctamente");
+        history.push("/dashboard");
+      } catch (error) {
+        console.error(error);
+        toast.error("Ha ocurrrido un error al crear la cancha");
+      }
     } else {
-      console.log("Error: El formulario tiene errores");
+      toast.error("Error: El formulario tiene errores");
     }
   };
 
@@ -107,11 +142,8 @@ const CreadorCanchas = () => {
   };
 
   return (
-
     <form onSubmit={handleSubmit} className="form-container">
-
-   
-      {/* Nombre */}
+      <ToastContainer />
       <label htmlFor="name">Nombre:</label>
       <input
         type="text"
@@ -123,15 +155,19 @@ const CreadorCanchas = () => {
       />
       {formErrors.name && <p className="error-message">{formErrors.name}</p>}
       {/* Imagen */}
-      <label htmlFor="image">Imagen URL:</label>
-      <input
-        type="url"
-        id="image"
-        name="image"
-        value={formData.image}
-        onChange={(e) => handleChange("image", e.target.value)}
-      />
+
+      <label htmlFor="image">Imagen:</label>
+
       {formErrors.image && <p className="error-message">{formErrors.image}</p>}
+
+      <button onClick={showWidget}>Subir imagen</button>
+
+      {imageUrl && (
+        <div>
+          <AdvancedImage cldImg={imageUrl} style={{ width: "560px" }} />
+        </div>
+      )}
+
       {/* Precio */}
       <label htmlFor="price">Precio:</label>
       <input
@@ -192,15 +228,13 @@ const CreadorCanchas = () => {
         id="availability"
         name="availability"
         value={formData.availability}
-
         onChange={(e) =>
           setFormData({
             ...formData,
-            availability: e.target.value === 'true'
+            availability: e.target.value === "true",
           })
         }
         style={{ width: "20rem", height: "4rem" }}
-
       >
         <option value="true">Disponible</option>
         <option value="false">No disponible</option>
@@ -217,17 +251,69 @@ const CreadorCanchas = () => {
       {formErrors.grass && <p className="error-message">{formErrors.grass}</p>}
       {/* Cantidad de jugadores */}
       <label htmlFor="players">Players</label>
-      <input
-        type="number"
-        id="players"
-        name="players"
-        value={formData.players}
-        onChange={(e) => handleChange("players", e.target.value)}
-      />
+      <div style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
+        <label style={{ margin: "1rem", height: "20px", fontSize: "18px" }}>
+          <input
+            style={{
+              appearance: "none",
+              borderRadius:"50%",
+              width: "20px",
+              height:"20px",
+              marginRight:"8px",
+              backgroundColor: "rgb(118, 118, 118)"
+            }}
+            type="radio"
+            name="players"
+            value="5"
+            checked={formData.players === "5"}
+            onChange={(e) => handleChange("players", e.target.value)}
+          />
+          5
+        </label>
+        <label style={{ margin: "1rem", height: "20px", fontSize: "18px" }}>
+          <input
+            style={{
+              appearance: "none",
+              borderRadius:"50%",
+              width: "20px",
+              height:"20px",
+              marginRight:"8px",
+              backgroundColor: "rgb(118, 118, 118)"
+            }}
+            type="radio"
+            name="players"
+            value="7"
+            checked={formData.players === "7"}
+            onChange={(e) => handleChange("players", e.target.value)}
+          />
+          7
+        </label>
+        <label style={{ margin: "1rem", height: "20px", fontSize: "18px" }}>
+          <input
+            style={{
+              appearance: "none",
+              borderRadius:"50%",
+              width: "20px",
+              height:"20px",
+              marginRight:"8px",
+              backgroundColor: "rgb(118, 118, 118)"
+            }}
+            type="radio"
+            name="players"
+            value="11"
+            checked={formData.players === "11"}
+            onChange={(e) => handleChange("players", e.target.value)}
+          />
+          11
+        </label>
+      </div>
+
       {formErrors.players && (
         <p className="error-message">{formErrors.players}</p>
       )}
-      <button style={{backgroundColor: "#404040"}} type="submit">Crear Cancha</button>
+      <button style={{ backgroundColor: "#404040" }} type="submit">
+        Crear Cancha
+      </button>
     </form>
   );
 };

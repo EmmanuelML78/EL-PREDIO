@@ -21,19 +21,20 @@ body {
 } */
 
 .sobrepredio {
-    background-image: linear-gradient( to bottom, transparent 50%, var(--gris) 0%), url(../../assets/canchanosotros.jpg);
+    background-color: var(--gris);
     background-position: right;
     background-repeat: repeat, no-repeat;
-    background-size: 100%, 110rem;
-}
+    background-size: 100%, 110rem; 
+    /*
+/* }
 @media (min-width: 768px) {
     .sobrepredio {
         background-image: linear-gradient( to left, transparent 50%, var(--gris) 0%), url(../../assets/Football.jpg);
         background-repeat: repeat, no-repeat;
-    }
+    } */
 }
 
-.contenedorgrid {
+/* .contenedorgrid {
     display: grid;
     grid-template-rows: repeat(2, 40rem);
     row-gap: 5rem;
@@ -44,7 +45,7 @@ body {
         grid-template-columns: repeat(2, 1fr);
         column-gap: 4rem;
     }
-}
+} */
 
 .texto {
     grid-row: 2 / 3;
@@ -56,7 +57,7 @@ body {
     padding-top: 1rem;
     padding-left: 5rem;
     padding-right: 5rem;
-    padding-bottom: 5rem;
+    /* padding-bottom: 5rem; */
 }
 
 .texto h2 {

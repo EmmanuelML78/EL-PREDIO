@@ -1,30 +1,31 @@
-.canchas-table-container {
+.canchasTableContainer {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
     background-color: #2a2a2a;
     padding: 1rem;
-    border-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
   }
   
-  .canchas-table {
+  .canchasTable {
     width: 100%;
     border-collapse: collapse;
     color: #f0f0f0;
   }
   
-  .canchas-table th {
+  .canchasTable th {
     background-color: #3a3a3a;
     padding: 0.5rem;
     text-align: left;
   }
   
-  .canchas-table td {
+  .canchasTable td {
     padding: 0.5rem;
     border-bottom: 1px solid #3a3a3a;
   }
   
-  .canchas-table button {
+  .canchasTable button {
     background-color: transparent;
     border: none;
     color: #f0f0f0;
@@ -32,7 +33,7 @@
     margin-right: 0.5rem;
   }
   
-  .canchas-table button:hover {
+  .canchasTable button:hover {
     color: #d0d0d0;
   }
   
@@ -40,29 +41,32 @@
   color: red;
 }
 
-.form-container {
+.formContainer {
   display: flex;
   justify-content: center;
 }
 
-.form-container input{
+.formContainer input{
   color: green;
   width: 25rem;
 }
 
-.form-container textarea{
+.formContainer textarea{
   color: green;
 }
 
-.form-container select{
+.formContainer select{
   color: green;
   width: 20rem;
   height: 5rem;
 }
 
-.form-container label{
+.formContainer label{
   color: white;
   font-weight: bold;
   font-size: 1.5rem;
 
+}
+.boton {
+  background-color: transparent;
 }

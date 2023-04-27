@@ -9,6 +9,8 @@ import "./Home.module.css";
 import { setUser } from "../../redux/actions/authActions";
 import Error401 from "../Error401/Error401";
 import Loading from "../Loading/Loading";
+import s from "./Home.module.css";
+import { FaWhatsapp } from "react-icons/fa";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -17,6 +19,7 @@ const Home = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      user;
       if (!user) {
         await dispatch(setUser());
       }
@@ -24,27 +27,30 @@ const Home = () => {
     };
     fetchData();
   }, [dispatch, user]);
-  console.log("user:", user);
 
   return (
     <div className="home-container">
       {isLoading ? (
         <Loading />
-      ) : user && user.id ? (
+      ) : user ? (
         <>
           <Header />
+          <a
+            href="https://wa.me/521234567890"
+            target="_blank"
+            className={s.wpp}
+          >
+            <FaWhatsapp size={50} />
+          </a>
           <Cards />
           <Promociones />
           <Nosotros />
           <Footer />
         </>
       ) : (
-        user &&
-        user.error && (
-          <>
-            <Error401 />
-          </>
-        )
+        <>
+          <Error401 />
+        </>
       )}
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./Header.module.css";
 import Carousel from "../Carousel/Carousel";
-import { Link, Redirect } from "react-router-dom/cjs/react-router-dom.min";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { setUser, logoutUser } from "../../redux/actions/authActions";
 import { connect, useSelector, useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
@@ -10,7 +10,6 @@ import "react-toastify/dist/ReactToastify.css";
 function Header() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
-  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     if (!user) {
@@ -21,7 +20,7 @@ function Header() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     logoutUser();
-    setRedirect(true);
+    window.location.href = "/";
     toast.success("¡Has cerrado sesión correctamente!", {
       position: "bottom-right",
       autoClose: 5000,
@@ -33,10 +32,6 @@ function Header() {
     });
   };
 
-  if (redirect) {
-    return <Redirect to="/" />;
-  }
-
   return (
     <>
       <ToastContainer />
@@ -45,7 +40,7 @@ function Header() {
         <div className={styles.contenedor}>
           <div className={styles.barra}>
             <div className={styles.logo}>
-              <Link to="/home" style={{color: "white"}}>
+              <Link to="/home" style={{ color: "white" }}>
                 <h1 className={styles.nombresitio}>
                   ElPredio<span>Fútbol</span>
                 </h1>
@@ -58,12 +53,16 @@ function Header() {
 
               <nav className={styles.navegacion}>
                 {/* <a href="#">Inicio</a> */}
-                <Link to="/nosotros">Nosotros</Link>
-                <a href="#">Mis reservas</a>
+                {/* <Link to="/nosotros">Nosotros</Link> */}
+                <Link to="/misreservas">Mis reservas</Link>
                 <a href="#">Promociones</a>
                 <Link to="/contactos">Contacto</Link>
-                <Link to="/dashboard">Dashboard</Link>
-                <a style={{cursor: "pointer"}} onClick={handleLogout}>Salir</a>
+                <Link to="/dashboard">
+                  {user && user.isAdmin ? "Administración" : "Perfil"}
+                </Link>
+                <a style={{ cursor: "pointer" }} onClick={handleLogout}>
+                  Salir
+                </a>
               </nav>
             </div>
           </div>

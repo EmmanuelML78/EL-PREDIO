@@ -10,12 +10,8 @@ const {
   getUsersInactive,
   getUserById,
 } = require("../controllers/userController");
-const { User, Reserva } = require("../db");
-const {
-  authMiddleware,
-  adminMiddleware,
-  requireAuth,
-} = require("../middlewares/auth");
+const { User, Reserva, Cancha } = require("../db");
+const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 
 const router = Router();
 
@@ -78,7 +74,9 @@ router.get("/users/:id", async (req, res) => {
 router.get("/me", async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id, {
-      include: { model: Reserva, as: "reservas" },
+      include: [
+        { model: Reserva, as: "reservas", paranoid: false, include: {model: Cancha, as: "cancha"} },
+      ],
       paranoid: false,
     });
     if (!user) {
@@ -120,12 +118,13 @@ router.put("/me", async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    const { name, lastName, email, password, phone } = req.body;
+    const { name, lastName, email, password, phone, image } = req.body;
 
     user.name = name || user.name;
     user.lastName = lastName || user.lastName;
     user.email = email || user.email;
     user.phone = phone || user.phone;
+    user.image = image || user.image
 
     if (password) {
       const salt = await bcryptjs.genSalt(10);
