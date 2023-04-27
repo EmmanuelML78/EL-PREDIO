@@ -52,10 +52,10 @@ router.get(
   }
 );
 
-router.get("/users", getUsersActive);
-router.get("/users/inactivos", getUsersInactive);
+router.get("/users", authMiddleware, getUsersActive);
+router.get("/users/inactivos", authMiddleware, getUsersInactive);
 
-router.get("/users/:id", async (req, res) => {
+router.get("/users/:id", authMiddleware, async (req, res) => {
   const { id } = req.params;
   try {
     const user = await getUserById(id);
@@ -71,11 +71,16 @@ router.get("/users/:id", async (req, res) => {
   }
 });
 
-router.get("/me", async (req, res) => {
+router.get("/me", authMiddleware, async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id, {
       include: [
-        { model: Reserva, as: "reservas", paranoid: false, include: {model: Cancha, as: "cancha"} },
+        {
+          model: Reserva,
+          as: "reservas",
+          paranoid: false,
+          include: { model: Cancha, as: "cancha" },
+        },
       ],
       paranoid: false,
     });
@@ -89,7 +94,7 @@ router.get("/me", async (req, res) => {
   }
 });
 
-router.post("/users", async (req, res) => {
+router.post("/users", authMiddleware, async (req, res) => {
   let { name, lastName, email, isAdmin, password, phone } = req.body;
   try {
     const salt = await bcryptjs.genSalt(10);
@@ -109,7 +114,7 @@ router.post("/users", async (req, res) => {
   }
 });
 
-router.put("/users/:id", updateUser);
+router.put("/users/:id", authMiddleware, updateUser);
 
 router.put("/me", async (req, res) => {
   try {
@@ -124,7 +129,7 @@ router.put("/me", async (req, res) => {
     user.lastName = lastName || user.lastName;
     user.email = email || user.email;
     user.phone = phone || user.phone;
-    user.image = image || user.image
+    user.image = image || user.image;
 
     if (password) {
       const salt = await bcryptjs.genSalt(10);
@@ -141,7 +146,7 @@ router.put("/me", async (req, res) => {
   }
 });
 
-router.delete("/users/:id", async (req, res) => {
+router.delete("/users/:id", authMiddleware, async (req, res) => {
   const id = req.params.id;
   try {
     const deletedUser = await deleteUser(id);
