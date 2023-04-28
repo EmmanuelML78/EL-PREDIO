@@ -116,7 +116,7 @@ router.post("/users", authMiddleware, async (req, res) => {
 
 router.put("/users/:id", authMiddleware, updateUser);
 
-router.put("/me", async (req, res) => {
+router.put("/me",authMiddleware, async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id);
     if (!user) {
