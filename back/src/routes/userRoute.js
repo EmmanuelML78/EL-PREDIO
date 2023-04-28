@@ -15,6 +15,7 @@ const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 
 const router = Router();
 
+//login local
 router.post("/login", (req, res, next) => {
   passport.authenticate("local", { session: false }, (err, user, info) => {
     if (err) {
@@ -37,6 +38,7 @@ router.post("/login", (req, res, next) => {
   })(req, res, next);
 });
 
+//login Google
 router.get(
   "/google",
   passport.authenticate("google", {
@@ -47,14 +49,15 @@ router.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
   (req, res) => {
-    // console.log(req.isAuthenticated());
     return res.redirect("http://localhost:5173/home");
   }
 );
 
+//traer users activos-inactivos
 router.get("/users", authMiddleware, getUsersActive);
 router.get("/users/inactivos", authMiddleware, getUsersInactive);
 
+//traer user por ID
 router.get("/users/:id", authMiddleware, async (req, res) => {
   const { id } = req.params;
   try {
@@ -71,6 +74,7 @@ router.get("/users/:id", authMiddleware, async (req, res) => {
   }
 });
 
+//traer user autenticado
 router.get("/me", authMiddleware, async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id, {
@@ -94,6 +98,20 @@ router.get("/me", authMiddleware, async (req, res) => {
   }
 });
 
+//cerrar sesión Google
+router.get("/logout", (req, res) => {
+  try {
+    req.logout();
+    req.session.destroy();
+    res.clearCookie("connect.sid", { path: "/" });
+    res.status(200).json({ message: "Haz cerrado sesión con éxito" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Error al cerrar sesión" });
+  }
+});
+
+//crear user
 router.post("/users", authMiddleware, async (req, res) => {
   let { name, lastName, email, isAdmin, password, phone } = req.body;
   try {
@@ -114,8 +132,10 @@ router.post("/users", authMiddleware, async (req, res) => {
   }
 });
 
+//modificar user
 router.put("/users/:id", authMiddleware, updateUser);
 
+//modificar user autenticado
 router.put("/me", async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id);
@@ -146,6 +166,7 @@ router.put("/me", async (req, res) => {
   }
 });
 
+//eliminar user
 router.delete("/users/:id", authMiddleware, async (req, res) => {
   const id = req.params.id;
   try {

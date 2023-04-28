@@ -1,31 +1,6 @@
 const jwt = require("jsonwebtoken");
 const { User } = require("../db");
 
-// const authMiddleware = async (req, res, next) => {
-//   // console.log(req.user);
-//   try {
-//     const token = req.headers.authorization.split(" ")[1];
-//     console.log(token);
-//     const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-//     const userId = decodedToken.userId;
-
-//     const user = await User.findByPk(userId);
-
-//     if (!user) {
-//       throw new Error();
-//     }
-
-//     req.user = user;
-//     next();
-//   } catch (error) {
-//     if (error instanceof jwt.TokenExpiredError) {
-//       res.status(401).json({ error: "Token expirado" });
-//     } else {
-//       res.status(401).json({ error: "Acceso no autorizado" });
-//     }
-//   }
-// };
-
 const authMiddleware = async (req, res, next) => {
   try {
     let user = null;
@@ -55,17 +30,22 @@ const authMiddleware = async (req, res, next) => {
 
 const adminMiddleware = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decodedToken.userId;
-
-    const user = await User.findByPk(userId);
-
-    if (!user) {
-      throw new Error();
+    let user = null;
+    if (req.isAuthenticated()) {
+      if (req.user.isAdmin) {
+        user = req.user;
+      }
+    } else if (req.headers.authorization) {
+      const token = req.headers.authorization.split(" ")[1];
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      const userId = decodedToken.userId;
+      user = await User.findByPk(userId);
+      if (!user.isAdmin) {
+        throw new Error();
+      }
     }
 
-    if (!user.isAdmin) {
+    if (!user) {
       throw new Error();
     }
 
@@ -80,15 +60,4 @@ const adminMiddleware = async (req, res, next) => {
   }
 };
 
-const requireAuth = async (req, res, next) => {
-  console.log(req.isAuthenticated());
-  if (req.isAuthenticated()) {
-    // console.log("User is authenticated");
-    return next();
-  } else {
-    // console.log("User is not authenticated");
-    return res.redirect("http://localhost:5173");
-  }
-};
-
-module.exports = { authMiddleware, adminMiddleware, requireAuth };
+module.exports = { authMiddleware, adminMiddleware };
