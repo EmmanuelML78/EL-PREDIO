@@ -32,7 +32,7 @@ let capsEntries = entries.map((entry) => [
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-const { User, Reserva, Cancha } = sequelize.models;
+const { User, Reserva, Cancha, Review } = sequelize.models;
 
 User.hasMany(Reserva, { as: "reservas", foreignKey: "userId" });
 User.hasMany(Reserva, {
@@ -47,6 +47,13 @@ Cancha.hasMany(Reserva, {
 
 Reserva.belongsTo(User, { as: "user", foreignKey: "userId" });
 Reserva.belongsTo(Cancha, { as: "cancha", foreignKey: "canchaId" });
+
+User.hasMany(Review, { as: "review", foreignKey: "userId" });
+User.hasMany(Reserva, {
+  onDelete: "Cascade",
+  onUpdate: "Cascade",
+});
+Review.belongsTo(User, { as: "user", foreignKey: "userId" });
 
 module.exports = {
   ...sequelize.models,
