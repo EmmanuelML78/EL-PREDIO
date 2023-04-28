@@ -66,15 +66,24 @@ const updateReserva = async (id, date, start, end, status, hasPromo) => {
 
 const payReserver = async (req, res) => {
   const reservaId = req.body.id;
-  const datos = req.body;
+  // console.log("body: ", reservaId)
+  const reserva = await Reserva.findByPk(reservaId, {
+    include: [
+      {
+        model: Cancha,
+        as: "cancha",
+      },
+    ],
+  });
+
   let preference = {
     items: [
       {
         id: reservaId,
-        title: datos.title,
+        title: reserva.cancha.name,
         quantity: 1,
         currency_id: "ARS",
-        unit_price: datos.price,
+        unit_price: reserva.cancha.price,
       },
     ],
     back_urls: {

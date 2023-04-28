@@ -11,8 +11,10 @@ import ReservasTable from "../ReservasTable/ReservasTable";
 import Error401 from "../Error401/Error401";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 function DashBoard() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const user = useSelector((state) => state.auth.user);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedTable, setSelectedTable] = useState("reservas");
@@ -40,7 +42,7 @@ function DashBoard() {
   return (
     <>
       {!isLoading && !user ? (
-        <Error401 />
+        history.push("/login")
       ) : !isLoading && user.isAdmin ? (
         <>
           <Navbar />
