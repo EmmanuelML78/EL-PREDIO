@@ -2,7 +2,7 @@ const { Router } = require("express");
 const userRoute = require("./userRoute");
 const canchaRoute = require("./canchaRoutes");
 const reservaRoute = require("./reservaRoute");
-const reviewsRoute = requerie("./reviewsRoute");
+const reviewsRoute = require("./reviewRoute");
 
 const router = Router();
 
