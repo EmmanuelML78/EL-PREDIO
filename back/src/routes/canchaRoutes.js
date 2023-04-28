@@ -51,7 +51,6 @@ router
     }
   })
   .get("/canchas/eliminadas", adminMiddleware, getCanchaEliminadas)
-
   .post("/", adminMiddleware, async (req, res) => {
     const {
       name,
@@ -84,7 +83,7 @@ router
         grass,
         players,
       });
-      // res.status(200).send('Cancha creada con exito');
+      // return res.status(200).send("Cancha creada con exito");
       return res.status(200).json(newCancha);
     } catch (error) {
       console.log(error);

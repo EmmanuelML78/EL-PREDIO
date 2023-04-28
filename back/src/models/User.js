@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 
 module.exports = (sequelize) => {
-  const User = sequelize.define(
+  sequelize.define(
     "user",
     {
       name: {
@@ -32,18 +32,7 @@ module.exports = (sequelize) => {
       phone: {
         type: DataTypes.STRING,
       },
-      reviews: {
-        type: DataTypes.JSON,
-        defaultValue: [],
-      },
     },
     { paranoid: true }
   );
-
-  User.prototype.addReview = function (score, text) {
-    const review = { score, text };
-    this.reviews.push(review);
-  };
-
-  return User;
 };
