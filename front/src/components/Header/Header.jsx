@@ -6,6 +6,7 @@ import { setUser, logoutUser } from "../../redux/actions/authActions";
 import { connect, useSelector, useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { FaSignInAlt } from "react-icons/fa";
 
 function Header() {
   const dispatch = useDispatch();
@@ -52,17 +53,27 @@ function Header() {
               </span>
 
               <nav className={styles.navegacion}>
-                {/* <a href="#">Inicio</a> */}
-                {/* <Link to="/nosotros">Nosotros</Link> */}
-                <Link to="/misreservas">Mis reservas</Link>
+                {user ? <Link to="/misreservas">Mis reservas</Link> : null}
                 <a href="#">Promociones</a>
                 <Link to="/contactos">Contacto</Link>
-                <Link to="/dashboard">
-                  {user && user.isAdmin ? "Administración" : "Perfil"}
-                </Link>
-                <a style={{ cursor: "pointer" }} onClick={handleLogout}>
-                  Salir
-                </a>
+                {user ? (
+                  <Link to="/dashboard">
+                    {user && user.isAdmin ? "Administración" : "Perfil"}
+                  </Link>
+                ) : null}
+                {user ? (
+                  <a href="#" onClick={handleLogout} style={{ display: "flex", placeItems: "center" }}>
+                    <FaSignInAlt style={{ marginRight: "1rem" }} />
+                    Salir
+                  </a>
+                ) : (
+                  <Link to="/login">
+                    <p style={{ display: "flex", placeItems: "center" }}>
+                      <FaSignInAlt style={{ marginRight: "1rem" }} />
+                      Ingresar
+                    </p>
+                  </Link>
+                )}
               </nav>
             </div>
           </div>

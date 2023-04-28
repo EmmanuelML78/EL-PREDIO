@@ -5,7 +5,7 @@ const Error401 = () => {
   const history = useHistory();
 
   const redirectLogin = () => {
-    history.push("/");
+    history.push("/login");
   };
 
   return (
