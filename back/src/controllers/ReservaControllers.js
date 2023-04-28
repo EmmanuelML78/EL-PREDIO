@@ -1,5 +1,6 @@
 const { Reserva, User, Cancha } = require("../db");
 const { mercadopago } = require("../utils/mercadoPago");
+const nodemailer = require("nodemailer");
 
 const getAllReservations = async (reservaid) => {
   try {

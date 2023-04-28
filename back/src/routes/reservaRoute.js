@@ -6,6 +6,7 @@ const {
   getUsersDb,
   payReserver,
 } = require("../controllers/ReservaControllers");
+const { enviarCorreo } = require("../controllers/nodemailerControllers");
 const { Reserva, Cancha, User } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 // const mercadopago = require("../utils/mercadoPago");
@@ -67,7 +68,7 @@ router
     }
   })
 
-  .post("/", authMiddleware, async (req, res) => {
+  .post("/", adminMiddleware, async (req, res) => {
     const { date, start, end, status, hasPromo, userId, canchaId } = req.body;
     try {
       const reservation = await Reserva.create({
@@ -85,7 +86,7 @@ router
       res.status(500).json({ error: "Error al crear la reserva" });
     }
   })
-  .post("/pagos", payReserver)
+  .post("/pagos", payReserver, enviarCorreo)
 
   .delete("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;

@@ -12,6 +12,7 @@ const {
 } = require("../controllers/userController");
 const { User, Reserva, Cancha } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
+const { enviarCorreo } = require("../controllers/nodemailerControllers");
 
 const router = Router();
 
@@ -107,6 +108,12 @@ router.post("/users", authMiddleware, async (req, res) => {
       password: hashPassword,
       phone,
     });
+    enviarCorreo(
+      email,
+      password,
+      "se registro con exito",
+      "Bienvenido al predio"
+    );
     res.status(201).send(createUser);
   } catch (error) {
     console.log(error);
