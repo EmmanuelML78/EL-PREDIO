@@ -150,19 +150,15 @@ const Detail = ({ cancha, getCanchaById, match }) => {
         <>
           <Error401 />
         </>
-      ) : !isUserLoading && !user ? (
-        <>
-          <Error401 />
-        </>
-      ) : !c.availability ? (
+      )  : c && !c.availability ? (
         <>La cancha no esta disponible</>
-      ) : (
+      ) : c && (
         <>
           <Navbar />
           <div className={s.father}>
             <div className={s.container}>
               <h1>{c.name}</h1>
-              <p>Césped: {c.grass}</p>
+              <p>Césped {c.grass}</p>
               <p>Cancha de futbol {c.players}</p>
               <p>Descripción: {c.description}</p>
               <p style={{color:"green", fontWeight:600}}>{c.availability ? "Disponible" : "No disponible"}</p>
@@ -176,7 +172,7 @@ const Detail = ({ cancha, getCanchaById, match }) => {
                   </p>
                   <input
                     min={moment().format("YYYY-MM-DD")}
-                    max={moment().add(7, "days").format("YYYY-MM-DD")}
+                    max={moment().add(30, "days").format("YYYY-MM-DD")}
                     className={s.date}
                     type="date"
                     value={selectedDate}

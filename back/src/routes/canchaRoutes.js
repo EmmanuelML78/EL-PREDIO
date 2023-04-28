@@ -4,6 +4,7 @@ const {
   getAllcanchas,
   deleteCancha,
   updateCanchas,
+  getCanchaEliminadas,
 } = require("../controllers/CanchaControllers");
 const { Cancha, Reserva } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
@@ -49,6 +50,7 @@ router
       res.status(500).json({ message: "Error al obtener la Cancha" });
     }
   })
+  .get("/canchas/eliminadas", adminMiddleware, getCanchaEliminadas)
   .post("/", adminMiddleware, async (req, res) => {
     const {
       name,
@@ -81,7 +83,7 @@ router
         grass,
         players,
       });
-      // res.status(200).send('Cancha creada con exito');
+      // return res.status(200).send("Cancha creada con exito");
       return res.status(200).json(newCancha);
     } catch (error) {
       console.log(error);

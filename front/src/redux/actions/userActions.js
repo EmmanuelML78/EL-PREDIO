@@ -8,7 +8,7 @@ export const DELETE_USER = "DELETE_USER";
 
 export const getUsers = () => {
   return async function (dispatch) {
-    const response = await instance.get("users");
+    const response = await instance.get("users", { withCredentials: true });
     dispatch({
       type: GET_USERS,
       payload: response.data,
@@ -21,7 +21,7 @@ export const getUserById = (userId) => {};
 
 export const postUser = (userData) => {
   return async function (dispatch) {
-    const response = await instance.post("users", userData);
+    const response = await instance.post("users", userData, { withCredentials: true });
     dispatch({
       type: POST_USER,
       payload: response.data,

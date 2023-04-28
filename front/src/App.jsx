@@ -19,10 +19,13 @@ function App() {
   return (
     <>
       <Switch>
-        <Route exact path="/">
+        <Route exact path="/login">
           <Landing />
         </Route>
-        <Route path="/home">
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route exact path="/home">
           <Home />
         </Route>
         <Route

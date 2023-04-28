@@ -7,12 +7,13 @@ import { Promociones } from "../Promociones/Promociones";
 import { Nosotros } from "../Nosotros/Nosotros";
 import "./Home.module.css";
 import { setUser } from "../../redux/actions/authActions";
-import Error401 from "../Error401/Error401";
+import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import Loading from "../Loading/Loading";
 import s from "./Home.module.css";
 import { FaWhatsapp } from "react-icons/fa";
 
 const Home = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,12 +28,13 @@ const Home = () => {
     };
     fetchData();
   }, [dispatch, user]);
+  console.log("cookies:", document.cookie);
 
   return (
     <div className="home-container">
       {isLoading ? (
         <Loading />
-      ) : user ? (
+      ) : (
         <>
           <Header />
           <a
@@ -46,10 +48,6 @@ const Home = () => {
           <Promociones />
           <Nosotros />
           <Footer />
-        </>
-      ) : (
-        <>
-          <Error401 />
         </>
       )}
     </div>

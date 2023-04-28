@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { setUser, logoutUser } from "../../redux/actions/authActions";
 import styles from "./Navbar.module.css";
 import { Link } from "react-router-dom";
+import { FaSignInAlt } from "react-icons/fa";
 const Navbar = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
@@ -49,12 +50,28 @@ const Navbar = () => {
                 <Link to="/misreservas">Mis reservas</Link>
                 <a href="#">Promociones</a>
                 <Link to="/contactos">Contacto</Link>
-                <Link to="/dashboard">
-                  {user && user.isAdmin ? "Administración" : "Perfil"}
-                </Link>
-                <a style={{ cursor: "pointer" }} onClick={handleLogout}>
-                  Salir
-                </a>
+                {user ? (
+                  <Link to="/dashboard">
+                    {user && user.isAdmin ? "Administración" : "Perfil"}
+                  </Link>
+                ) : null}
+                {user ? (
+                  <a
+                    href="#"
+                    onClick={handleLogout}
+                    style={{ display: "flex", placeItems: "center" }}
+                  >
+                    <FaSignInAlt style={{ marginRight: "1rem" }} />
+                    Salir
+                  </a>
+                ) : (
+                  <Link to="/login">
+                    <p style={{ display: "flex", placeItems: "center" }}>
+                      <FaSignInAlt style={{ marginRight: "1rem" }} />
+                      Ingresar
+                    </p>
+                  </Link>
+                )}
               </nav>
             </div>
           </div>

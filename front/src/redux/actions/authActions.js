@@ -31,7 +31,7 @@ export const logoutUser = () => {
 export const setUser = () => {
   return async function (dispatch) {
     try {
-      const response = await instance.get("me");
+      const response = await instance.get("me", { withCredentials: true });
       dispatch({
         type: SET_USER,
         payload: response.data,
