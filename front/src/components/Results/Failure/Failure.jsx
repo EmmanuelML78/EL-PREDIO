@@ -5,7 +5,7 @@ const Failure = () => {
   return (
     <>
       <div className={style.failure}>
-        <h1>EL PAGO NO FUE APROVADO</h1>
+        <h1>EL PAGO NO FUE APROBADO</h1>
         <Link to={"/home"}>
           <button>volver al establecimiento</button>
         </Link>

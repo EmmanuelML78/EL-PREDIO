@@ -1,4 +1,8 @@
-/* .failure {
+/* body {
+  background: #5e1414;
+}
+
+.failure {
   background-color: #ada9a9;
   padding: 20px;
   border: 1px solid #ff69b4;

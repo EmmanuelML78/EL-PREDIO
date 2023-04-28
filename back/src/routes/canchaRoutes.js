@@ -4,6 +4,7 @@ const {
   getAllcanchas,
   deleteCancha,
   updateCanchas,
+  getCanchaEliminadas,
 } = require("../controllers/CanchaControllers");
 const { Cancha, Reserva } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
@@ -49,6 +50,8 @@ router
       res.status(500).json({ message: "Error al obtener la Cancha" });
     }
   })
+  .get("/canchas/eliminadas", adminMiddleware, getCanchaEliminadas)
+
   .post("/", adminMiddleware, async (req, res) => {
     const {
       name,
