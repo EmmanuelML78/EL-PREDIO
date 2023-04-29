@@ -1,0 +1,79 @@
+.reviews {
+  width: 100%;
+  padding: 20px;
+  margin: 0 auto;
+
+}
+
+.card-container {
+  display: flex; /* Alinea horizontalmente */
+  justify-content: space-around;
+  
+}
+
+.card {
+  border-radius: 10px;
+  box-shadow: 0-3 px6 px rgba (0, 0, 0, 0.1);
+  margin-bottom: 20 px;
+  overflow: hidden;
+ 
+}
+
+.card-header {
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+.card-text {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  font-weight: 400;
+  color: white;
+}
+
+.card-score {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-score i {
+  font-size: 24px;
+  color: #ffc107;
+  margin-right: 5px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.prev-btn,
+.next-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+  background-color: #0062cc;
+}
+
+.prev-btn:disabled,
+.next-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
