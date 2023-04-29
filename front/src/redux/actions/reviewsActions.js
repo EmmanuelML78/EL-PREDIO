@@ -14,8 +14,8 @@ export const getReviews = () => async (dispatch) => {
   });
 };
 
-export const postReviews = (data) => async (dispatch) => {
-  const res = await instance.post("/reviews", data);
+export const postReviews = (userData) => async (dispatch) => {
+  const res = await instance.post("/reviews", userData);
   console.log("action", res.data);
   dispatch({
     type: POST_REVIEW,
