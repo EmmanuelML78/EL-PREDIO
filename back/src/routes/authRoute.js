@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
-
+const { sendResetPassword } = require("../controllers/nodemailerControllers");
 const router = Router();
 
 //login local
