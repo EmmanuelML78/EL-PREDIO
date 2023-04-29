@@ -1,7 +1,6 @@
 const nodemailer = require("nodemailer");
 
-function enviarCorreo(email, password) {
-  console.log(email);
+function enviarCorreo(name, email) {
   let transporter = nodemailer.createTransport({
     host: "smtp.office365.com",
     port: 587,
@@ -21,12 +20,8 @@ function enviarCorreo(email, password) {
     html: `
         <h1>Registro completado</h1>
         <p>Hola,</p>
-        <p>Gracias por registrarte con nosotros. Aquí está la información que proporcionaste:</p>
-        <ul>
-            <li>Correo electrónico: ${email}</li>
-            <li>Contraseña: ${password}</li>
-        </ul>
-        <p>¡Bienvenido al Predio!</p>
+        <p>Gracias por registrarte con nosotros.</p>
+        <p>¡Bienvenido ${name} a El Predio!</p>
     `,
   };
   //   console.log(mailOptions);
