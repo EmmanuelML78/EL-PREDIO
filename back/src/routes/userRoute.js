@@ -74,8 +74,8 @@ router.post("/users", authMiddleware, async (req, res) => {
       phone,
     });
     enviarCorreo(
+      name,
       email,
-      password,
       "se registro con exito",
       "Bienvenido al predio"
     );
