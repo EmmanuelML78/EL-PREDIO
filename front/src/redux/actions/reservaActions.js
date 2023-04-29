@@ -95,7 +95,7 @@ async function actualizarReserva(reservaId, mercadoPagoResponse) {
   const response = await instance.put(`reserva/${reservaId}`, { estado });
   return response.data;
 }
-console.log(estado);
+
 
 export const deleteReserva = (reservaId) => {};
 
