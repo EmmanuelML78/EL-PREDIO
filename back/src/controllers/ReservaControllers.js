@@ -105,10 +105,26 @@ const payReserver = async (req, res) => {
   }
 };
 
+const updatePayReserva = async (req, res) => {
+  const reservaId = req.query.external_reference; // el ID de la reserva se envía en el parámetro external_reference
+  const status = req.query.status; // el estado de la transacción se envía en el parámetro status
+
+  const reserva = await Reserva.findByPk(reservaId);
+  if (!reserva) {
+    return res.status(404).json({ error: "Reserva no encontrada" });
+  }
+
+  reserva.estado = status;
+  await reserva.save();
+
+  res.send("OK"); // MercadoPago espera una respuesta 200 OK para confirmar la recepción de la notificación
+};
+
 module.exports = {
   getAllReservations,
   deleteReserva,
   updateReserva,
   getUsersDb,
   payReserver,
+  updatePayReserva,
 };

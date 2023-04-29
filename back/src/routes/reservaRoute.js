@@ -5,6 +5,7 @@ const {
   updateReserva,
   getUsersDb,
   payReserver,
+  updatePayReserva,
 } = require("../controllers/ReservaControllers");
 const { enviarCorreo } = require("../controllers/nodemailerControllers");
 const { Reserva, Cancha, User } = require("../db");
@@ -86,7 +87,9 @@ router
       res.status(500).json({ error: "Error al crear la reserva" });
     }
   })
-  .post("/pagos", payReserver, enviarCorreo)
+
+  .post("/pagos", payReserver)
+  .put("/pagos/update", updatePayReserva)
 
   .delete("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;
