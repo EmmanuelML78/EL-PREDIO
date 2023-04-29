@@ -27,7 +27,6 @@ router
             {
               model: User,
               as: "user",
-              attributes: ["name"],
             },
           ],
         });
@@ -42,7 +41,9 @@ router
       res.status(500).json({ message: "Error al obtener la Review" });
     }
   })
+
   .get("/reviews/eliminadas", adminMiddleware, getReviewsEliminadas)
+
   .post("/", authMiddleware, async (req, res) => {
     const { score, text } = req.body;
     try {

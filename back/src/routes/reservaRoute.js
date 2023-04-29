@@ -5,6 +5,7 @@ const {
   updateReserva,
   getUsersDb,
   payReserver,
+  updatePayReserva,
 } = require("../controllers/ReservaControllers");
 const { Reserva, Cancha, User } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
@@ -86,6 +87,7 @@ router
     }
   })
   .post("/pagos", payReserver)
+  .put("/pagos/update", updatePayReserva)
 
   .delete("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;
