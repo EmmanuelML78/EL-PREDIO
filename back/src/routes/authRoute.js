@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
+const bcryptjs = require("bcryptjs");
 
 const router = Router();
 
@@ -36,9 +37,9 @@ router.get(
 );
 router.get(
   "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
+  passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
-    return res.redirect("http://localhost:5173/home");
+    return res.redirect("http://localhost:5173");
   }
 );
 
@@ -135,34 +136,5 @@ router.post("/reset-password/:token", async (req, res, next) => {
     next(error);
   }
 });
-
-// async function sendResetPasswordEmail(to, resetPasswordUrl) {
-//   const transporter = nodemailer.createTransport({
-//     // configuración para el servicio de correo electrónico que estés utilizando
-//   });
-
-//   const mailOptions = {
-//     from: "Tu empresa <tuempresa@example.com>",
-//     to,
-//     subject: "Restablecimiento de contraseña",
-//     text: `Hola,\n\nHaz solicitado restablecer tu contraseña en nuestra aplicación. Haz clic en el siguiente enlace para restablecer tu contraseña:\n\n${resetPasswordUrl}\n\nSi no solicitaste restablecer tu contraseña, ignora este mensaje.\n\nSaludos,\nTu empresa`,
-//     html: `<!DOCTYPE html>
-// <html>
-//   <head>
-//     <meta charset="UTF-8">
-//     <title>Restablecimiento de contraseña</title>
-//   </head>
-//   <body>
-//     <p>Hola,</p>
-//     <p>Haz solicitado restablecer tu contraseña en nuestra aplicación. Haz clic en el siguiente enlace para restablecer tu contraseña:</p>
-//     <p><a href="${resetPasswordUrl}">${resetPasswordUrl}</a></p>
-//     <p>Si no solicitaste restablecer tu contraseña, ignora este mensaje.</p>
-//     <p>Saludos,<br>Tu empresa</p>
-//   </body>
-// </html>`,
-//   };
-
-//   await transporter.sendMail(mailOptions);
-// }
 
 module.exports = router;

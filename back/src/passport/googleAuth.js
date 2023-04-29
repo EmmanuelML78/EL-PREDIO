@@ -45,7 +45,6 @@ passport.use(
           email: user.email,
           accessToken,
         };
-        // console.log(GoogleStrategy);
         return done(null, userData);
       } catch (err) {
         console.error(err);
