@@ -89,8 +89,8 @@ router.post("/users", authMiddleware, async (req, res) => {
 //modificar user
 router.put("/users/:id", authMiddleware, updateUser);
 
-//modificar user autenticado
 router.put("/me", authMiddleware, async (req, res) => {
+
   try {
     const user = await User.findByPk(req.user.id);
     if (!user) {
