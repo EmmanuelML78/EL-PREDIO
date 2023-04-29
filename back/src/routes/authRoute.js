@@ -2,6 +2,7 @@ const { Router } = require("express");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
+const { sendResetPassword } = require("../controllers/nodemailerControllers");
 
 const router = Router();
 
