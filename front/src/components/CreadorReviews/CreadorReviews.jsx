@@ -1,17 +1,46 @@
 import { useState, useEffect } from "react";
 import { postReviews } from "../../redux/actions/reviewsActions";
-import { useDispatch } from "react-redux";
+import { setUser } from "../../redux/actions/authActions";
+import { useDispatch, useSelector } from "react-redux";
+import { confirmAlert } from "react-confirm-alert";
 import "./CreadorReviews.css";
 
 function CreadorReviews() {
   const [score, setScore] = useState("");
   const [text, setText] = useState("");
-
+  const user = useSelector((state) => state.auth.user);
+  console.log(user)
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await dispatch(setUser(user));
+    };
+    fetchData();
+  }, [dispatch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(postReviews({ score: parseFloat(score), text }));
+    confirmAlert({
+      title: "Agregar Review",
+      message: "¿Está seguro que desea subir esta review?",
+      buttons: [
+        {
+          label: "Agregar",
+          onClick: async () => {
+            const postData = { score: parseFloat(score), text };
+            if (user) {
+              postData.userId = user.id; 
+            }
+            await dispatch(postReviews(postData));
+          },
+        },
+        {
+          label: "Cancelar",
+          onClick: () => {},
+        },
+      ],
+    });
     setScore("");
     setText("");
   };
