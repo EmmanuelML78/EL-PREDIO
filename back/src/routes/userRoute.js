@@ -1,7 +1,5 @@
 const { Router } = require("express");
 const bcryptjs = require("bcryptjs");
-const passport = require("passport");
-const jwt = require("jsonwebtoken");
 const {
   getUsersDb,
   deleteUser,
@@ -12,49 +10,15 @@ const {
 } = require("../controllers/userController");
 const { User, Reserva, Cancha } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
+const { enviarCorreo } = require("../controllers/nodemailerControllers");
 
 const router = Router();
 
-router.post("/login", (req, res, next) => {
-  passport.authenticate("local", { session: false }, (err, user, info) => {
-    if (err) {
-      return res.status(500).json({ message: "Error al iniciar sesión" });
-    }
-    if (!user) {
-      return res.status(401).json({ message: info.message });
-    }
-    req.logIn(user, { session: false }, (err) => {
-      if (err) {
-        return res.status(500).json({ message: "Error al iniciar sesión" });
-      }
-      const token = jwt.sign(
-        { userId: user.id, email: user.email },
-        process.env.JWT_SECRET,
-        { expiresIn: "1h" }
-      );
-      return res.status(200).json({ token });
-    });
-  })(req, res, next);
-});
-
-router.get(
-  "/google",
-  passport.authenticate("google", {
-    scope: ["profile", "email"],
-  })
-);
-router.get(
-  "/auth/google/callback",
-  passport.authenticate("google", { failureRedirect: "/" }),
-  (req, res) => {
-    // console.log(req.isAuthenticated());
-    return res.redirect("http://localhost:5173/home");
-  }
-);
-
+//traer users activos-inactivos
 router.get("/users", authMiddleware, getUsersActive);
 router.get("/users/inactivos", authMiddleware, getUsersInactive);
 
+//traer user por ID
 router.get("/users/:id", authMiddleware, async (req, res) => {
   const { id } = req.params;
   try {
@@ -71,6 +35,7 @@ router.get("/users/:id", authMiddleware, async (req, res) => {
   }
 });
 
+//traer user autenticado
 router.get("/me", authMiddleware, async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id, {
@@ -94,6 +59,7 @@ router.get("/me", authMiddleware, async (req, res) => {
   }
 });
 
+//crear user
 router.post("/users", authMiddleware, async (req, res) => {
   let { name, lastName, email, isAdmin, password, phone } = req.body;
   try {
@@ -107,6 +73,12 @@ router.post("/users", authMiddleware, async (req, res) => {
       password: hashPassword,
       phone,
     });
+    enviarCorreo(
+      email,
+      password,
+      "se registro con exito",
+      "Bienvenido al predio"
+    );
     res.status(201).send(createUser);
   } catch (error) {
     console.log(error);
@@ -114,9 +86,11 @@ router.post("/users", authMiddleware, async (req, res) => {
   }
 });
 
+//modificar user
 router.put("/users/:id", authMiddleware, updateUser);
 
-router.put("/me",authMiddleware, async (req, res) => {
+router.put("/me", authMiddleware, async (req, res) => {
+
   try {
     const user = await User.findByPk(req.user.id);
     if (!user) {
@@ -146,6 +120,7 @@ router.put("/me",authMiddleware, async (req, res) => {
   }
 });
 
+//eliminar user
 router.delete("/users/:id", authMiddleware, async (req, res) => {
   const id = req.params.id;
   try {
