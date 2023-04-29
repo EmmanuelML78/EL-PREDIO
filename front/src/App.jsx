@@ -14,7 +14,7 @@ import MisReservas from "./components/MisReservas/MisReservas";
 import Failure from "./components/Results/failure/failure";
 import Pending from "./components/Results/pending/Pending";
 import Succes from "./components/Results/Succes/Succes";
-
+import CreadorReviews from "./components/CreadorReviews/CreadorReviews";
 function App() {
   return (
     <>
@@ -60,8 +60,11 @@ function App() {
         <Route path="/pending">
           <Pending />
         </Route>
-        <Route path="/succes">
+        <Route path="/success">
           <Succes />
+        </Route>
+        <Route path="/reviews">
+          <CreadorReviews />
         </Route>
       </Switch>
     </>

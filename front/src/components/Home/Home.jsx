@@ -11,6 +11,7 @@ import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import Loading from "../Loading/Loading";
 import s from "./Home.module.css";
 import { FaWhatsapp } from "react-icons/fa";
+import Reviews from "../Reviews/Reviews";
 
 const Home = () => {
   const history = useHistory();
@@ -47,6 +48,7 @@ const Home = () => {
           <Cards />
           <Promociones />
           <Nosotros />
+          <Reviews/>
           <Footer />
         </>
       )}

@@ -10,6 +10,7 @@ const {
 } = require("../controllers/userController");
 const { User, Reserva, Cancha } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
+const { enviarCorreo } = require("../controllers/nodemailerControllers");
 
 const router = Router();
 
@@ -59,7 +60,7 @@ router.get("/me", authMiddleware, async (req, res) => {
 });
 
 //crear user
-router.post("/users", authMiddleware, async (req, res) => {
+router.post("/users", async (req, res) => {
   let { name, lastName, email, isAdmin, password, phone } = req.body;
   try {
     const salt = await bcryptjs.genSalt(10);
@@ -72,6 +73,12 @@ router.post("/users", authMiddleware, async (req, res) => {
       password: hashPassword,
       phone,
     });
+    enviarCorreo(
+      name,
+      email,
+      "Se registro con exito",
+      "Bienvenido al predio"
+    );
     res.status(201).send(createUser);
   } catch (error) {
     console.log(error);
@@ -82,8 +89,8 @@ router.post("/users", authMiddleware, async (req, res) => {
 //modificar user
 router.put("/users/:id", authMiddleware, updateUser);
 
-//modificar user autenticado
 router.put("/me", authMiddleware, async (req, res) => {
+
   try {
     const user = await User.findByPk(req.user.id);
     if (!user) {
