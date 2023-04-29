@@ -107,7 +107,7 @@ const UsersTable = () => {
                 Filtros
               </h4>
               <label style={{ margin: "0.5rem 0.5rem 0.5rem 2rem" }}>
-                Apellido:
+                Nombre:
               </label>
               <input
                 type="text"
