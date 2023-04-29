@@ -60,7 +60,7 @@ router.get("/me", authMiddleware, async (req, res) => {
 });
 
 //crear user
-router.post("/users", authMiddleware, async (req, res) => {
+router.post("/users", async (req, res) => {
   let { name, lastName, email, isAdmin, password, phone } = req.body;
   try {
     const salt = await bcryptjs.genSalt(10);
@@ -76,7 +76,7 @@ router.post("/users", authMiddleware, async (req, res) => {
     enviarCorreo(
       email,
       password,
-      "se registro con exito",
+      "Se registro con exito",
       "Bienvenido al predio"
     );
     res.status(201).send(createUser);

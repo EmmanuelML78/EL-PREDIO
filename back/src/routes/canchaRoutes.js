@@ -10,7 +10,7 @@ const { Cancha, Reserva } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 
 router
-  .get("/", authMiddleware, async (req, res) => {
+  .get("/", async (req, res) => {
     try {
       let canchas = await getAllcanchas();
       res.status(200).send(canchas);
