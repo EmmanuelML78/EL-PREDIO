@@ -63,8 +63,9 @@ function Reviews() {
                     </div>
                   </div>
                   <div className="card-body">
+                    
                     <span style={{ fontWeight: "700", fontSize: "20px", color: "white" }}>
-                      Reseña de ruiz14:{" "}
+                      Reseña de {review.user.name} {review.user.lastName}:{" "}
                     </span>
                     <br />
 

@@ -1,6 +1,5 @@
 const { Reserva, User, Cancha } = require("../db");
 const { mercadopago } = require("../utils/mercadoPago");
-const nodemailer = require("nodemailer");
 
 const getAllReservations = async (reservaid) => {
   try {
@@ -94,6 +93,8 @@ const payReserver = async (req, res) => {
     },
     auto_return: "approved",
     binary_mode: true,
+    notification_url:
+      "https://440e-179-51-123-195.ngrok-free.app/notificaciones", // URL de la ruta para recibir la notificación de MercadoPago
   };
 
   try {
@@ -105,10 +106,42 @@ const payReserver = async (req, res) => {
   }
 };
 
+// const updatePayReserva = async (req, res) => {
+//   const reservaId = req.query.external_reference; // el ID de la reserva se envía en el parámetro external_reference
+//   const status = req.query.status; // el estado de la transacción se envía en el parámetro status
+
+//   const reserva = await Reserva.findByPk(reservaId);
+//   if (!reserva) {
+//     return res.status(404).json({ error: "Reserva no encontrada" });
+//   }
+
+//   reserva.estado = status;
+//   await reserva.save();
+
+//   res.send("OK"); // MercadoPago espera una respuesta 200 OK para confirmar la recepción de la notificación
+// };
+const updatePayReserva = async (reservaId, status) => {
+  try {
+    const reserva = await Reserva.findByIdAndUpdate(
+      reservaId,
+      { status },
+      { new: true }
+    );
+    console.log(`Estado de reserva ${reservaId} actualizado a ${status}`);
+    return reserva;
+  } catch (error) {
+    console.error(
+      `Error actualizando estado de reserva ${reservaId}: ${error.message}`
+    );
+    throw error;
+  }
+};
+
 module.exports = {
   getAllReservations,
   deleteReserva,
   updateReserva,
   getUsersDb,
   payReserver,
+  updatePayReserva,
 };

@@ -14,6 +14,7 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_USERS:
+      console.log("payload:", action.payload);
       return {
         ...state,
         users: action.payload,

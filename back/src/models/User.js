@@ -32,6 +32,12 @@ module.exports = (sequelize) => {
       phone: {
         type: DataTypes.STRING,
       },
+      resetToken: {
+        type: DataTypes.STRING,
+      },
+      resetExpires: {
+        type: DataTypes.DATE,
+      },
     },
     { paranoid: true }
   );

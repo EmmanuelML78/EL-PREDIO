@@ -37,12 +37,12 @@ const ReservasTable = () => {
         <tbody>
           {reservas.map((reserva) => (
             <tr key={reserva.id}>
-              <td>{reserva.id}</td>
-              <td>{reserva.date}</td>
-              <td>{reserva.start.slice(0, -3)}</td>
-              <td>{reserva.user.name + " " + reserva.user.lastName}</td>
-              <td>{reserva.user.id}</td>
-              <td>{reserva.cancha?.name}</td>
+              <td>{reserva?.id}</td>
+              <td>{reserva?.date}</td>
+              <td>{reserva?.start.slice(0, -3)}</td>
+              <td>{reserva?.user?.name + " " + reserva.user?.lastName}</td>
+              <td>{reserva?.user?.id}</td>
+              <td>{reserva?.cancha?.name}</td>
               <td>
                 {reserva.status === "pending"
                   ? "Pendiente de pago"

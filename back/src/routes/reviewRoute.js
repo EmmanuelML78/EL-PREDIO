@@ -9,7 +9,7 @@ const { Review, User } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 
 router
-  .get("/", authMiddleware, async (req, res) => {
+  .get("/", async (req, res) => {
     try {
       let reviews = await getAllreviews();
       res.status(200).send(reviews);
@@ -27,7 +27,6 @@ router
             {
               model: User,
               as: "user",
-              attributes: ["name"],
             },
           ],
         });
@@ -42,9 +41,31 @@ router
       res.status(500).json({ message: "Error al obtener la Review" });
     }
   })
+
   .get("/reviews/eliminadas", adminMiddleware, getReviewsEliminadas)
+
+  // .post("/", authMiddleware, async (req, res) => {
+  //   const { score, text } = req.body;
+  //   try {
+  //     if ((!score, !text)) {
+  //       return res.status(400).json({
+  //         error: "Debe ingresar los campos (score/text)",
+  //       });
+  //     }
+  //     const newReview = await Review.create({
+  //       score,
+  //       text,
+  //     });
+  //     //   return res.status(200).send('Review creada con exito');
+  //     return res.status(200).json(newReview);
+  //   } catch (error) {
+  //     console.log(error);
+  //     return res.status(500).json({ error: "Error al crear la review" });
+  //   }
+  // })
   .post("/", authMiddleware, async (req, res) => {
-    const { score, text } = req.body;
+    const { score, text, userId } = req.body;
+    // const user = req.user; // Obtener el modelo completo del usuario autenticado
     try {
       if ((!score, !text)) {
         return res.status(400).json({
@@ -54,15 +75,15 @@ router
       const newReview = await Review.create({
         score,
         text,
+        userId, // Agregar el modelo completo del usuario a la revisión
       });
-      //   return res.status(200).send('Review creada con exito');
       return res.status(200).json(newReview);
     } catch (error) {
       console.log(error);
       return res.status(500).json({ error: "Error al crear la review" });
     }
   })
-  .delete("/:id", adminMiddleware, async (req, res) => {
+  .delete("/:id", async (req, res) => {
     const id = req.params.id;
     try {
       const eraseReview = await deleteReview(id);
