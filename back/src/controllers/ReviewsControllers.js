@@ -5,7 +5,7 @@ const getAllreviews = async (reviewId) => {
     if (reviewId) {
       return await Review.findByPk(reviewId);
     } else {
-      return await Review.findAll([]);
+      return await Review.findAll();
     }
   } catch (err) {
     console.error(err);
