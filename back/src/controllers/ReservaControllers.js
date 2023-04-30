@@ -8,6 +8,7 @@ const getAllReservations = async (reservaid) => {
       return await Reserva.findById(reservaid);
     } else {
       return await Reserva.findAll({
+        paranoid: false,
         include: [
           {
             model: User,

@@ -8,6 +8,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { AdvancedImage } from "@cloudinary/react";
 import { CloudinaryImage } from "@cloudinary/url-gen";
+import Navbar from "../Navbar/Navbar";
+
 
 const CreadorCanchas = () => {
   const history = useHistory();
@@ -142,179 +144,197 @@ const CreadorCanchas = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form-container">
-      <ToastContainer />
-      <label htmlFor="name">Nombre:</label>
-      <input
-        type="text"
-        id="name"
-        name="name"
-        value={formData.name}
-        onChange={(e) => handleChange("name", e.target.value)}
-        required
-      />
-      {formErrors.name && <p className="error-message">{formErrors.name}</p>}
-      {/* Imagen */}
+    <>
+    <Navbar/>
+      <form onSubmit={handleSubmit} className="form-container">
+        <ToastContainer />
+        <label htmlFor="name">Nombre:</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={(e) => handleChange("name", e.target.value)}
+          required
+        />
+        {formErrors.name && <p className="error-message">{formErrors.name}</p>}
+        {/* Imagen */}
 
-      <label htmlFor="image">Imagen:</label>
+        <label htmlFor="image">Imagen:</label>
 
-      {formErrors.image && <p className="error-message">{formErrors.image}</p>}
+        {formErrors.image && (
+          <p className="error-message">{formErrors.image}</p>
+        )}
 
-      <button onClick={showWidget}>Subir imagen</button>
+        <button onClick={showWidget}>Subir imagen</button>
 
-      {imageUrl && (
-        <div>
-          <AdvancedImage cldImg={imageUrl} style={{ width: "560px" }} />
+        {imageUrl && (
+          <div>
+            <AdvancedImage cldImg={imageUrl} style={{ width: "560px" }} />
+          </div>
+        )}
+
+        {/* Precio */}
+        <label htmlFor="price">Precio:</label>
+        <input
+          type="number"
+          id="price"
+          name="price"
+          value={formData.price}
+          onChange={(e) => handleChange("price", e.target.value)}
+          required
+        />
+        {formErrors.price && (
+          <p className="error-message">{formErrors.price}</p>
+        )}
+        {/* Hora apertura */}
+        <label htmlFor="open">Hora de apertura:</label>
+        <input
+          type="time"
+          id="open"
+          name="open"
+          value={formData.open}
+          onChange={(e) => handleChange("open", e.target.value)}
+          required
+        />
+        {/* Hora cierre */}
+        <label htmlFor="close">Hora de cierre:</label>
+        <input
+          type="time"
+          id="close"
+          name="close"
+          value={formData.close}
+          onChange={(e) => handleChange("close", e.target.value)}
+          required
+        />
+
+        {/* Promoción */}
+        <label htmlFor="hasPromo">¿Tiene promoción?</label>
+        <input
+          type="checkbox"
+          id="hasPromo"
+          name="hasPromo"
+          value={formData.hasPromo}
+          onChange={(e) => handleChange(e.target.value)}
+        />
+        {/* Descripción */}
+        <label htmlFor="description">Descripción:</label>
+        <textarea
+          name="description"
+          style={{ width: "30rem", height: "10rem" }}
+          value={formData.description}
+          onChange={(e) => handleChange("description", e.target.value)}
+        >
+          Descripcion:
+        </textarea>
+        {formErrors.description && (
+          <p className="error-message">{formErrors.description}</p>
+        )}
+        {/* Disponibilidad */}
+        <label htmlFor="availability">Disponibilidad:</label>
+        <select
+          id="availability"
+          name="availability"
+          value={formData.availability}
+          onChange={(e) =>
+            setFormData({
+              ...formData,
+              availability: e.target.value === "true",
+            })
+          }
+          style={{ width: "20rem", height: "4rem" }}
+        >
+          <option value="true">Disponible</option>
+          <option value="false">No disponible</option>
+        </select>
+        {/* Tipo de césped */}
+        <label htmlFor="grass">Tipo de césped:</label>
+        <input
+          type="text"
+          id="grass"
+          name="grass"
+          value={formData.grass}
+          onChange={(e) => handleChange("grass", e.target.value)}
+        />
+        {formErrors.grass && (
+          <p className="error-message">{formErrors.grass}</p>
+        )}
+        {/* Cantidad de jugadores */}
+        <label htmlFor="players">Jugadores por equipo</label>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <label style={{ margin: "1rem", height: "20px", fontSize: "18px" }}>
+            <input
+              style={{
+                appearance: "none",
+                borderRadius: "50%",
+                width: "20px",
+                height: "20px",
+                marginRight: "8px",
+                backgroundColor:
+                  formData.players === "5" ? "#eee" : "rgb(118, 118, 118)",
+              }}
+              type="radio"
+              name="players"
+              value="5"
+              checked={formData.players === "5"}
+              onChange={(e) => handleChange("players", e.target.value)}
+            />
+            5
+          </label>
+          <label style={{ margin: "1rem", height: "20px", fontSize: "18px" }}>
+            <input
+              style={{
+                appearance: "none",
+                borderRadius: "50%",
+                width: "20px",
+                height: "20px",
+                marginRight: "8px",
+                backgroundColor:
+                  formData.players === "7" ? "#eee" : "rgb(118, 118, 118)",
+              }}
+              type="radio"
+              name="players"
+              value="7"
+              checked={formData.players === "7"}
+              onChange={(e) => handleChange("players", e.target.value)}
+            />
+            7
+          </label>
+          <label style={{ margin: "1rem", height: "20px", fontSize: "18px" }}>
+            <input
+              style={{
+                appearance: "none",
+                borderRadius: "50%",
+                width: "20px",
+                height: "20px",
+                marginRight: "8px",
+                backgroundColor:
+                  formData.players === "11" ? "#eee" : "rgb(118, 118, 118)",
+              }}
+              type="radio"
+              name="players"
+              value="11"
+              checked={formData.players === "11"}
+              onChange={(e) => handleChange("players", e.target.value)}
+            />
+            11
+          </label>
         </div>
-      )}
 
-      {/* Precio */}
-      <label htmlFor="price">Precio:</label>
-      <input
-        type="number"
-        id="price"
-        name="price"
-        value={formData.price}
-        onChange={(e) => handleChange("price", e.target.value)}
-        required
-      />
-      {formErrors.price && <p className="error-message">{formErrors.price}</p>}
-      {/* Hora apertura */}
-      <label htmlFor="open">Hora de apertura:</label>
-      <input
-        type="time"
-        id="open"
-        name="open"
-        value={formData.open}
-        onChange={(e) => handleChange("open", e.target.value)}
-        required
-      />
-      {/* Hora cierre */}
-      <label htmlFor="close">Hora de cierre:</label>
-      <input
-        type="time"
-        id="close"
-        name="close"
-        value={formData.close}
-        onChange={(e) => handleChange("close", e.target.value)}
-        required
-      />
-
-      {/* Promoción */}
-      <label htmlFor="hasPromo">¿Tiene promoción?</label>
-      <input
-        type="checkbox"
-        id="hasPromo"
-        name="hasPromo"
-        value={formData.hasPromo}
-        onChange={(e) => handleChange(e.target.value)}
-      />
-      {/* Descripción */}
-      <label htmlFor="description">Descripción:</label>
-      <textarea
-        name="description"
-        style={{ width: "30rem", height: "10rem" }}
-        value={formData.description}
-        onChange={(e) => handleChange("description", e.target.value)}
-      >
-        Descripcion:
-      </textarea>
-      {formErrors.description && (
-        <p className="error-message">{formErrors.description}</p>
-      )}
-      {/* Disponibilidad */}
-      <label htmlFor="availability">Disponibilidad:</label>
-      <select
-        id="availability"
-        name="availability"
-        value={formData.availability}
-        onChange={(e) =>
-          setFormData({
-            ...formData,
-            availability: e.target.value === "true",
-          })
-        }
-        style={{ width: "20rem", height: "4rem" }}
-      >
-        <option value="true">Disponible</option>
-        <option value="false">No disponible</option>
-      </select>
-      {/* Tipo de césped */}
-      <label htmlFor="grass">Tipo de césped:</label>
-      <input
-        type="text"
-        id="grass"
-        name="grass"
-        value={formData.grass}
-        onChange={(e) => handleChange("grass", e.target.value)}
-      />
-      {formErrors.grass && <p className="error-message">{formErrors.grass}</p>}
-      {/* Cantidad de jugadores */}
-      <label htmlFor="players">Players</label>
-      <div style={{display:"flex", justifyContent:"center", alignItems:"center"}}>
-        <label style={{ margin: "1rem", height: "20px", fontSize: "18px" }}>
-          <input
-            style={{
-              appearance: "none",
-              borderRadius:"50%",
-              width: "20px",
-              height:"20px",
-              marginRight:"8px",
-              backgroundColor: "rgb(118, 118, 118)"
-            }}
-            type="radio"
-            name="players"
-            value="5"
-            checked={formData.players === "5"}
-            onChange={(e) => handleChange("players", e.target.value)}
-          />
-          5
-        </label>
-        <label style={{ margin: "1rem", height: "20px", fontSize: "18px" }}>
-          <input
-            style={{
-              appearance: "none",
-              borderRadius:"50%",
-              width: "20px",
-              height:"20px",
-              marginRight:"8px",
-              backgroundColor: "rgb(118, 118, 118)"
-            }}
-            type="radio"
-            name="players"
-            value="7"
-            checked={formData.players === "7"}
-            onChange={(e) => handleChange("players", e.target.value)}
-          />
-          7
-        </label>
-        <label style={{ margin: "1rem", height: "20px", fontSize: "18px" }}>
-          <input
-            style={{
-              appearance: "none",
-              borderRadius:"50%",
-              width: "20px",
-              height:"20px",
-              marginRight:"8px",
-              backgroundColor: "rgb(118, 118, 118)"
-            }}
-            type="radio"
-            name="players"
-            value="11"
-            checked={formData.players === "11"}
-            onChange={(e) => handleChange("players", e.target.value)}
-          />
-          11
-        </label>
-      </div>
-
-      {formErrors.players && (
-        <p className="error-message">{formErrors.players}</p>
-      )}
-      <button style={{ backgroundColor: "#404040" }} type="submit">
-        Crear Cancha
-      </button>
-    </form>
+        {formErrors.players && (
+          <p className="error-message">{formErrors.players}</p>
+        )}
+        <button style={{ backgroundColor: "#404040" }} type="submit">
+          Crear Cancha
+        </button>
+      </form>
+    </>
   );
 };
 

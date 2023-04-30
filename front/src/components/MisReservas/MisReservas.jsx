@@ -56,7 +56,7 @@ const MisReservas = () => {
                       <td>
                         {moment(reserva.start, "HH:mm:ss").format("HH:mm")}
                       </td>
-                      <td>{reserva.status}</td>
+                      <td>{reserva.deletedAt ? "Cancelada" : reserva.status === 'pending' ? 'Pendiente de pago' : "Confirmada"}</td>
                       <td>{moment(reserva.createdAt).format("DD-MM-YYYY")}</td>
                       <td>
                         <button>

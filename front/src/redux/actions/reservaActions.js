@@ -34,6 +34,14 @@ export const postReserva = (reservaData) => {
   };
 };
 
-export const deleteReserva = (reservaId) => {};
+export const deleteReserva = (reservaId) => {
+  return async (dispatch) => {
+    await instance.delete(`reserva/${reservaId}`, { withCredentials: true });
+    dispatch({
+      type: DELETE_RESERVA,
+      payload: reservaId,
+    });
+  };
+};
 
 export const putReserva = (reservaData) => {};
