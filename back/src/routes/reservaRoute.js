@@ -5,6 +5,7 @@ const {
   updateReserva,
   getUsersDb,
   payReserver,
+  updatePayReserva,
 } = require("../controllers/ReservaControllers");
 const { enviarCorreo } = require("../controllers/nodemailerControllers");
 const { Reserva, Cancha, User } = require("../db");
@@ -68,7 +69,7 @@ router
     }
   })
 
-  .post("/", adminMiddleware, async (req, res) => {
+  .post("/", authMiddleware, async (req, res) => {
     const { date, start, end, status, hasPromo, userId, canchaId } = req.body;
     try {
       const reservation = await Reserva.create({
@@ -86,7 +87,23 @@ router
       res.status(500).json({ error: "Error al crear la reserva" });
     }
   })
-  .post("/pagos", payReserver, enviarCorreo)
+
+  .post("/pagos", payReserver)
+  // .put("/pagos/update", updatePayReserva)
+  .post("/notificaciones/mercadopago", async (req, res) => {
+    const body = req.body;
+    // Verificar que la notificación sea válida, siguiendo las instrucciones de MercadoPago
+    // https://www.mercadopago.com.ar/developers/es/guides/notifications/webhooks/validations
+    // En caso de ser inválida, retornar un código de error 400 (Bad Request)
+
+    // Si la notificación es válida, actualizar el estado de la reserva en tu base de datos
+    const reservaId = body.data.id;
+    const estado = body.type === "payment" ? body.data.status : null; // Verificar que el evento sea de tipo 'payment'
+    await updatePayReserva(reservaId, estado);
+
+    // Retornar una respuesta 200 (OK) para confirmar la recepción de la notificación
+    res.status(200).send("Notificación recibida");
+  })
 
   .delete("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;

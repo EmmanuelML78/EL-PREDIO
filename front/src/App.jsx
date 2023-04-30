@@ -60,7 +60,7 @@ function App() {
         <Route path="/pending">
           <Pending />
         </Route>
-        <Route path="/succes">
+        <Route path="/success">
           <Succes />
         </Route>
         <Route path="/reviews">
