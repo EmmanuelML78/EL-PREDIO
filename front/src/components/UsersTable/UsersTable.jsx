@@ -9,6 +9,8 @@ import moment from "moment";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const UsersTable = () => {
   const dispatch = useDispatch();
@@ -30,12 +32,25 @@ const UsersTable = () => {
   const handleEliminarUsuario = (id) => {
     confirmAlert({
       title: "Eliminar usuario",
-      message: "¿Está seguro que desea eliminar el usuario?",
+      message:
+        "¿Está seguro que desea eliminar el usuario? Esta acción eliminará todas las reservas hechas por el usuario",
       buttons: [
         {
           label: "Eliminar",
           onClick: async () => {
-            await dispatch(deleteUser(id));
+            try {
+              await dispatch(deleteUser(id));
+              await dispatch(getUsers());
+              toast.info("Se elimino el usuario, ahora su estado es inactivo", {
+                position: "bottom-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: false,
+                progress: undefined,
+              });
+            } catch (error) {}
           },
         },
         {
@@ -88,6 +103,7 @@ const UsersTable = () => {
       ) : (
         users && (
           <>
+            <ToastContainer />
             <div
               style={{
                 display: "flex",
@@ -101,7 +117,7 @@ const UsersTable = () => {
               <h4
                 style={{
                   padding: "0.5rem 2rem 0.5rem 2rem",
-                  borderLeft: "10px solid #2a2a2a"
+                  borderLeft: "10px solid #2a2a2a",
                 }}
               >
                 Filtros
