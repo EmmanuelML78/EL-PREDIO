@@ -11,7 +11,7 @@ import About from "./components/About/About";
 import Contactos from "./components/Contactos/Contactos";
 import Navbar from "./components/Navbar/Navbar";
 import MisReservas from "./components/MisReservas/MisReservas";
-import Failure from "./components/Results/failure/failure";
+import Failure from "./components/Results/Failure/Failure";
 import Pending from "./components/Results/pending/Pending";
 import Succes from "./components/Results/Succes/Succes";
 import CreadorReviews from "./components/CreadorReviews/CreadorReviews";
