@@ -221,7 +221,7 @@ const ReservasTable = () => {
                       ? "Cancelada"
                       : reserva.status === "pending"
                       ? "Pendiente de pago"
-                      : "Confirmada"}
+                      : reserva.status === "success" ? "Confirmada" : null}
                   </td>
                   <td>{reserva.hasPromo ? "Si" : "No"}</td>
                   <td>

@@ -109,8 +109,10 @@ async function actualizarReserva(reservaId, mercadoPagoResponse) {
   return response.data;
   console.log(response.data);
 }
-console.log(estado);
+<<<<<<<<< Temporary merge branch 1
 
 export const deleteReserva = (reservaId) => {};
+=========
+>>>>>>>>> Temporary merge branch 2
 
 export const putReserva = (reservaData) => {};
