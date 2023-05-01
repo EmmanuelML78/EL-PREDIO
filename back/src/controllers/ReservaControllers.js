@@ -97,9 +97,9 @@ const payReserver = async (req, res) => {
       },
     ],
     back_urls: {
-      success: "http://localhost:5173/success", // redirect to this url if payment is successful
-      failure: "http://localhost:5173/failure", // redirect to this url if payment fails
-      pending: "http://localhost:5173/pending", // redirect to this url if payment is pending
+      success: "https://el-predio-production-32b7.up.railway.app/success", // redirect to this url if payment is successful
+      failure: "https://el-predio-production-32b7.up.railway.app/failure", // redirect to this url if payment fails
+      pending: "https://el-predio-production-32b7.up.railway.app/pending", // redirect to this url if payment is pending
     },
     auto_return: "approved",
     binary_mode: true,
