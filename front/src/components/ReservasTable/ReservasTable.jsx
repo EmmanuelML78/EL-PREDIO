@@ -44,9 +44,9 @@ const ReservasTable = () => {
               <td>{reserva?.user?.id}</td>
               <td>{reserva?.cancha?.name}</td>
               <td>
-                {reserva.status === "pending"
-                  ? "Pendiente de pago"
-                  : "Confirmada"}
+                {reserva.status === "success"
+                  ? "pago confirmnado "
+                  : "Aprovado"}
               </td>
               <td>{reserva.hasPromo ? <>Si</> : <>No</>}</td>
               <td>
@@ -60,9 +60,9 @@ const ReservasTable = () => {
             </tr>
           ))}
         </tbody>
-          <Link to="/home">
+        <Link to="/home">
           <button>Ir a reservar</button>
-          </Link>
+        </Link>
       </table>
     </div>
   );

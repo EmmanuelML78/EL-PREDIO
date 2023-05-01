@@ -58,11 +58,12 @@ export const postReserva = (reservaData, callback) => {
         id: reservaId,
       };
       const responsePago = await instance.post("reserva/pagos", id);
+      // console.log(responsePago);
       window.location.href = responsePago.data.body.init_point;
 
       // Esperar la respuesta de MercadoPago
       const mercadoPagoResponse = await waitForMercadoPagoResponse(
-        responsePago.data.id
+        responsePago.data.body.id
       );
 
       // Actualizar la reserva en la base de datos con el estado de la transacción
@@ -78,12 +79,13 @@ export const postReserva = (reservaData, callback) => {
     }
   };
 };
-
 // Esperar la respuesta de MercadoPago
 async function waitForMercadoPagoResponse(preferenceId) {
   let response;
   do {
-    response = await instance.get(`reserva/pagos/${preferenceId}`);
+    response = await instance.get(`reserva/pagos/${preferenceId}`, {
+      withCredentials: true,
+    });
     await new Promise((resolve) => setTimeout(resolve, 5000));
   } while (response.data.body.status === "in_process");
   return response.data;
@@ -94,8 +96,8 @@ async function actualizarReserva(reservaId, mercadoPagoResponse) {
   const estado = mercadoPagoResponse.body.status;
   const response = await instance.put(`reserva/${reservaId}`, { estado });
   return response.data;
+  console.log(response.data);
 }
-console.log(estado);
 
 export const deleteReserva = (reservaId) => {};
 
