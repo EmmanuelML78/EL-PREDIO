@@ -1,11 +1,18 @@
-const { Review } = require("../db");
+const { Review, User } = require("../db");
 
 const getAllreviews = async (reviewId) => {
   try {
     if (reviewId) {
       return await Review.findByPk(reviewId);
     } else {
-      return await Review.findAll();
+      return await Review.findAll({
+        include: [
+          {
+            model: User,
+            as: "user",
+          },
+        ],
+      });
     }
   } catch (err) {
     console.error(err);
@@ -18,7 +25,7 @@ const deleteReview = async (id) => {
     const eraseReview = await Review.destroy({ where: { id: id } });
     return eraseCancha;
   } catch (error) {
-    console.error(err);
+    console.error(error);
     return res.status(500).json({ error: "Error al eliminar la reseña" });
   }
 };

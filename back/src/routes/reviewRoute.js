@@ -9,7 +9,7 @@ const { Review, User } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 
 router
-  .get("/", authMiddleware, async (req, res) => {
+  .get("/", async (req, res) => {
     try {
       let reviews = await getAllreviews();
       res.status(200).send(reviews);
@@ -64,8 +64,8 @@ router
   //   }
   // })
   .post("/", authMiddleware, async (req, res) => {
-    const { score, text } = req.body;
-    const user = req.user; // Obtener el modelo completo del usuario autenticado
+    const { score, text, userId } = req.body;
+    // const user = req.user; // Obtener el modelo completo del usuario autenticado
     try {
       if ((!score, !text)) {
         return res.status(400).json({
@@ -75,7 +75,7 @@ router
       const newReview = await Review.create({
         score,
         text,
-        user, // Agregar el modelo completo del usuario a la revisión
+        userId, // Agregar el modelo completo del usuario a la revisión
       });
       return res.status(200).json(newReview);
     } catch (error) {
@@ -83,7 +83,7 @@ router
       return res.status(500).json({ error: "Error al crear la review" });
     }
   })
-  .delete("/:id", adminMiddleware, async (req, res) => {
+  .delete("/:id", async (req, res) => {
     const id = req.params.id;
     try {
       const eraseReview = await deleteReview(id);
