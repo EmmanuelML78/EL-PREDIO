@@ -1,0 +1,69 @@
+.users-table-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  background-color: #2a2a2a;
+  padding: 1rem;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  color: #f0f0f0;
+}
+
+.users-table th {
+  background-color: #3a3a3a;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+.users-table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid #3a3a3a;
+}
+
+.users-table button {
+  background-color: transparent;
+  border: none;
+  color: #f0f0f0;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.users-table button:hover {
+  color: #d0d0d0;
+}
+
+.error-message {
+  color: red;
+}
+
+.form-container {
+  display: flex;
+  justify-content: center;
+}
+
+.form-container input {
+  color: green;
+  width: 25rem;
+}
+
+.form-container textarea {
+  color: green;
+}
+
+.form-container select {
+  color: green;
+  width: 20rem;
+  height: 5rem;
+}
+
+.form-container label {
+  color: white;
+  font-weight: bold;
+  font-size: 1.5rem;
+}

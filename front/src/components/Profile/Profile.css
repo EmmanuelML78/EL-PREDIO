@@ -1,0 +1,28 @@
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 40px;
+  color: white;
+  font-weight: 500;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  background-color: #202020;
+  border-radius: 1rem;
+  width: 60%;
+  max-width: 90%;
+  height: 750px;
+  max-height: 1000px;
+}
+
+.profile-container input{
+    height: 30px;
+}
+
+.change-image-button {
+  height: 4rem;
+  marginLeft: 1rem;
+  display: flex;
+  justifyContent: center;
+  alignItems: center;
+}
