@@ -79,6 +79,17 @@ export const postReserva = (reservaData, callback) => {
     }
   };
 };
+
+export const deleteReserva = (reservaId) => {
+  return async (dispatch) => {
+    await instance.delete(`reserva/${reservaId}`, { withCredentials: true });
+    dispatch({
+      type: DELETE_RESERVA,
+      payload: reservaId,
+    });
+  };
+};
+
 // Esperar la respuesta de MercadoPago
 async function waitForMercadoPagoResponse(preferenceId) {
   let response;
@@ -99,6 +110,5 @@ async function actualizarReserva(reservaId, mercadoPagoResponse) {
   console.log(response.data);
 }
 
-export const deleteReserva = (reservaId) => {};
 
 export const putReserva = (reservaData) => {};
