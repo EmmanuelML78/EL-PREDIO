@@ -6,13 +6,14 @@ import {
   putReserva,
 } from "../../redux/actions/reservaActions";
 import s from "./ReservasTable.module.css";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit, AiOutlineCheck } from "react-icons/ai";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import moment from "moment";
 import Loading from "../Loading/Loading";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { getCanchas } from "../../redux/actions/canchaActions";
+import { ToastContainer, toast } from "react-toastify";
 
 const ReservasTable = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,9 @@ const ReservasTable = () => {
   const [filterState, setFilterState] = useState("all");
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedCancha, setSelectedCancha] = useState("all");
-
+  const [selectedReserva, setSelectedReserva] = useState(null);
+  const [isEditingReserva, setIsEditingReserva] = useState(false);
+  const [selectedStatus, setSelectedStatus] = useState(null);
   useEffect(() => {
     const fetchReservas = async () => {
       await dispatch(getAllReservas());
@@ -98,12 +101,12 @@ const ReservasTable = () => {
   }
 
   var filteredByDateReservas = !isReservasLoading && sortedReservas;
-  if (!isReservasLoading && selectedDate === null || selectedDate === "") {
+  if ((!isReservasLoading && selectedDate === null) || selectedDate === "") {
     filteredByDateReservas = sortedReservas;
   } else if (!isReservasLoading && selectedDate !== null) {
     filteredByDateReservas = sortedReservas.filter((reserva) => {
       const fechaReserva = moment(reserva.date).format("DD/MM/YYYY");
-      const fechaFiltro = moment(selectedDate).format("DD/MM/YYYY")
+      const fechaFiltro = moment(selectedDate).format("DD/MM/YYYY");
       console.log(fechaReserva, " ", fechaFiltro);
       if (fechaReserva === fechaFiltro) {
         return reserva.date;
@@ -122,8 +125,55 @@ const ReservasTable = () => {
       }
     });
 
+  const handleEditingReserva = async (reserva) => {
+    await setSelectedReserva(reserva);
+    setIsEditingReserva(true);
+  };
+
+  const handleFinishEdit = async () => {
+    var newStatus = selectedStatus;
+
+    const reserva = {
+      id: selectedReserva.id,
+      date: selectedReserva.date,
+      start: selectedReserva.start,
+      end: selectedReserva.end,
+      status: newStatus,
+      hasPromo: selectedReserva.hasPromo,
+    };
+    if (newStatus === "canceled") {
+      await handleEliminarReserva(id);
+    }
+    try {
+      // console.log(reserva);
+      await dispatch(putReserva(reserva));
+      toast.success("Se modificó la reseva correctamente", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
+      setIsEditingReserva(false);
+      dispatch(getAllReservas())
+    } catch (error) {
+      toast.error("Error al editar", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
+      console.log(error);
+    }
+  };
   return (
     <div className={s.reservasTableContainer}>
+      <ToastContainer />
       {isReservasLoading || isCanchasLoading ? (
         <Loading />
       ) : (
@@ -217,16 +267,43 @@ const ReservasTable = () => {
                   <td>{reserva?.user?.id}</td>
                   <td>{reserva?.cancha?.name}</td>
                   <td>
-                    {reserva.deletedAt
-                      ? "Cancelada"
-                      : reserva.status === "pending"
-                      ? "Pendiente de pago"
-                      : reserva.status === "success" ? "Confirmada" : null}
+                    {isEditingReserva && selectedReserva.id === reserva.id ? (
+                      <select
+                        name="status"
+                        id="status"
+                        // value={selectedReserva.status}
+                        defaultValue={selectedReserva.status}
+                        onChange={(e) => setSelectedStatus(e.target.value)}
+                      >
+                        <option value="none">-----</option>
+                        <option value="success">Confirmada</option>
+                        <option value="pending">Pendiente de pago</option>
+                        <option value="canceled">Cancelada</option>
+                      </select>
+                    ) : reserva.deletedAt || reserva.status === "canceled" ? (
+                      "Cancelada"
+                    ) : reserva.status === "pending" ? (
+                      "Pendiente de pago"
+                    ) : reserva.status === "success" ? (
+                      "Confirmada"
+                    ) : null}
                   </td>
                   <td>{reserva.hasPromo ? "Si" : "No"}</td>
                   <td>
                     <button>
-                      <AiFillEdit />
+                      {!isEditingReserva ? (
+                        <AiFillEdit
+                          onClick={() => handleEditingReserva(reserva)}
+                        />
+                      ) : selectedReserva.id === reserva.id ? (
+                        <AiOutlineCheck
+                          onClick={() => handleFinishEdit(selectedStatus)}
+                        />
+                      ) : (
+                        <AiFillEdit
+                          onClick={() => handleEditingReserva(reserva)}
+                        />
+                      )}
                     </button>
                     <button onClick={() => handleEliminarReserva(reserva.id)}>
                       <AiFillDelete />
