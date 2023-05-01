@@ -67,8 +67,13 @@ const updateReserva = async (id, date, start, end, status, hasPromo) => {
 
 const payReserver = async (req, res) => {
   const reservaId = req.body.id;
-  // console.log("body: ", reservaId)
-  const reserva = await Reserva.findByPk(reservaId, {
+
+  if (!reservaId) {
+    return res.status(400).json({ error: "Falta el ID de la reserva" });
+  }
+
+  const reserva = await Reserva.findOne({
+    where: { id: reservaId },
     include: [
       {
         model: Cancha,
@@ -76,6 +81,10 @@ const payReserver = async (req, res) => {
       },
     ],
   });
+
+  if (!reserva) {
+    return res.status(404).json({ error: "Reserva no encontrada" });
+  }
 
   let preference = {
     items: [
@@ -94,8 +103,7 @@ const payReserver = async (req, res) => {
     },
     auto_return: "approved",
     binary_mode: true,
-    notification_url:
-      "https://440e-179-51-123-195.ngrok-free.app/notificaciones", // URL de la ruta para recibir la notificación de MercadoPago
+    notification_url: "https://pruebamercado.hopto.org/notificaciones", // URL de la ruta para recibir la notificación de MercadoPago
   };
 
   try {
@@ -107,36 +115,21 @@ const payReserver = async (req, res) => {
   }
 };
 
-// const updatePayReserva = async (req, res) => {
-//   const reservaId = req.query.external_reference; // el ID de la reserva se envía en el parámetro external_reference
-//   const status = req.query.status; // el estado de la transacción se envía en el parámetro status
-
-//   const reserva = await Reserva.findByPk(reservaId);
-//   if (!reserva) {
-//     return res.status(404).json({ error: "Reserva no encontrada" });
+// const updatePayReserva = async (reservaId, status) => {
+//   try {
+//     const reserva = await Reserva.update(
+//       { status },
+//       { where: { id: reservaId }, returning: true }
+//     );
+//     console.log(`Estado de reserva ${reservaId} actualizado a ${status}`);
+//     return reserva[1][0]; // Devuelve la reserva actualizada
+//   } catch (error) {
+//     console.error(
+//       `Error actualizando estado de reserva ${reservaId}: ${error.message}`
+//     );
+//     throw error;
 //   }
-
-//   reserva.estado = status;
-//   await reserva.save();
-
-//   res.send("OK"); // MercadoPago espera una respuesta 200 OK para confirmar la recepción de la notificación
 // };
-const updatePayReserva = async (reservaId, status) => {
-  try {
-    const reserva = await Reserva.findByIdAndUpdate(
-      reservaId,
-      { status },
-      { new: true }
-    );
-    console.log(`Estado de reserva ${reservaId} actualizado a ${status}`);
-    return reserva;
-  } catch (error) {
-    console.error(
-      `Error actualizando estado de reserva ${reservaId}: ${error.message}`
-    );
-    throw error;
-  }
-};
 
 module.exports = {
   getAllReservations,
@@ -144,5 +137,5 @@ module.exports = {
   updateReserva,
   getUsersDb,
   payReserver,
-  updatePayReserva,
+  // updatePayReserva,
 };

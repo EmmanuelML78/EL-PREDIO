@@ -56,7 +56,7 @@ router
   //       score,
   //       text,
   //     });
-  //     //   return res.status(200).send('Review creada con exito');
+  //     // return res.status(200).send('Review creada con exito');
   //     return res.status(200).json(newReview);
   //   } catch (error) {
   //     console.log(error);
