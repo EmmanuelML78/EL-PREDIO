@@ -3,6 +3,7 @@ import instance from "../axiosCfg";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 export const SET_USER = "SET_USER";
+export const EDIT_USER = "EDIT_USER";
 
 export const loginUser = (userData) => {
   return async function (dispatch) {
@@ -22,7 +23,7 @@ export const logoutUser = () => {
     localStorage.removeItem("token");
     dispatch({
       type: LOGOUT_USER,
-      payload: undefined
+      payload: undefined,
     });
   };
 };
@@ -30,7 +31,7 @@ export const logoutUser = () => {
 export const setUser = () => {
   return async function (dispatch) {
     try {
-      const response = await instance.get("me");
+      const response = await instance.get("me", { withCredentials: true });
       dispatch({
         type: SET_USER,
         payload: response.data,
@@ -38,9 +39,22 @@ export const setUser = () => {
     } catch (error) {
       dispatch({
         type: SET_USER,
-        payload: undefined
+        payload: undefined,
       });
     }
   };
 };
 
+export const editUser = (userData) => {
+  return async function (dispatch) {
+    try {
+      await instance.put("/me", userData);
+      dispatch({
+        type: EDIT_USER,
+        payload: userData,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};

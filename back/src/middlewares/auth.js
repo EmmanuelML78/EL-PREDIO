@@ -3,11 +3,15 @@ const { User } = require("../db");
 
 const authMiddleware = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decodedToken.userId;
-
-    const user = await User.findByPk(userId);
+    let user = null;
+    if (req.isAuthenticated()) {
+      user = req.user;
+    } else if (req.headers.authorization) {
+      const token = req.headers.authorization.split(" ")[1];
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      const userId = decodedToken.userId;
+      user = await User.findByPk(userId);
+    }
 
     if (!user) {
       throw new Error();
@@ -26,17 +30,22 @@ const authMiddleware = async (req, res, next) => {
 
 const adminMiddleware = async (req, res, next) => {
   try {
-    const token = req.headers.authorization.split(" ")[1];
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-    const userId = decodedToken.userId;
-
-    const user = await User.findByPk(userId);
-
-    if (!user) {
-      throw new Error();
+    let user = null;
+    if (req.isAuthenticated()) {
+      if (req.user.isAdmin) {
+        user = req.user;
+      }
+    } else if (req.headers.authorization) {
+      const token = req.headers.authorization.split(" ")[1];
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      const userId = decodedToken.userId;
+      user = await User.findByPk(userId);
+      if (!user.isAdmin) {
+        throw new Error();
+      }
     }
 
-    if (!user.isAdmin) {
+    if (!user) {
       throw new Error();
     }
 

@@ -1,3 +1,4 @@
+const axios = require("axios");
 const router = require("express").Router();
 const {
   getAllReservations,
@@ -5,9 +6,12 @@ const {
   updateReserva,
   getUsersDb,
   payReserver,
+  // updatePayReserva,
 } = require("../controllers/ReservaControllers");
+const { enviarCorreo } = require("../controllers/nodemailerControllers");
 const { Reserva, Cancha, User } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
+
 // const mercadopago = require("../utils/mercadoPago");
 
 router
@@ -81,10 +85,53 @@ router
       });
       res.status(201).json(reservation);
     } catch (error) {
+      console.log(error);
       res.status(500).json({ error: "Error al crear la reserva" });
     }
   })
+  .get("/pagos/:preferenceId", authMiddleware, async (req, res) => {
+    const preferenceId = req.params.preferenceId;
+    try {
+      // Hacer una llamada a la API de MercadoPago para obtener el estado de la transacción
+      const mpResponse = await axios.get(
+        `https:/api.mercadopago.com/v1/payments/search`,
+        {
+          params: {
+            access_token: process.env.ACCESS_TOKEN,
+            external_reference: preferenceId,
+          },
+        }
+      );
+      // Devolver la respuesta de MercadoPago
+      res.json(mpResponse.data);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({
+        message: "Error al obtener el estado de la transacción de MercadoPago",
+      });
+    }
+  })
   .post("/pagos", payReserver)
+  .post("/notificaciones", (req, res) => {
+    console.log("Notificación recibida:", req.body);
+    res.sendStatus(200);
+  })
+
+  // .post("/notificaciones", async (req, res) => {
+  //   const body = req.body;
+  //   // Verificar que la notificación sea válida, siguiendo las instrucciones de MercadoPago
+  //   // https://www.mercadopago.com.ar/developers/es/guides/notifications/webhooks/validations
+  //   // En caso de ser inválida, retornar un código de error 400 (Bad Request)
+
+  //   // Si la notificación es válida, actualizar el estado de la reserva en tu base de datos
+  //   const reservaId = body.data.id;
+  //   const estado = body.type === "payment" ? body.data.status : null; // Verificar que el evento sea de tipo 'payment'
+  //   console.log(estado);
+  //   await updatePayReserva(reservaId, estado);
+
+  //   // Retornar una respuesta 200 (OK) para confirmar la recepción de la notificación
+  //   res.status(200).send("Notificación recibida");
+  // })
 
   .delete("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;

@@ -1,4 +1,4 @@
-import { LOGIN_USER, LOGOUT_USER, SET_USER  } from "../actions/authActions";
+import { LOGIN_USER, LOGOUT_USER, SET_USER, EDIT_USER  } from "../actions/authActions";
 
 const initialState = {
     token: localStorage.getItem('token'),
@@ -25,6 +25,11 @@ const authReducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
+    case EDIT_USER: 
+    return {
+      ...state,
+      user: {...state.user, ...action.payload}
+    }
     default:
       return state;
   }

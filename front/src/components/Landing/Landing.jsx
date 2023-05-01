@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { setUser } from "../../redux/actions/authActions";
 import Loading from "../Loading/Loading";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import instance from "../../redux/axiosCfg";
 
 const Landing = () => {
   const dispatch = useDispatch();
@@ -144,6 +145,9 @@ const Landing = () => {
   const goHome = () => {
     history.push("/home");
   };
+  const handleGoogleLogin = () => {
+    window.location.href = instance.defaults.baseURL + "google"
+  }
 
   return (
     <div className="container">
@@ -178,8 +182,8 @@ const Landing = () => {
                 onChange={(e) => {
                   formik.setFieldValue(
                     "name",
-                    e.target.value.charAt(0).toUpperCase() +
-                      e.target.value.slice(1)
+                    (e.target.value.charAt(0).toUpperCase() +
+                      e.target.value.slice(1)).trim()
                   );
                 }}
                 onBlur={formik.handleBlur}
@@ -200,8 +204,8 @@ const Landing = () => {
                 onChange={(e) => {
                   formik.setFieldValue(
                     "lastName",
-                    e.target.value.charAt(0).toUpperCase() +
-                      e.target.value.slice(1)
+                    (e.target.value.charAt(0).toUpperCase() +
+                      e.target.value.slice(1)).trim()
                   );
                 }}
                 onBlur={formik.handleBlur}
@@ -266,6 +270,7 @@ const Landing = () => {
             style={{ backgroundColor: "white" }}
             className="google"
             type="button"
+            onClick={handleGoogleLogin}
           >
             <img
               style={{ height: "2rem", marginRight: "1rem" }}

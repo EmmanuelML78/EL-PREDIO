@@ -8,7 +8,20 @@ const getAllcanchas = async (canchaId) => {
       return await Cancha.findAll({});
     }
   } catch (error) {
-    return [];
+    console.error(err);
+    return res.status(500).json({ error: "Error al buscar las canchas" });
+  }
+};
+
+const getCanchaEliminadas = async (req, res) => {
+  try {
+    const canchas = await Cancha.findAll({
+      paranoid: false,
+      where: { deleted_at: { [Op.ne]: null } },
+    });
+    res.status(200).json(canchas);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
   }
 };
 
@@ -50,12 +63,14 @@ const deleteCancha = async (id) => {
     const eraseCancha = await Cancha.destroy({ where: { id: id } });
     return eraseCancha;
   } catch (error) {
-    throw error;
+    console.error(err);
+    return res.status(500).json({ error: "Error al eliminar la cancha" });
   }
 };
 
 module.exports = {
   getAllcanchas,
+  getCanchaEliminadas,
   deleteCancha,
   updateCanchas,
 };

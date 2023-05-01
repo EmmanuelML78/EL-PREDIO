@@ -8,13 +8,20 @@ const passport = require("passport");
 const session = require("express-session");
 
 const app = express();
+
 require("./db.js");
 require("./passport/localAuth.js");
 require("./passport/googleAuth.js");
+require("./middlewares/auth.js");
 
 app.name = "API";
 
-app.use(cors());
+// app.use(cors());
+const corsOptions = {
+  origin: "https://el-predio.vercel.app",
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 app.use(bodyParser.urlencoded({ extended: true, limit: "50mb" }));
 app.use(bodyParser.json({ limit: "50mb" }));
@@ -22,7 +29,6 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "https://el-predio.vercel.app");
-  // res.header("Access-Control-Allow-Origin", "http://localhost:3000");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header(
     "Access-Control-Allow-Headers",
@@ -32,24 +38,22 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(
+  session({
+    secret: "unasecretaclave",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false, // Utilizar sólo en producción true
+      maxAge: 24 * 60 * 60 * 1000, // Tiempo de vida de la cookie en milisegundos (24 horas en este caso)
+    },
+  })
+);
+
 app.use(passport.initialize());
-// app.use(
-//   session({
-//     secret: "unasecretaclave",
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// );
 
-// passport.serializeUser(function (user, done) {
-//   done(null, user.id);
-// });
-
-// passport.deserializeUser(function (id, done) {
-//   User.findById(id, function (err, user) {
-//     done(err, user);
-//   });
-// });
+app.use(passport.session());
 
 app.use("/", routes);
 

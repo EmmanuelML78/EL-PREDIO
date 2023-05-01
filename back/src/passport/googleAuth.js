@@ -4,14 +4,16 @@ const { User } = require("../db");
 const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 const bcryptjs = require("bcryptjs");
 
-passport.serializeUser(function (user, done) {
+passport.serializeUser((user, done) => {
   done(null, user.id);
 });
-
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
-    done(err, user);
-  });
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findByPk(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
 });
 
 passport.use(
@@ -20,10 +22,8 @@ passport.use(
       clientID: GOOGLE_CLIENT_ID,
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL: "http://localhost:3001/auth/google/callback",
-      // callbackURL: "http://localhost:3001/auth/google",
-      session: false,
     },
-    async function (accessToken, refreshToken, profile, done) {
+    async (accessToken, refreshToken, profile, done) => {
       try {
         const salt = await bcryptjs.genSalt(10);
         const hashPassword = await bcryptjs.hash(
@@ -39,8 +39,15 @@ passport.use(
             password: hashPassword,
           },
         });
-        return done(null, user);
+        const userData = {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          accessToken,
+        };
+        return done(null, userData);
       } catch (err) {
+        console.error(err);
         return done(err);
       }
     }

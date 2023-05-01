@@ -17,6 +17,10 @@ module.exports = (sequelize) => {
         allowNull: false,
         unique: true,
       },
+      image: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       isAdmin: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
@@ -27,6 +31,12 @@ module.exports = (sequelize) => {
       },
       phone: {
         type: DataTypes.STRING,
+      },
+      resetToken: {
+        type: DataTypes.STRING,
+      },
+      resetExpires: {
+        type: DataTypes.DATE,
       },
     },
     { paranoid: true }

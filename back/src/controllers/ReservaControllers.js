@@ -1,6 +1,5 @@
 const { Reserva, User, Cancha } = require("../db");
 const { mercadopago } = require("../utils/mercadoPago");
-// console.log(mercadopago);
 
 const getAllReservations = async (reservaid) => {
   try {
@@ -8,6 +7,7 @@ const getAllReservations = async (reservaid) => {
       return await Reserva.findById(reservaid);
     } else {
       return await Reserva.findAll({
+        paranoid: false,
         include: [
           {
             model: User,
@@ -16,7 +16,7 @@ const getAllReservations = async (reservaid) => {
           {
             model: Cancha,
             as: "cancha",
-          }
+          },
         ],
       });
     }
@@ -66,10 +66,12 @@ const updateReserva = async (id, date, start, end, status, hasPromo) => {
 };
 
 const payReserver = async (req, res) => {
-  // console.log(req.body)
   const reservaId = req.body.id;
-  // const reservaId = 2;
-  const datos = req.body;
+
+  if (!reservaId) {
+    return res.status(400).json({ error: "Falta el ID de la reserva" });
+  }
+
   const reserva = await Reserva.findOne({
     where: { id: reservaId },
     include: [
@@ -79,53 +81,55 @@ const payReserver = async (req, res) => {
       },
     ],
   });
+
+  if (!reserva) {
+    return res.status(404).json({ error: "Reserva no encontrada" });
+  }
+
   let preference = {
     items: [
       {
         id: reservaId,
-        title: "Reserva de cancha",
-        description: "Reserva de cancha deportiva",
+        title: reserva.cancha.name,
         quantity: 1,
         currency_id: "ARS",
-        unit_price: reserva.dataValues.cancha.price,
+        unit_price: reserva.cancha.price,
       },
     ],
-    payer: {
-      id: datos.userId
-      // name: datos.name,
-      // surname: datos.surname,
-      // email: datos.email,
-      // identification: {
-      //   type: "DNI",
-      //   number: datos.identification,
-      // },
-      // phone: {
-      //   area_code: "",
-      //   number: parseInt(datos.phone),
-      // },
-      // address: {
-      //   zip_code: "",
-      //   street_name: datos.address,
-      //   street_number: 2,
-      // },
-    },
     back_urls: {
-      success: "http://localhost:3000/pago-exitoso",
-      pending: "http://localhost:3000/pago-pendiente",
-      failure: "http://localhost:3000/pago-fallido",
+      success: "http://localhost:5173/success", // redirect to this url if payment is successful
+      failure: "http://localhost:5173/failure", // redirect to this url if payment fails
+      pending: "http://localhost:5173/pending", // redirect to this url if payment is pending
     },
     auto_return: "approved",
     binary_mode: true,
+    notification_url: "https://pruebamercado.hopto.org/notificaciones", // URL de la ruta para recibir la notificación de MercadoPago
   };
 
   try {
     const response = await mercadopago.preferences.create(preference);
-    res.json({ preferenceId: response.body.id }); // devolver el ID de preferencia al frontend
+    res.json(response);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Error al crear la preferencia de pago" });
   }
 };
+
+// const updatePayReserva = async (reservaId, status) => {
+//   try {
+//     const reserva = await Reserva.update(
+//       { status },
+//       { where: { id: reservaId }, returning: true }
+//     );
+//     console.log(`Estado de reserva ${reservaId} actualizado a ${status}`);
+//     return reserva[1][0]; // Devuelve la reserva actualizada
+//   } catch (error) {
+//     console.error(
+//       `Error actualizando estado de reserva ${reservaId}: ${error.message}`
+//     );
+//     throw error;
+//   }
+// };
 
 module.exports = {
   getAllReservations,
@@ -133,4 +137,5 @@ module.exports = {
   updateReserva,
   getUsersDb,
   payReserver,
+  // updatePayReserva,
 };
