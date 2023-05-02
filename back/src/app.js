@@ -45,7 +45,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false, // Utilizar sólo en producción true
+      secure: true, // Utilizar sólo en producción true
       maxAge: 24 * 60 * 60 * 1000, // Tiempo de vida de la cookie en milisegundos (24 horas en este caso)
     },
   })
