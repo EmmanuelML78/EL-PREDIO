@@ -39,7 +39,7 @@ const Home = () => {
         <>
           <Header />
           <a
-            href="https://wa.me/521234567890"
+            href="https://wa.me/541123934043"
             target="_blank"
             className={s.wpp}
           >
@@ -48,7 +48,7 @@ const Home = () => {
           <Cards />
           <Promociones />
           <Nosotros />
-          <Reviews/>
+          <Reviews />
           <Footer />
         </>
       )}

@@ -42,7 +42,7 @@ const Navbar = () => {
             </div>
             <div className={styles.contacto}>
               <span className={styles.telefono} href="">
-                01-800-0000-000
+                +54 1123934043
               </span>
 
               <nav className={styles.navegacion}>
