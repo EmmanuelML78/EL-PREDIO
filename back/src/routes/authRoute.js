@@ -40,7 +40,7 @@ router.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
-    return res.redirect("https://el-predio-production-32b7.up.railway.app");
+    return res.redirect("https://el-predio.vercel.app");
   }
 );
 
