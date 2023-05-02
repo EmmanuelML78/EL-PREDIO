@@ -22,8 +22,7 @@ export const Nosotros = () => {
               </p>
             </div>
             <iframe
-              // src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2083.2717413714836!2d-58.365951241429855!3d-34.635502965949534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a334b6925e5473%3A0x1ca5b2748858b40d!2sEstadio%20Alberto%20J.%20Armando!5e1!3m2!1ses!2sar!4v1682613507957!5m2!1ses!2sar"
-              src="https://www.google.com/maps/place/Canchas+El+Predio/@-34.5202859,-58.7027618,17z/data=!3m1!4b1!4m6!3m5!1s0x95bcbd25a08f5d15:0x9058655f36dbc4e9!8m2!3d-34.5202903!4d-58.7001869!16s%2Fg%2F11cs1wrllk"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d520.1804708184757!2d-58.70031747528377!3d-34.52025983695062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcbd250a408b9d%3A0xc17ee090b5fa387b!2sJos%C3%A9%20Le%C3%B3n%20Su%C3%A1rez%201815%2C%20Los%20Polvorines%2C%20Provincia%20de%20Buenos%20Aires!5e1!3m2!1ses-419!2sar!4v1683044793712!5m2!1ses-419!2sar"
               style={{
                 border: "0",
                 minWidth: "600px",
@@ -31,10 +30,10 @@ export const Nosotros = () => {
                 marginLeft: "8rem",
                 marginTop: "3rem",
               }}
-              allowfullscreen=""
+              allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-            />
+            ></iframe>
           </div>
         </div>
       </div>
