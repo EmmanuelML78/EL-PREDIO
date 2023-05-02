@@ -23,7 +23,6 @@ passport.use(
       clientSecret: GOOGLE_CLIENT_SECRET,
       callbackURL:
         "https://el-predio-production-32b7.up.railway.app/auth/google/callback",
-      prompt: "consent",
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
