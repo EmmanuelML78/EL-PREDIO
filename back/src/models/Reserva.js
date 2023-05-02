@@ -25,6 +25,10 @@ module.exports = (sequelize) => {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
       },
+      id_pago: {
+        type: DataTypes.STRING, // o el tipo de dato adecuado
+        allowNull: true, // o false si es obligatorio
+      },
     },
     { paranoid: true }
   );
