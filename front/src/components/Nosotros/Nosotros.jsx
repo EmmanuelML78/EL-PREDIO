@@ -22,7 +22,8 @@ export const Nosotros = () => {
               </p>
             </div>
             <iframe
-              src="https://www.google.com/maps/dir/Canchas+El+Predio,+Jos%C3%A9+Le%C3%B3n+Su%C3%A1rez+1815,+Los+Polvorines,+Provincia+de+Buenos+Aires,+Argentina/-34.5202626,-58.7001918/@-34.5201212,-58.7825893,12z/data=!4m8!4m7!1m5!1m1!1s0x95bcbd25a08f5d15:0x9058655f36dbc4e9!2m2!1d-58.7001869!2d-34.5202903!1m0?hl=es-ES"
+              // src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2083.2717413714836!2d-58.365951241429855!3d-34.635502965949534!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a334b6925e5473%3A0x1ca5b2748858b40d!2sEstadio%20Alberto%20J.%20Armando!5e1!3m2!1ses!2sar!4v1682613507957!5m2!1ses!2sar"
+              src="https://www.google.com/maps/place/Canchas+El+Predio/@-34.5203742,-59.2772865,10z/data=!4m10!1m2!2m1!1scanchas+el+predio!3m6!1s0x95bcbdf126a79637:0xeed195e4523270d8!8m2!3d-34.5203742!4d-58.7005043!15sChFjYW5jaGFzIGVsIHByZWRpb-ABAA!16s%2Fg%2F11scpxytbr?hl=es-ES"
               style={{
                 border: "0",
                 minWidth: "600px",
