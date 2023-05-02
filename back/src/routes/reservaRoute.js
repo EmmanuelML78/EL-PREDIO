@@ -6,7 +6,7 @@ const {
   updateReserva,
   payReserver,
 } = require("../controllers/ReservaControllers");
-const { enviarCorreo } = require("../controllers/nodemailerControllers");
+const { pagoaprovado } = require("../controllers/nodemailerControllers");
 const { Reserva, Cancha, User } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 
@@ -122,10 +122,18 @@ router
           const idReserve = parseInt(payment.body.external_reference);
           const reserva = await Reserva.findOne({
             where: { id: idReserve },
+            include: [
+              {
+                model: User,
+                as: "user",
+              },
+            ],
           });
+          // console.log(reserva.user);
 
           if (payment.body.status === "approved") {
             reserva.status = "confirmed";
+            // pagoaprovado(emailUser);
           } else if (payment.body.status === "pending") {
             reserva.status = "pending";
           } else {
@@ -133,6 +141,8 @@ router
           }
 
           await reserva.save();
+          const emailUser = reserva.user.email;
+          pagoaprovado(emailUser);
 
           break;
         case "plan":
