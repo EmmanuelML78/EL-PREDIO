@@ -103,7 +103,8 @@ const payReserver = async (req, res) => {
     },
     auto_return: "approved",
     binary_mode: true,
-    notification_url: "https://pruebamercado.hopto.org/notificaciones", // URL de la ruta para recibir la notificación de MercadoPago
+    notification_url:
+      "https://039c-181-20-152-27.ngrok-free.app/reserva/notificaciones", // URL de la ruta para recibir la notificación de MercadoPago
   };
 
   try {
