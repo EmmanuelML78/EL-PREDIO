@@ -45,20 +45,16 @@ const deleteReserva = async (id) => {
 
 const updateReserva = async (id, date, start, end, status, hasPromo) => {
   const reserva = await Reserva.findByPk(id);
-
+  const estado = status;
+  console.log(estado);
+  console.log(reserva);
   if (!reserva) return { error: "Reserva no existe" };
   else {
-    date
-      ? (reserva.date = new Date(date))
-      : start
-      ? (reserva.start = start)
-      : end
-      ? (reserva.end = end)
-      : status
-      ? (reserva.status = status)
-      : hasPromo
-      ? (reserva.hasPromo = hasPromo)
-      : null;
+    date && (reserva.date = date);
+    start && (reserva.start = start);
+    end && (reserva.end = end);
+    status && (reserva.status = estado);
+    hasPromo && (reserva.hasPromo = hasPromo);
 
     await reserva.save();
     return reserva;
