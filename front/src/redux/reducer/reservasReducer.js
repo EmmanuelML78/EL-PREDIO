@@ -3,6 +3,7 @@ import {
   POST_RESERVA,
   DELETE_RESERVA,
   PUT_RESERVA,
+  GET_RESERVA_BY_ID,
 } from "../actions/reservaActions.js";
 
 const initialState = {
@@ -14,7 +15,12 @@ const reservasReducer = (state = initialState, action) => {
   switch (action.type) {
     case GET_ALL_RESERVAS:
       return {
-       ...state,
+        ...state,
+        reservas: action.payload,
+      };
+    case GET_RESERVA_BY_ID:
+      return {
+        ...state,
         reservas: action.payload,
       };
     case POST_RESERVA:

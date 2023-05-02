@@ -4,6 +4,21 @@ export const GET_ALL_RESERVAS = "GET_ALL_RESERVAS";
 export const POST_RESERVA = "POST_RESERVA";
 export const DELETE_RESERVA = "DELETE_RESERVA";
 export const PUT_RESERVA = "PUT_RESERVA";
+export const GET_RESERVA_BY_ID = "GET_RESERVA_BY_ID";
+
+export const getReservaById = (reservaId) => {
+  return async (dispatch) => {
+    const res = await instance.get(`reserva/${reservaId}`, {
+      withCredentials: true,
+    });
+    const data = res.data;
+    console.log("action data", data);
+    dispatch({
+      type: GET_RESERVA_BY_ID,
+      payload: data,
+    });
+  };
+};
 
 export const getAllReservas = () => {
   return async (dispatch) => {
@@ -109,10 +124,21 @@ async function actualizarReserva(reservaId, mercadoPagoResponse) {
   return response.data;
   console.log(response.data);
 }
-<<<<<<<<< Temporary merge branch 1
 
-export const deleteReserva = (reservaId) => {};
-=========
->>>>>>>>> Temporary merge branch 2
-
-export const putReserva = (reservaData) => {};
+export const putReserva = (reservaData) => {
+  return async (dispatch) => {
+    console.log("reservaData:", reservaData);
+    try {
+      const response = await instance.put(reserva, reservaData, {
+        withCredentials: true,
+      });
+      console.log("response put: ", response.data);
+      dispatch({
+        type: PUT_RESERVA,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error("Error al actualizar la reserva", error);
+    }
+  };
+};

@@ -94,7 +94,6 @@ const Detail = ({ cancha, getCanchaById, match }) => {
     intervaloHoras.push(moment(actualTime));
     actualTime.add(1, "hour");
   }
-
   const reservas = !isLoading
     ? c.reservas.filter((reserva) => reserva.date === selectedDate)
     : [];
@@ -142,7 +141,7 @@ const Detail = ({ cancha, getCanchaById, match }) => {
       })
     : [];
 
-    const clase = c.availability ? "s.disponible" : "s.ocuped"
+  const clase = c.availability ? "s.disponible" : "s.ocuped";
   return (
     <>
       <ToastContainer />
@@ -150,45 +149,53 @@ const Detail = ({ cancha, getCanchaById, match }) => {
         <>
           <Error401 />
         </>
-      )  : c && !c.availability ? (
+      ) : c && !c.availability ? (
         <>La cancha no esta disponible</>
-      ) : c && (
-        <>
-          <Navbar />
-          <div className={s.father}>
-            <div className={s.container}>
-              <h1>{c.name}</h1>
-              <p>Césped {c.grass}</p>
-              <p>Cancha de futbol {c.players}</p>
-              <p>Descripción: {c.description}</p>
-              <p style={{color:"green", fontWeight:600}}>{c.availability ? "Disponible" : "No disponible"}</p>
-              <form onSubmit={handlePago}>
-                <p style={{ fontSize: "16pt", fontWeight: "600" }}>
-                  Reservar un turno:
+      ) : (
+        c && (
+          <>
+            <Navbar />
+            <div className={s.father}>
+              <div className={s.container}>
+                <h1>{c.name}</h1>
+                <p>Césped {c.grass}</p>
+                <p>Cancha de futbol {c.players}</p>
+                <p>Descripción: {c.description}</p>
+                <p style={{ color: "green", fontWeight: 600 }}>
+                  {c.availability ? "Disponible" : "No disponible"}
                 </p>
-                <div className={s.dateContainer}>
-                  <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
-                    Fecha:
+                <form onSubmit={handlePago}>
+                  <p style={{ fontSize: "16pt", fontWeight: "600" }}>
+                    Reservar un turno:
                   </p>
-                  <input
-                    min={moment().format("YYYY-MM-DD")}
-                    max={moment().add(30, "days").format("YYYY-MM-DD")}
-                    className={s.date}
-                    type="date"
-                    value={selectedDate}
-                    onChange={handleDate}
-                  />
-                </div>
-                <div>{botonesHorarios}</div>
-                <button className={s.submit} type="submit">
-                  Pagar reserva
-                </button>
-              </form>
+                  <div className={s.dateContainer}>
+                    <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
+                      Fecha:
+                    </p>
+                    <input
+                      min={moment().format("YYYY-MM-DD")}
+                      max={moment().add(30, "days").format("YYYY-MM-DD")}
+                      className={s.date}
+                      type="date"
+                      value={selectedDate}
+                      onChange={handleDate}
+                    />
+                  </div>
+                  <div>{botonesHorarios}</div>
+                  <button className={s.submit} type="submit">
+                    Pagar reserva
+                  </button>
+                </form>
+              </div>
+              <img
+                className={s.canchaimg}
+                src={c.image}
+                alt="Imagen de cancha"
+              />
             </div>
-            <img className={s.canchaimg} src={c.image} alt="Imagen de cancha" />
-          </div>
-          <Footer />
-        </>
+            <Footer />
+          </>
+        )
       )}
     </>
   );

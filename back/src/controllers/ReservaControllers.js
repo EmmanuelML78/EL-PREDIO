@@ -97,13 +97,14 @@ const payReserver = async (req, res) => {
       },
     ],
     back_urls: {
-      success: "http://localhost:5173/success", // redirect to this url if payment is successful
+      success: `http://localhost:5173/success`, // redirect to this url if payment is successful
       failure: "http://localhost:5173/failure", // redirect to this url if payment fails
       pending: "http://localhost:5173/pending", // redirect to this url if payment is pending
     },
     auto_return: "approved",
     binary_mode: true,
-    notification_url: "https://pruebamercado.hopto.org/notificaciones", // URL de la ruta para recibir la notificación de MercadoPago
+    notification_url:
+      "https://c009-179-51-123-195.ngrok-free.app/reserva/notificaciones", // URL de la ruta para recibir la notificación de MercadoPago
   };
 
   try {
