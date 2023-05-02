@@ -5,11 +5,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { confirmAlert } from "react-confirm-alert";
 import "./CreadorReviews.css";
 
-function CreadorReviews() {
+function CreadorReviews({ reviewVisible, setReviewVisible }) {
   const [score, setScore] = useState("");
   const [text, setText] = useState("");
   const user = useSelector((state) => state.auth.user);
-  console.log(user)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -30,9 +29,10 @@ function CreadorReviews() {
           onClick: async () => {
             const postData = { score: parseFloat(score), text };
             if (user) {
-              postData.userId = user.id; 
+              postData.userId = user.id;
             }
             await dispatch(postReviews(postData));
+            setReviewVisible(false);
           },
         },
         {
@@ -46,7 +46,10 @@ function CreadorReviews() {
   };
 
   return (
-    <div className="reviews-card">
+    <div
+      className="reviews-card"
+      style={{ marginTop: "3rem", marginBottom: "3rem" }}
+    >
       <form onSubmit={handleSubmit}>
         <h1
           style={{
@@ -101,7 +104,7 @@ function CreadorReviews() {
           id="text"
           rows="4"
           cols="50"
-          style={{ color: "white" }}
+          style={{ color: "white", height: "150px" }}
           value={text}
           onChange={(event) => setText(event.target.value)}
         />
