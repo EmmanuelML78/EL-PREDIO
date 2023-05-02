@@ -54,7 +54,7 @@ const Home = () => {
        ) : (
          <>
            <Reviews/>
-           <button onClick={() => setReviewVisible(true)}>Mostrar Formulario</button>
+           <button onClick={() => setReviewVisible(true)}>Ingresa tu Review Aqui</button>
          </>
        )}
           <Footer />

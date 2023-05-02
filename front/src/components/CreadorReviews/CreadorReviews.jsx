@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { postReviews } from "../../redux/actions/reviewsActions";
+import { postReviews, getReviews } from "../../redux/actions/reviewsActions";
 import { setUser } from "../../redux/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import { confirmAlert } from "react-confirm-alert";
@@ -9,40 +9,47 @@ function CreadorReviews({ reviewVisible, setReviewVisible }) {
   const [score, setScore] = useState("");
   const [text, setText] = useState("");
   const user = useSelector((state) => state.auth.user);
+  const reviews = useSelector((state) => state.reviews.reviews);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(setUser(user));
+      await dispatch(getReviews());
     };
     fetchData();
   }, [dispatch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    confirmAlert({
-      title: "Agregar Review",
-      message: "¿Está seguro que desea subir esta review?",
-      buttons: [
-        {
-          label: "Agregar",
-          onClick: async () => {
-            const postData = { score: parseFloat(score), text };
-            if (user) {
-              postData.userId = user.id;
-            }
-            await dispatch(postReviews(postData));
-            setReviewVisible(false);
+    const userReviews = reviews.filter((review) => review.userId === user.id);
+    if (userReviews.length > 0) {
+      alert("Ya has creado una review, No puedes ingresar mas de 1 Review.");
+    } else {
+      confirmAlert({
+        title: "Agregar Review",
+        message: "¿Está seguro que desea subir esta review?",
+        buttons: [
+          {
+            label: "Agregar",
+            onClick: async () => {
+              const postData = { score: parseFloat(score), text };
+              if (user) {
+                postData.userId = user.id;
+              }
+              await dispatch(postReviews(postData));
+              setReviewVisible(false);
+            },
           },
-        },
-        {
-          label: "Cancelar",
-          onClick: () => {},
-        },
-      ],
-    });
-    setScore("");
-    setText("");
+          {
+            label: "Cancelar",
+            onClick: () => {},
+          },
+        ],
+      });
+      setScore("");
+      setText("");
+    }
   };
 
   return (
@@ -114,6 +121,9 @@ function CreadorReviews({ reviewVisible, setReviewVisible }) {
           style={{ color: "white", backgroundColor: "red" }}
         >
           Enviar Review
+        </button>
+        <button onClick={() => setReviewVisible(false)} style={{ color: "white", margin: "10px" }}>
+          Cancelar
         </button>
       </form>
     </div>
