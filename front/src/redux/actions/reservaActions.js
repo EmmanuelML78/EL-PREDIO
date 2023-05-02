@@ -110,5 +110,20 @@ async function actualizarReserva(reservaId, mercadoPagoResponse) {
   console.log(response.data);
 }
 
-
-export const putReserva = (reservaData) => {};
+export const putReserva = (reservaData) => {
+  return async (dispatch) => {
+    console.log("reservaData:", reservaData);
+    try {
+      const response = await instance.put(`reserva`, reservaData, {
+        withCredentials: true,
+      });
+      console.log("response put: ", response.data);
+      dispatch({
+        type: PUT_RESERVA,
+        payload: response.data,
+      });
+    } catch (error) {
+      console.error("Error al actualizar la reserva", error);
+    }
+  };
+};
