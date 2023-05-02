@@ -129,7 +129,7 @@ export const putReserva = (reservaData) => {
   return async (dispatch) => {
     console.log("reservaData:", reservaData);
     try {
-      const response = await instance.put(reserva, reservaData, {
+      const response = await instance.put(`reserva`, reservaData, {
         withCredentials: true,
       });
       console.log("response put: ", response.data);
