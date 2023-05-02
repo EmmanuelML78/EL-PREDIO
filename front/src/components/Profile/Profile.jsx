@@ -192,6 +192,7 @@ const Profile = () => {
                   <button
                     onClick={() => handleImageChangeClick()}
                     className="change-image-button"
+                    style={{marginTop: "10px", marginRight: "7px"}}
                   >
                     Guardar Imagen
                   </button>
@@ -200,6 +201,7 @@ const Profile = () => {
                 ) : (
                   <button
                   onClick={() => showWidget()}
+                  style={{marginTop: "10px", marginRight: "7px"}}
                   className="change-image-button"
                 >
                   Cambiar
