@@ -158,6 +158,7 @@ const payReserver = async (req, res) => {
   }
 
   let preference = {
+    external_reference: reservaId.toString(),
     items: [
       {
         id: reservaId,
@@ -175,11 +176,21 @@ const payReserver = async (req, res) => {
     auto_return: "approved",
     binary_mode: true,
     notification_url:
-      "https://039c-181-20-152-27.ngrok-free.app/reserva/notificaciones", // URL de la ruta para recibir la notificación de MercadoPago
+      "https://039c-181-20-152-27.ngrok-free.app/reserva/notificaciones",
+    // URL de la ruta para recibir la notificación de MercadoPago
+    payment_methods: {
+      excluded_payment_types: [
+        {
+          id: "ticket",
+        },
+      ],
+    },
   };
 
   try {
     const response = await mercadopago.preferences.create(preference);
+    const pagoId = response.body.id;
+    await Reserva.update({ id_pago: pagoId }, { where: { id: reservaId } });
     res.json(response);
   } catch (error) {
     console.log(error);
