@@ -6,13 +6,13 @@ const {
   updateReserva,
   getUsersDb,
   payReserver,
-  // updatePayReserva,
+  changeStatusSuccess,
+  changeStatusFailure,
+  changeStatusPending,
 } = require("../controllers/ReservaControllers");
 const { enviarCorreo } = require("../controllers/nodemailerControllers");
 const { Reserva, Cancha, User } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
-
-// const mercadopago = require("../utils/mercadoPago");
 
 router
   .get("/", adminMiddleware, async (req, res) => {
@@ -23,22 +23,8 @@ router
       res.status(400).send({ error: error.message });
     }
   })
-
   .get("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;
-    // let allreserva = await getAllReservations();
-    // try {
-    //   if (id) {
-    //     const reservaid = await allreserva.filter((el) => el.id == id);
-    //     id.length
-    //       ? res.status(200).send(reservaid)
-    //       : res
-    //           .status(500)
-    //           .json({ message: "Error al obtener Reserva por ID" });
-    //   }
-    // } catch (error) {
-    //   throw error;
-    // }
     try {
       if (id) {
         const reserva = await Reserva.findOne({
@@ -70,7 +56,6 @@ router
       res.status(500).json({ message: "Error al buscar la reserva" });
     }
   })
-
   .post("/", authMiddleware, async (req, res) => {
     const { date, start, end, status, hasPromo, userId, canchaId } = req.body;
     try {
@@ -116,23 +101,6 @@ router
     console.log("Notificación recibida:", req.body);
     res.sendStatus(200);
   })
-
-  // .post("/notificaciones", async (req, res) => {
-  //   const body = req.body;
-  //   // Verificar que la notificación sea válida, siguiendo las instrucciones de MercadoPago
-  //   // https://www.mercadopago.com.ar/developers/es/guides/notifications/webhooks/validations
-  //   // En caso de ser inválida, retornar un código de error 400 (Bad Request)
-
-  //   // Si la notificación es válida, actualizar el estado de la reserva en tu base de datos
-  //   const reservaId = body.data.id;
-  //   const estado = body.type === "payment" ? body.data.status : null; // Verificar que el evento sea de tipo 'payment'
-  //   console.log(estado);
-  //   await updatePayReserva(reservaId, estado);
-
-  //   // Retornar una respuesta 200 (OK) para confirmar la recepción de la notificación
-  //   res.status(200).send("Notificación recibida");
-  // })
-
   .delete("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;
     try {
@@ -144,7 +112,34 @@ router
       res.status(500).json({ message: "Error al eliminar la Reserva" });
     }
   })
-
+  .get("/success/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+      await changeStatusSuccess(id);
+      res.redirect("http://localhost:5173/misreservas");
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  });
+app
+  .get("/failure/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+      await changeStatusFailure(id);
+      res.redirect("http://localhost:5173/misreservas");
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  })
+  .get("/pending/:id", async (req, res) => {
+    const id = req.params.id;
+    try {
+      await changeStatusPending(id);
+      res.redirect("http://localhost:5173/misreservas");
+    } catch (error) {
+      res.status(400).json(error);
+    }
+  })
   .put("/", adminMiddleware, async (req, res) => {
     const { id, date, start, end, status, hasPromo } = req.body;
 

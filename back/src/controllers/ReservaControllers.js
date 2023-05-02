@@ -1,6 +1,81 @@
 const { Reserva, User, Cancha } = require("../db");
 const { mercadopago } = require("../utils/mercadoPago");
 
+const changeStatusSuccess = async (id) => {
+  const idReserva = id;
+  try {
+    const reservaPendiente = await Reserva.findByPk(idReserva);
+    const id = reservaPendiente.id;
+    const date = reservaPendiente.date;
+    const start = reservaPendiente.start;
+    const end = reservaPendiente.end;
+    const status = "success";
+    const hasPromo = reservaPendiente.hasPromo;
+    const updatedReserva = await updateReserva(
+      id,
+      date,
+      start,
+      end,
+      status,
+      hasPromo
+    );
+    console.log("afterput:", updatedReserva);
+    return updatedReserva;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const changeStatusPending = async (id) => {
+  const idReserva = id;
+  try {
+    const reservaPendiente = await Reserva.findByPk(idReserva);
+    const id = reservaPendiente.id;
+    const date = reservaPendiente.date;
+    const start = reservaPendiente.start;
+    const end = reservaPendiente.end;
+    const status = "pending";
+    const hasPromo = reservaPendiente.hasPromo;
+    const updatedReserva = await updateReserva(
+      id,
+      date,
+      start,
+      end,
+      status,
+      hasPromo
+    );
+    console.log("afterput:", updatedReserva);
+    return updatedReserva;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const changeStatusFailure = async (id) => {
+  const idReserva = id;
+  try {
+    const reservaPendiente = await Reserva.findByPk(idReserva);
+    const id = reservaPendiente.id;
+    const date = reservaPendiente.date;
+    const start = reservaPendiente.start;
+    const end = reservaPendiente.end;
+    const status = "failure";
+    const hasPromo = reservaPendiente.hasPromo;
+    const updatedReserva = await updateReserva(
+      id,
+      date,
+      start,
+      end,
+      status,
+      hasPromo
+    );
+    console.log("afterput:", updatedReserva);
+    return updatedReserva;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const getAllReservations = async (reservaid) => {
   try {
     if (reservaid) {
@@ -93,9 +168,9 @@ const payReserver = async (req, res) => {
       },
     ],
     back_urls: {
-      success: `http://localhost:5173/success`, // redirect to this url if payment is successful
-      failure: "http://localhost:5173/failure", // redirect to this url if payment fails
-      pending: "http://localhost:5173/pending", // redirect to this url if payment is pending
+      success: `http://localhost:3001/reserva/success/${reservaId}`, // redirect to this url if payment is successful
+      failure: `http://localhost:5173/reserva/failure/${reservaId}`, // redirect to this url if payment fails
+      pending: `http://localhost:5173/reserva/pending/${reservaId}`, // redirect to this url if payment is pending
     },
     auto_return: "approved",
     binary_mode: true,
@@ -112,27 +187,13 @@ const payReserver = async (req, res) => {
   }
 };
 
-// const updatePayReserva = async (reservaId, status) => {
-//   try {
-//     const reserva = await Reserva.update(
-//       { status },
-//       { where: { id: reservaId }, returning: true }
-//     );
-//     console.log(`Estado de reserva ${reservaId} actualizado a ${status}`);
-//     return reserva[1][0]; // Devuelve la reserva actualizada
-//   } catch (error) {
-//     console.error(
-//       `Error actualizando estado de reserva ${reservaId}: ${error.message}`
-//     );
-//     throw error;
-//   }
-// };
-
 module.exports = {
   getAllReservations,
   deleteReserva,
   updateReserva,
   getUsersDb,
   payReserver,
-  // updatePayReserva,
+  changeStatusSuccess,
+  changeStatusPending,
+  changeStatusFailure,
 };
