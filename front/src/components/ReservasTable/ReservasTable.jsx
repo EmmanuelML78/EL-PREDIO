@@ -6,7 +6,8 @@ import {
   putReserva,
 } from "../../redux/actions/reservaActions";
 import s from "./ReservasTable.module.css";
-import { AiFillDelete, AiFillEdit, AiOutlineCheck } from "react-icons/ai";
+import { AiFillEdit, AiOutlineCheck } from "react-icons/ai";
+import { MdDeleteOutline } from "react-icons/md";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import moment from "moment";
 import Loading from "../Loading/Loading";
@@ -45,6 +46,7 @@ const ReservasTable = () => {
   }, [dispatch]);
 
   const handleEliminarReserva = (id) => {
+    setIsEditingReserva(false)
     confirmAlert({
       title: "Eliminar reserva",
       message: "¿Está seguro que desea eliminar la reserva?",
@@ -157,7 +159,7 @@ const ReservasTable = () => {
         progress: undefined,
       });
       setIsEditingReserva(false);
-      dispatch(getAllReservas())
+      dispatch(getAllReservas());
     } catch (error) {
       toast.error("Error al editar", {
         position: "bottom-right",
@@ -275,10 +277,8 @@ const ReservasTable = () => {
                         defaultValue={selectedReserva.status}
                         onChange={(e) => setSelectedStatus(e.target.value)}
                       >
-                        <option value="none">-----</option>
                         <option value="success">Confirmada</option>
                         <option value="pending">Pendiente de pago</option>
-                        <option value="canceled">Cancelada</option>
                       </select>
                     ) : reserva.deletedAt || reserva.status === "canceled" ? (
                       "Cancelada"
@@ -306,7 +306,7 @@ const ReservasTable = () => {
                       )}
                     </button>
                     <button onClick={() => handleEliminarReserva(reserva.id)}>
-                      <AiFillDelete />
+                      <MdDeleteOutline />
                     </button>
                   </td>
                 </tr>
