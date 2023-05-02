@@ -146,8 +146,8 @@ const Landing = () => {
     history.push("/home");
   };
   const handleGoogleLogin = () => {
-    window.location.href = instance.defaults.baseURL + "google"
-  }
+    window.location.href = instance.defaults.baseURL + "/google";
+  };
 
   return (
     <div className="container">
@@ -182,8 +182,10 @@ const Landing = () => {
                 onChange={(e) => {
                   formik.setFieldValue(
                     "name",
-                    (e.target.value.charAt(0).toUpperCase() +
-                      e.target.value.slice(1)).trim()
+                    (
+                      e.target.value.charAt(0).toUpperCase() +
+                      e.target.value.slice(1)
+                    ).trim()
                   );
                 }}
                 onBlur={formik.handleBlur}
@@ -204,8 +206,10 @@ const Landing = () => {
                 onChange={(e) => {
                   formik.setFieldValue(
                     "lastName",
-                    (e.target.value.charAt(0).toUpperCase() +
-                      e.target.value.slice(1)).trim()
+                    (
+                      e.target.value.charAt(0).toUpperCase() +
+                      e.target.value.slice(1)
+                    ).trim()
                   );
                 }}
                 onBlur={formik.handleBlur}
