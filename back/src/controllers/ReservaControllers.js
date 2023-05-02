@@ -83,6 +83,7 @@ const payReserver = async (req, res) => {
   }
 
   let preference = {
+    external_reference: reservaId.toString(),
     items: [
       {
         id: reservaId,
@@ -100,33 +101,27 @@ const payReserver = async (req, res) => {
     auto_return: "approved",
     binary_mode: true,
     notification_url:
-      "https://039c-181-20-152-27.ngrok-free.app/reserva/notificaciones", // URL de la ruta para recibir la notificación de MercadoPago
+      "https://039c-181-20-152-27.ngrok-free.app/reserva/notificaciones",
+    // URL de la ruta para recibir la notificación de MercadoPago
+    payment_methods: {
+      excluded_payment_types: [
+        {
+          id: "ticket",
+        },
+      ],
+    },
   };
 
   try {
     const response = await mercadopago.preferences.create(preference);
+    const pagoId = response.body.id;
+    await Reserva.update({ id_pago: pagoId }, { where: { id: reservaId } });
     res.json(response);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Error al crear la preferencia de pago" });
   }
 };
-
-// const updatePayReserva = async (reservaId, status) => {
-//   try {
-//     const reserva = await Reserva.update(
-//       { status },
-//       { where: { id: reservaId }, returning: true }
-//     );
-//     console.log(`Estado de reserva ${reservaId} actualizado a ${status}`);
-//     return reserva[1][0]; // Devuelve la reserva actualizada
-//   } catch (error) {
-//     console.error(
-//       `Error actualizando estado de reserva ${reservaId}: ${error.message}`
-//     );
-//     throw error;
-//   }
-// };
 
 module.exports = {
   getAllReservations,

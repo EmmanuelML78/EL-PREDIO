@@ -4,15 +4,13 @@ const {
   getAllReservations,
   deleteReserva,
   updateReserva,
-  getUsersDb,
   payReserver,
-  // updatePayReserva,
 } = require("../controllers/ReservaControllers");
 const { enviarCorreo } = require("../controllers/nodemailerControllers");
 const { Reserva, Cancha, User } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 
-// const mercadopago = require("../utils/mercadoPago");
+const { mercadopago } = require("../utils/mercadoPago");
 
 router
   .get("/", adminMiddleware, async (req, res) => {
@@ -72,7 +70,8 @@ router
   })
 
   .post("/", authMiddleware, async (req, res) => {
-    const { date, start, end, status, hasPromo, userId, canchaId } = req.body;
+    const { date, start, end, status, hasPromo, userId, canchaId, id_pago } =
+      req.body;
     try {
       const reservation = await Reserva.create({
         date,
@@ -82,6 +81,7 @@ router
         hasPromo,
         userId,
         canchaId,
+        id_pago,
       });
       res.status(201).json(reservation);
     } catch (error) {
@@ -112,26 +112,57 @@ router
     }
   })
   .post("/pagos", payReserver)
-  .post("/notificaciones", (req, res) => {
-    console.log("Notificación recibida:", req.body);
+
+  .post("/notificaciones", async (req, res) => {
+    try {
+      switch (req.body.type) {
+        case "payment":
+          const payment = await mercadopago.payment.get(req.body.data.id);
+          // console.log(payment.body.external_reference);
+          const idReserve = parseInt(payment.body.external_reference);
+          const reserva = await Reserva.findOne({
+            where: { id: idReserve },
+          });
+
+          if (payment.body.status === "approved") {
+            reserva.status = "confirmed";
+          } else if (payment.body.status === "pending") {
+            reserva.status = "pending";
+          } else {
+            reserva.status = "cancelled";
+          }
+
+          await reserva.save();
+
+          break;
+        case "plan":
+          const plan = await mercadopago.plan.get(req.body.data.id);
+          console.log("Plan:", plan);
+          break;
+        case "subscription":
+          const subscription = await mercadopago.subscription.get(
+            req.body.data.id
+          );
+          console.log("Subscription:", subscription);
+          break;
+        case "invoice":
+          const invoice = await mercadopago.invoice.get(req.body.data.id);
+          console.log("Invoice:", invoice);
+          break;
+        case "point_integration_wh":
+          // El cuerpo de la notificación es suficiente para validar la autenticidad de la notificación
+          console.log("Notificación de punto de venta integrado");
+          break;
+        default:
+          console.log("Tipo de notificación desconocido");
+          break;
+      }
+    } catch (error) {
+      console.error("Error al procesar la notificación:", error);
+    }
+
     res.sendStatus(200);
   })
-
-  // .post("/notificaciones", async (req, res) => {
-  //   const body = req.body;
-  //   // Verificar que la notificación sea válida, siguiendo las instrucciones de MercadoPago
-  //   // https://www.mercadopago.com.ar/developers/es/guides/notifications/webhooks/validations
-  //   // En caso de ser inválida, retornar un código de error 400 (Bad Request)
-
-  //   // Si la notificación es válida, actualizar el estado de la reserva en tu base de datos
-  //   const reservaId = body.data.id;
-  //   const estado = body.type === "payment" ? body.data.status : null; // Verificar que el evento sea de tipo 'payment'
-  //   console.log(estado);
-  //   await updatePayReserva(reservaId, estado);
-
-  //   // Retornar una respuesta 200 (OK) para confirmar la recepción de la notificación
-  //   res.status(200).send("Notificación recibida");
-  // })
 
   .delete("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;
