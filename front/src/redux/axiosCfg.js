@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://el-predio-production-32b7.up.railway.app/",
+  baseURL: "https://el-predio.vercel.app/",
 });
 
 instance.interceptors.request.use((config) => {
