@@ -19,7 +19,7 @@ module.exports = (sequelize) => {
       status: {
         type: DataTypes.STRING,
         allowNull: false,
-        defaultValue: "pending",
+        defaultValue: "cancelled",
       },
       hasPromo: {
         type: DataTypes.BOOLEAN,
