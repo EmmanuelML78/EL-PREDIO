@@ -14,11 +14,11 @@
     border-collapse: collapse;
     color: #f0f0f0;
   }
-  
+
   .reservasTable th {
     background-color: #3a3a3a;
     padding: 0.5rem;
-    text-align: left;
+    text-align: center;
   }
   
   .reservasTable td {

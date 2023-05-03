@@ -5,7 +5,7 @@ import Footer from "./components/Footer/Footer";
 import Detail from "./components/Detail/Detail";
 import DashBoard from "./components/DashBoard/DashBoard";
 import CreadorCanchas from "./components/CreadorCanchas/CreadorCanchas";
-import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
+import { Route, Switch } from "react-router-dom";
 import CanchasTable from "./components/CanchasTable/CanchasTable";
 import About from "./components/About/About";
 import Contactos from "./components/Contactos/Contactos";
@@ -15,6 +15,7 @@ import Failure from "./components/Results/failure/failure";
 import Pending from "./components/Results/pending/Pending";
 import Success from "./components/Results/success/Success";
 import CreadorReviews from "./components/CreadorReviews/CreadorReviews";
+
 function App() {
   return (
     <>

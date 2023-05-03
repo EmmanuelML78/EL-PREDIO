@@ -10,9 +10,9 @@ import store from "./redux/store/store";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
-    <Router>
+    <Router basename="/">
       <App />
-	  <ToastContainer />
+      <ToastContainer />
     </Router>
   </Provider>
 );
