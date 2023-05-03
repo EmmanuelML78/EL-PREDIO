@@ -58,7 +58,7 @@ function Reviews() {
             {reviews
               .slice(sliceIndex, sliceIndex + reviewsPerPage)
               .map((review) => (
-                <article className="card" key={review.id}>
+                <article className="card-review" key={review.id}>
                   <div className="card-header">
                     <div className="card-score">
                       <span style={{ fontWeight: "bold", fontSize: "20px" }}>
