@@ -49,7 +49,9 @@ function Reviews() {
 
   return (
     <div className="reviews">
-      <h2 style={{ fontSize: "50px", color: "white" }}>Reviews</h2>
+      <h2 style={{ fontSize: "50px", color: "white", fontWeight: "600" }}>
+        Reviews
+      </h2>
       {isLoading ? (
         <Loading />
       ) : reviews.length > 0 ? (
@@ -58,7 +60,7 @@ function Reviews() {
             {reviews
               .slice(sliceIndex, sliceIndex + reviewsPerPage)
               .map((review) => (
-                <article className="card" key={review.id}>
+                <article className="card-review" key={review.id}>
                   <div className="card-header">
                     <div className="card-score">
                       <span style={{ fontWeight: "bold", fontSize: "20px" }}>
@@ -96,7 +98,7 @@ function Reviews() {
           </div>
         </>
       ) : (
-        <p>No hay reviews disponibles</p>
+        <p style={{ color: "white" }}>No hay reviews disponibles</p>
       )}
     </div>
   );

@@ -13,6 +13,7 @@ import s from "./Home.module.css";
 import { FaWhatsapp } from "react-icons/fa";
 import Reviews from "../Reviews/Reviews";
 import CreadorReviews from "../CreadorReviews/CreadorReviews";
+import { Link } from "react-router-dom";
 const Home = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -20,13 +21,14 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [reviewVisible, setReviewVisible] = useState(false);
   console.log(reviewVisible);
+
   useEffect(() => {
     const fetchData = async () => {
       user;
       if (!user) {
         await dispatch(setUser());
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
     fetchData();
   }, [dispatch, user]);
@@ -57,9 +59,45 @@ const Home = () => {
           ) : (
             <>
               <Reviews />
-              <button onClick={() => setReviewVisible(true)}>
-                Ingresa tu Review Aqui
-              </button>
+              {!user ? (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    placeContent: "center",
+                  }}
+                >
+                  <Link to="/login">
+                    <p
+                      style={{
+                        color: "white",
+                        fontWeight: "500",
+                        marginBottom: "2rem",
+                        textDecoration: "underline",
+                        marginRight: "0.5rem",
+                      }}
+                    >
+                      Inicie sesión
+                    </p>
+                  </Link>
+                  <p
+                    style={{
+                      color: "white",
+                      fontWeight: "500",
+                      marginBottom: "2rem",
+                    }}
+                  >
+                    para enviar una review
+                  </p>
+                </div>
+              ) : (
+                <button
+                  style={{ marginBottom: "2rem" }}
+                  onClick={() => setReviewVisible(true)}
+                >
+                  Ingresa tu Review Aqui
+                </button>
+              )}
             </>
           )}
           <Footer />
