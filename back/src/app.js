@@ -18,7 +18,7 @@ app.name = "API";
 
 // app.use(cors());
 const corsOptions = {
-  origin: "https://el-predio.vercel.app",
+  origin: "http://localhost:5173",
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -28,7 +28,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://el-predio.vercel.app");
+  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header(
     "Access-Control-Allow-Headers",
@@ -45,7 +45,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: true, // Utilizar sólo en producción true
+      secure: false, // Utilizar sólo en producción true
       maxAge: 24 * 60 * 60 * 1000, // Tiempo de vida de la cookie en milisegundos (24 horas en este caso)
     },
   })
@@ -54,11 +54,6 @@ app.use(
 app.use(passport.initialize());
 
 app.use(passport.session());
-
-app.use((req, res, next) => {
-  console.log(req.session.cookie);
-  next();
-});
 
 app.use("/", routes);
 

@@ -13,21 +13,18 @@ const Footer = () => {
 
         <div className={styles.footerwidget}>
           <h3>Dirección</h3>
-          <p>José Leon Suarez 1815, Los Polvorines</p>
+          <p>Las Heras 1500</p>
         </div>
 
         <div className={styles.footerwidget}>
           <h3>Teléfono</h3>
-          <p>+54 1123934043</p>
+          <p>0-800-0000-000</p>
         </div>
 
         <div className={styles.footerwidget}>
           <h3>Redes</h3>
           <div className={styles.redsocial}>
-            <a
-              href="https://instagram.com/canchaselpredio?igshid=YmMyMTA2M2Y="
-              class="fa fa-instagram"
-            ></a>
+            <a href="" class="fa fa-instagram"></a>
             <a href="" class="fa fa-twitter"></a>
             <a href="" class="fa fa-facebook"></a>
           </div>
@@ -37,6 +34,7 @@ const Footer = () => {
           <Link to="/nosotros">
             <h3>Desarrolladores</h3>
           </Link>
+          <p>anonimous@gmail.com</p>
         </div>
       </div>
 

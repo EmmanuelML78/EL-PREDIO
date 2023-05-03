@@ -34,24 +34,33 @@ router.get(
   "/google",
   passport.authenticate("google", {
     scope: ["profile", "email"],
-    prompt: "consent",
   })
 );
 router.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
-    return res.redirect("https://el-predio.vercel.app/misreservas");
+    return res.redirect("http://localhost:5173");
   }
 );
 
 //logout Google
 router.get("/logout", (req, res) => {
   try {
-    req.logout();
-    req.session.destroy();
-    res.clearCookie("connect.sid", { path: "/" });
-    res.status(200).json({ message: "Haz cerrado sesión con éxito" });
+    req.logout((err) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error al cerrar sesión" });
+      } else {
+        req.session.destroy((err) => {
+          if (err) {
+            console.error(err);
+          }
+          res.clearCookie("connect.sid", { path: "/" });
+          res.status(200).json({ message: "Haz cerrado sesión con éxito" });
+        });
+      }
+    });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error al cerrar sesión" });

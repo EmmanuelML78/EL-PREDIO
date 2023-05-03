@@ -11,19 +11,19 @@ import About from "./components/About/About";
 import Contactos from "./components/Contactos/Contactos";
 import Navbar from "./components/Navbar/Navbar";
 import MisReservas from "./components/MisReservas/MisReservas";
-import Failure from "./components/Results/Failure/Failure";
+import Failure from "./components/Results/failure/failure";
 import Pending from "./components/Results/pending/Pending";
-import Succes from "./components/Results/succes/Succes";
+import Success from "./components/Results/success/Success";
 import CreadorReviews from "./components/CreadorReviews/CreadorReviews";
 function App() {
   return (
     <>
       <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
         <Route exact path="/login">
           <Landing />
+        </Route>
+        <Route exact path="/">
+          <Home />
         </Route>
         <Route exact path="/home">
           <Home />
@@ -61,7 +61,7 @@ function App() {
           <Pending />
         </Route>
         <Route path="/success">
-          <Succes />
+          <Success />
         </Route>
         <Route path="/reviews">
           <CreadorReviews />

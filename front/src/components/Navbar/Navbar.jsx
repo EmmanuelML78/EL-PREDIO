@@ -15,9 +15,8 @@ const Navbar = () => {
   }, [dispatch, user]);
 
   const handleLogout = async () => {
-    localStorage.removeItem("token");
     await dispatch(logoutUser());
-    window.location.href = "/";
+    // window.location.href = "/";
     toast.success("¡Has cerrado sesión correctamente!", {
       position: "bottom-right",
       autoClose: 5000,
@@ -42,7 +41,7 @@ const Navbar = () => {
             </div>
             <div className={styles.contacto}>
               <span className={styles.telefono} href="">
-                +54 1123934043
+                01-800-0000-000
               </span>
 
               <nav className={styles.navegacion}>

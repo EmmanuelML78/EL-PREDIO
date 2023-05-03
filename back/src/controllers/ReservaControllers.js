@@ -45,20 +45,16 @@ const deleteReserva = async (id) => {
 
 const updateReserva = async (id, date, start, end, status, hasPromo) => {
   const reserva = await Reserva.findByPk(id);
-
+  const estado = status;
+  console.log(estado);
+  console.log(reserva);
   if (!reserva) return { error: "Reserva no existe" };
   else {
-    date
-      ? (reserva.date = new Date(date))
-      : start
-      ? (reserva.start = start)
-      : end
-      ? (reserva.end = end)
-      : status
-      ? (reserva.status = status)
-      : hasPromo
-      ? (reserva.hasPromo = hasPromo)
-      : null;
+    date && (reserva.date = date);
+    start && (reserva.start = start);
+    end && (reserva.end = end);
+    status && (reserva.status = estado);
+    hasPromo && (reserva.hasPromo = hasPromo);
 
     await reserva.save();
     return reserva;
@@ -87,6 +83,7 @@ const payReserver = async (req, res) => {
   }
 
   let preference = {
+    external_reference: reservaId.toString(),
     items: [
       {
         id: reservaId,
@@ -97,39 +94,34 @@ const payReserver = async (req, res) => {
       },
     ],
     back_urls: {
-      success: "https://el-predio.vercel.app/success", // redirect to this url if payment is successful
-      failure: "https://el-predio.vercel.app/failure", // redirect to this url if payment fails
-      pending: "https://el-predio.vercel.app/pending", // redirect to this url if payment is pending
+      success: "http://localhost:5173/success", // redirect to this url if payment is successful
+      failure: "http://localhost:5173/failure", // redirect to this url if payment fails
+      pending: "http://localhost:5173/pending", // redirect to this url if payment is pending
     },
     auto_return: "approved",
     binary_mode: true,
-    notification_url: "https://pruebamercado.hopto.org/notificaciones", // URL de la ruta para recibir la notificación de MercadoPago
+    notification_url:
+      "https://039c-181-20-152-27.ngrok-free.app/reserva/notificaciones",
+    // URL de la ruta para recibir la notificación de MercadoPago
+    payment_methods: {
+      excluded_payment_types: [
+        {
+          id: "ticket",
+        },
+      ],
+    },
   };
 
   try {
     const response = await mercadopago.preferences.create(preference);
+    const pagoId = response.body.id;
+    await Reserva.update({ id_pago: pagoId }, { where: { id: reservaId } });
     res.json(response);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Error al crear la preferencia de pago" });
   }
 };
-
-// const updatePayReserva = async (reservaId, status) => {
-//   try {
-//     const reserva = await Reserva.update(
-//       { status },
-//       { where: { id: reservaId }, returning: true }
-//     );
-//     console.log(`Estado de reserva ${reservaId} actualizado a ${status}`);
-//     return reserva[1][0]; // Devuelve la reserva actualizada
-//   } catch (error) {
-//     console.error(
-//       `Error actualizando estado de reserva ${reservaId}: ${error.message}`
-//     );
-//     throw error;
-//   }
-// };
 
 module.exports = {
   getAllReservations,
