@@ -13,6 +13,7 @@ import s from "./Home.module.css";
 import { FaWhatsapp } from "react-icons/fa";
 import Reviews from "../Reviews/Reviews";
 import CreadorReviews from "../CreadorReviews/CreadorReviews";
+import { Link } from "react-router-dom";
 const Home = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -59,15 +60,36 @@ const Home = () => {
             <>
               <Reviews />
               {!user ? (
-                <p
+                <div
                   style={{
-                    color: "white",
-                    fontWeight: "500",
-                    marginBottom: "2rem",
+                    display: "flex",
+                    flexDirection: "row",
+                    placeContent: "center",
                   }}
                 >
-                  Inicie sesión para enviar una review
-                </p>
+                  <Link to="/login">
+                    <p
+                      style={{
+                        color: "white",
+                        fontWeight: "500",
+                        marginBottom: "2rem",
+                        textDecoration: "underline",
+                        marginRight: "0.5rem",
+                      }}
+                    >
+                      Inicie sesión
+                    </p>
+                  </Link>
+                  <p
+                    style={{
+                      color: "white",
+                      fontWeight: "500",
+                      marginBottom: "2rem",
+                    }}
+                  >
+                    para enviar una review
+                  </p>
+                </div>
               ) : (
                 <button
                   style={{ marginBottom: "2rem" }}
