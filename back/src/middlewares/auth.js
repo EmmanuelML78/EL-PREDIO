@@ -20,7 +20,6 @@ const authMiddleware = async (req, res, next) => {
     req.user = user;
     next();
   } catch (error) {
-    console.log(req.isAuthenticated());
     if (error instanceof jwt.TokenExpiredError) {
       res.status(401).json({ error: "Token expirado" });
     } else {

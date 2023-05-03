@@ -45,7 +45,6 @@ const MisReservas = () => {
                     <th>Hora</th>
                     <th>Estado</th>
                     <th>Creacion</th>
-                    <th>Acción</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -56,13 +55,14 @@ const MisReservas = () => {
                       <td>
                         {moment(reserva.start, "HH:mm:ss").format("HH:mm")}
                       </td>
-                      <td>{reserva.deletedAt ? "Cancelada" : reserva.status === 'pending' ? 'Pendiente de pago' : "Confirmada"}</td>
-                      <td>{moment(reserva.createdAt).format("DD-MM-YYYY")}</td>
                       <td>
-                        <button>
-                          <AiFillEdit />
-                        </button>
+                        {reserva.deletedAt
+                          ? "Cancelada"
+                          : reserva.status === "pending"
+                          ? "Pendiente de pago"
+                          : "Confirmada"}
                       </td>
+                      <td>{moment(reserva.createdAt).format("DD-MM-YYYY")}</td>
                     </tr>
                   ))}
                 </tbody>

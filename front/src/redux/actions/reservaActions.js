@@ -4,6 +4,21 @@ export const GET_ALL_RESERVAS = "GET_ALL_RESERVAS";
 export const POST_RESERVA = "POST_RESERVA";
 export const DELETE_RESERVA = "DELETE_RESERVA";
 export const PUT_RESERVA = "PUT_RESERVA";
+export const GET_RESERVA_BY_ID = "GET_RESERVA_BY_ID";
+
+export const getReservaById = (reservaId) => {
+  return async (dispatch) => {
+    const res = await instance.get(`reserva/${reservaId}`, {
+      withCredentials: true,
+    });
+    const data = res.data;
+    console.log("action data", data);
+    dispatch({
+      type: GET_RESERVA_BY_ID,
+      payload: data,
+    });
+  };
+};
 
 export const getAllReservas = () => {
   return async (dispatch) => {

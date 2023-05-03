@@ -3,6 +3,7 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 const { sendResetPassword } = require("../controllers/nodemailerControllers");
+const { authMiddleware } = require("../middlewares/auth");
 
 const router = Router();
 
@@ -45,12 +46,26 @@ router.get(
 );
 
 //logout Google
-router.get("/logout", (req, res) => {
+router.post("/logout", authMiddleware, async (req, res) => {
   try {
-    req.logout();
-    req.session.destroy();
-    res.clearCookie("connect.sid", { path: "/" });
-    res.status(200).json({ message: "Haz cerrado sesión con éxito" });
+    req.logout((err) => {
+      if (err) {
+        console.error(err);
+        res.status(500).json({ message: "Error al cerrar sesión" });
+      } else {
+        req.session.destroy((err) => {
+          if (err) {
+            console.error(err);
+          }
+          res.clearCookie("connect.sid", { path: "/" });
+          res.status(200).json({ message: "Haz cerrado sesión con éxito" });
+        });
+      }
+    });
+    // req.logout();
+    // req.session.destroy();
+    // res.clearCookie("connect.sid"); // Nombre de la cookie que se crea con express-session
+    // res.status(200).json({ message: "Haz cerrado sesión con éxito" });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Error al cerrar sesión" });

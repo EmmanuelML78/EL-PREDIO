@@ -38,7 +38,6 @@ router.get("/users/:id", authMiddleware, async (req, res) => {
 //traer user autenticado
 router.get("/me", authMiddleware, async (req, res) => {
   try {
-    // console.log(req.user.id);
     const user = await User.findByPk(req.user.id, {
       include: [
         {

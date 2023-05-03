@@ -10,8 +10,6 @@ const { pagoaprovado } = require("../controllers/nodemailerControllers");
 const { Reserva, Cancha, User } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 
-const { mercadopago } = require("../utils/mercadoPago");
-
 router
   .get("/", adminMiddleware, async (req, res) => {
     try {
@@ -21,22 +19,8 @@ router
       res.status(400).send({ error: error.message });
     }
   })
-
   .get("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;
-    // let allreserva = await getAllReservations();
-    // try {
-    //   if (id) {
-    //     const reservaid = await allreserva.filter((el) => el.id == id);
-    //     id.length
-    //       ? res.status(200).send(reservaid)
-    //       : res
-    //           .status(500)
-    //           .json({ message: "Error al obtener Reserva por ID" });
-    //   }
-    // } catch (error) {
-    //   throw error;
-    // }
     try {
       if (id) {
         const reserva = await Reserva.findOne({
@@ -68,7 +52,6 @@ router
       res.status(500).json({ message: "Error al buscar la reserva" });
     }
   })
-
   .post("/", authMiddleware, async (req, res) => {
     const { date, start, end, status, hasPromo, userId, canchaId, id_pago } =
       req.body;
@@ -112,7 +95,6 @@ router
     }
   })
   .post("/pagos", payReserver)
-
   .post("/notificaciones", async (req, res) => {
     try {
       switch (req.body.type) {
@@ -173,7 +155,6 @@ router
 
     res.sendStatus(200);
   })
-
   .delete("/:id", adminMiddleware, async (req, res) => {
     const id = req.params.id;
     try {
@@ -185,7 +166,6 @@ router
       res.status(500).json({ message: "Error al eliminar la Reserva" });
     }
   })
-
   .put("/", adminMiddleware, async (req, res) => {
     const { id, date, start, end, status, hasPromo } = req.body;
 

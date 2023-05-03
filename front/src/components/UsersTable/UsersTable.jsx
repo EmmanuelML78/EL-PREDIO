@@ -4,9 +4,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { getUsers, deleteUser, putUser } from "../../redux/actions/userActions";
 import "./UsersTable.css";
 import { MdDeleteOutline } from "react-icons/md";
-import { AiFillEdit } from "react-icons/ai";
+import { AiFillEdit, AiOutlineCheck } from "react-icons/ai";
 import moment from "moment";
-import { Link } from "react-router-dom/cjs/react-router-dom.min";
 import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -18,6 +17,9 @@ const UsersTable = () => {
   const [filterState, setFilterState] = useState("all");
   const [nameFilter, setNameFilter] = useState("");
   const [sortBy, setSortBy] = useState("");
+  const [isEditingUser, setIsEditingUser] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedRol, setSelectedRol] = useState(null);
 
   const users = useSelector((state) => state.user.users);
 
@@ -33,7 +35,7 @@ const UsersTable = () => {
     confirmAlert({
       title: "Eliminar usuario",
       message:
-        "¿Está seguro que desea eliminar el usuario? Esta acción eliminará todas las reservas hechas por el usuario",
+        "¿Está seguro que desea eliminar el usuario? Esta acción eliminará todas las reservas hechas por el usuario y lo dejará inactivo",
       buttons: [
         {
           label: "Eliminar",
@@ -95,6 +97,40 @@ const UsersTable = () => {
       user.name.toLowerCase() + " " + user.lastName.toLowerCase()
     ).includes(normalize(nameFilter.toLowerCase()))
   );
+
+  const handleEditingUser = (user) => {
+    try {
+      setIsEditingUser(true);
+      setSelectedUser(user);
+    } catch (error) {
+      toast.error("El usuario no se puede editar", {
+        position: "bottom-right",
+      });
+    }
+  };
+  const handleFinishEdit = async () => {
+    try {
+      const userId = selectedUser.id;
+      const editedUser = {
+        id: userId,
+        name: selectedUser.nombre,
+        lastName: selectedUser.lastName,
+        email: selectedUser.email,
+        isAdmin: selectedRol,
+      };
+      await dispatch(putUser(userId, editedUser));
+      setIsEditingUser(false);
+      setSelectedUser(null);
+      dispatch(getUsers());
+      toast.success("El usuario fue actualizado", {
+        position: "bottom-right",
+      });
+    } catch (error) {
+      toast.error("No se pudo actualizar el usuario", {
+        position: "bottom-right",
+      });
+    }
+  };
 
   return (
     <>
@@ -191,29 +227,50 @@ const UsersTable = () => {
                       <td>{user.name}</td>
                       <td>{user.lastName}</td>
                       <td>{user.email}</td>
-                      <td>{user.isAdmin ? "Administrador" : "Usuario"}</td>
+                      <td>
+                        {isEditingUser && user.id === selectedUser.id ? (
+                          <select
+                            value={selectedRol}
+                            onChange={(e) => setSelectedRol(e.target.value)}
+                          >
+                            <option value="true">Administrador</option>
+                            <option value="false">Usuario</option>
+                          </select>
+                        ) : user.isAdmin ? (
+                          "Administrador"
+                        ) : (
+                          "Usuario"
+                        )}
+                      </td>
                       <td>{moment(user.createdAt).format("DD/MM/YYYY")}</td>
                       <td>{user.deletedAt ? "Inactivo" : "Activo"}</td>
                       <td>
+                        <button style={{ background: "#transparent" }}>
+                          {!isEditingUser ? (
+                            <AiFillEdit
+                              onClick={() => handleEditingUser(user)}
+                            />
+                          ) : selectedUser.id === user.id ? (
+                            <AiOutlineCheck
+                              onClick={() => handleFinishEdit()}
+                            />
+                          ) : (
+                            <AiFillEdit
+                              onClick={() => handleEditingUser(user)}
+                            />
+                          )}
+                        </button>
                         <button
                           onClick={() => handleEliminarUsuario(user.id)}
                           style={{ background: "transparent" }}
                         >
                           <MdDeleteOutline />
                         </button>
-                        <button style={{ background: "#transparent" }}>
-                          <AiFillEdit />
-                        </button>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-              <Link>
-                <button style={{ background: "transparent" }}>
-                  Crear usuario
-                </button>
-              </Link>
             </div>
           </>
         )

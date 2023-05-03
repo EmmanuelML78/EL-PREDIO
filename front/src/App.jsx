@@ -5,7 +5,7 @@ import Footer from "./components/Footer/Footer";
 import Detail from "./components/Detail/Detail";
 import DashBoard from "./components/DashBoard/DashBoard";
 import CreadorCanchas from "./components/CreadorCanchas/CreadorCanchas";
-import { Route, Switch } from "react-router-dom/cjs/react-router-dom.min";
+import { Route, Switch } from "react-router-dom";
 import CanchasTable from "./components/CanchasTable/CanchasTable";
 import About from "./components/About/About";
 import Contactos from "./components/Contactos/Contactos";
@@ -13,8 +13,9 @@ import Navbar from "./components/Navbar/Navbar";
 import MisReservas from "./components/MisReservas/MisReservas";
 import Failure from "./components/Results/Failure/Failure";
 import Pending from "./components/Results/pending/Pending";
-import Succes from "./components/Results/succes/Succes";
+import Success from "./components/Results/success/Success";
 import CreadorReviews from "./components/CreadorReviews/CreadorReviews";
+
 function App() {
   return (
     <>
@@ -61,7 +62,7 @@ function App() {
           <Pending />
         </Route>
         <Route path="/success">
-          <Succes />
+          <Success />
         </Route>
         <Route path="/reviews">
           <CreadorReviews />
