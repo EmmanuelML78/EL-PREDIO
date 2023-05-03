@@ -20,13 +20,14 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [reviewVisible, setReviewVisible] = useState(false);
   console.log(reviewVisible);
+
   useEffect(() => {
     const fetchData = async () => {
       user;
       if (!user) {
         await dispatch(setUser());
+        setIsLoading(false);
       }
-      setIsLoading(false);
     };
     fetchData();
   }, [dispatch, user]);
@@ -57,9 +58,24 @@ const Home = () => {
           ) : (
             <>
               <Reviews />
-              <button onClick={() => setReviewVisible(true)}>
-                Ingresa tu Review Aqui
-              </button>
+              {!user ? (
+                <p
+                  style={{
+                    color: "white",
+                    fontWeight: "500",
+                    marginBottom: "2rem",
+                  }}
+                >
+                  Inicie sesión para enviar una review
+                </p>
+              ) : (
+                <button
+                  style={{ marginBottom: "2rem" }}
+                  onClick={() => setReviewVisible(true)}
+                >
+                  Ingresa tu Review Aqui
+                </button>
+              )}
             </>
           )}
           <Footer />

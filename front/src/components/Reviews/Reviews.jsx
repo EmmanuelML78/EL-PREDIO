@@ -49,7 +49,9 @@ function Reviews() {
 
   return (
     <div className="reviews">
-      <h2 style={{ fontSize: "50px", color: "white" }}>Reviews</h2>
+      <h2 style={{ fontSize: "50px", color: "white", fontWeight: "600" }}>
+        Reviews
+      </h2>
       {isLoading ? (
         <Loading />
       ) : reviews.length > 0 ? (
@@ -96,7 +98,7 @@ function Reviews() {
           </div>
         </>
       ) : (
-        <p>No hay reviews disponibles</p>
+        <p style={{ color: "white" }}>No hay reviews disponibles</p>
       )}
     </div>
   );
