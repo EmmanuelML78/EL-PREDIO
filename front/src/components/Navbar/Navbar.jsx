@@ -47,7 +47,6 @@ const Navbar = () => {
               <nav className={styles.navegacion}>
                 {/* <Link to="/nosotros">Nosotros</Link> */}
                 <Link to="/misreservas">Mis reservas</Link>
-                <a href="#">Promociones</a>
                 <Link to="/contactos">Contacto</Link>
                 {user ? (
                   <Link to="/dashboard">

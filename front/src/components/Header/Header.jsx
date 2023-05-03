@@ -54,7 +54,6 @@ function Header() {
 
               <nav className={styles.navegacion}>
                 {user ? <Link to="/misreservas">Mis reservas</Link> : null}
-                <a href="#">Promociones</a>
                 <Link to="/contactos">Contacto</Link>
                 {user ? (
                   <Link to="/dashboard">
