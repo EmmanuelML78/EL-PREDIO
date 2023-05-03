@@ -24,7 +24,7 @@ const Contactos = () => {
     e.preventDefault();
     // Aquí es donde enviarías los datos del formulario a la empresa.
     console.log({ email, asunto, descripcion });
-    const serviceId = "service_ifcr53q";
+    const serviceId = "service_ig3wtbi";
     const templateId = "template_g8j6qb1";
     const user_id = "OY0grKnkGqVhhGv6D";
 
@@ -56,26 +56,26 @@ const Contactos = () => {
     <div className="contacto-container">
       <h1>Contacta con nosotros</h1>
       <div className="card">
-        <form onSubmit={handleSubmit} className="form-container-contacto">
+        <form onSubmit={handleSubmit} className="form-container">
           <label style={{ color: "white" }}>Email:</label>
           <input
             type="email"
             value={user?.email}
             onChange={(e) => setEmail(e.target.value)}
-            style={{ backgroundColor: "white", color: "black",  width: "25rem" }}
+            style={{ backgroundColor: "white", color: "black" }}
             required
           />
 
-          <label style={{ color: "white" }}>Asunto:</label>
+          <label>Asunto:</label>
           <input
             type="text"
             value={asunto}
             onChange={(e) => setAsunto(e.target.value)}
-            style={{ backgroundColor: "white", color: "black", width: "25rem" }}
+            style={{ backgroundColor: "white", color: "black" }}
             required
           />
 
-          <label style={{ color: "white" }} >Descripción:</label>
+          <label>Descripción:</label>
           <textarea
             type="text"
             value={descripcion}

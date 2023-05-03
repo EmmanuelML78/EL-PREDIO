@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
-import Loading from "../Loading/Loading";
+
 import Footer from "../Footer/Footer";
 import { getCanchaById } from "../../redux/actions/canchaActions";
 import s from "./Detail.module.css";
@@ -11,11 +11,9 @@ import { postReserva } from "../../redux/actions/reservaActions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Navbar/Navbar";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const Detail = ({ cancha, getCanchaById, match }) => {
   // console.log("esto es cancha", cancha);
-  const history = useHistory()
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [selectedDate, setselectedDate] = useState(
@@ -82,25 +80,9 @@ const Detail = ({ cancha, getCanchaById, match }) => {
     const reservation = createReservation(selectedDate, selectedHorario);
     try {
       await dispatch(postReserva(reservation));
-      toast.info("Redireccionando a MercadoPago", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-      });
+      toast.info("Redireccionando a MercadoPago");
     } catch (error) {
-      toast.error("Error al crear la reserva", {
-        position: "bottom-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: false,
-        progress: undefined,
-      });
+      toast.error("Error al crear la reserva");
       console.log("error:", error);
     }
   };
@@ -160,65 +142,53 @@ const Detail = ({ cancha, getCanchaById, match }) => {
       })
     : [];
 
-  const clase = c.availability ? "s.disponible" : "s.ocuped";
+    const clase = c.availability ? "s.disponible" : "s.ocuped"
   return (
     <>
       <ToastContainer />
-
-      {isUserLoading ? (
-        <Loading />
-      ) : !user ? (
-        <Error401 />
-      ) : isLoading ? (
-        <Loading />
-      ) : user && !c.availability ? (
-        history.push("/")
-      ) : (
-        c &&
-        c.availability && (
-          <>
-            <Navbar />
-            <div className={s.father}>
-              <div className={s.container}>
-                <h1>{c.name}</h1>
-                <p>Césped {c.grass}</p>
-                <p>Cancha de futbol {c.players}</p>
-                <p>Descripción: {c.description}</p>
-                <p style={{ color: "green", fontWeight: 600 }}>
-                  {c.availability ? "Disponible" : "No disponible"}
+      {!isUserLoading && !user ? (
+        <>
+          <Error401 />
+        </>
+      )  : c && !c.availability ? (
+        <>La cancha no esta disponible</>
+      ) : c && (
+        <>
+          <Navbar />
+          <div className={s.father}>
+            <div className={s.container}>
+              <h1>{c.name}</h1>
+              <p>Césped {c.grass}</p>
+              <p>Cancha de futbol {c.players}</p>
+              <p>Descripción: {c.description}</p>
+              <p style={{color:"green", fontWeight:600}}>{c.availability ? "Disponible" : "No disponible"}</p>
+              <form onSubmit={handlePago}>
+                <p style={{ fontSize: "16pt", fontWeight: "600" }}>
+                  Reservar un turno:
                 </p>
-                <form onSubmit={handlePago}>
-                  <p style={{ fontSize: "16pt", fontWeight: "600" }}>
-                    Reservar un turno:
+                <div className={s.dateContainer}>
+                  <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
+                    Fecha:
                   </p>
-                  <div className={s.dateContainer}>
-                    <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
-                      Fecha:
-                    </p>
-                    <input
-                      min={moment().format("YYYY-MM-DD")}
-                      max={moment().add(30, "days").format("YYYY-MM-DD")}
-                      className={s.date}
-                      type="date"
-                      value={selectedDate}
-                      onChange={handleDate}
-                    />
-                  </div>
-                  <div>{botonesHorarios}</div>
-                  <button className={s.submit} type="submit">
-                    Pagar reserva
-                  </button>
-                </form>
-              </div>
-              <img
-                className={s.canchaimg}
-                src={c.image}
-                alt="Imagen de cancha"
-              />
+                  <input
+                    min={moment().format("YYYY-MM-DD")}
+                    max={moment().add(30, "days").format("YYYY-MM-DD")}
+                    className={s.date}
+                    type="date"
+                    value={selectedDate}
+                    onChange={handleDate}
+                  />
+                </div>
+                <div>{botonesHorarios}</div>
+                <button className={s.submit} type="submit">
+                  Pagar reserva
+                </button>
+              </form>
             </div>
-            <Footer />
-          </>
-        )
+            <img className={s.canchaimg} src={c.image} alt="Imagen de cancha" />
+          </div>
+          <Footer />
+        </>
       )}
     </>
   );

@@ -1,62 +1,52 @@
 import { useState, useEffect } from "react";
-import { postReviews, getReviews } from "../../redux/actions/reviewsActions";
+import { postReviews } from "../../redux/actions/reviewsActions";
 import { setUser } from "../../redux/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import { confirmAlert } from "react-confirm-alert";
 import "./CreadorReviews.css";
 
-function CreadorReviews({ reviewVisible, setReviewVisible }) {
+function CreadorReviews() {
   const [score, setScore] = useState("");
   const [text, setText] = useState("");
   const user = useSelector((state) => state.auth.user);
-  const reviews = useSelector((state) => state.reviews.reviews);
+  console.log(user)
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(setUser(user));
-      await dispatch(getReviews());
     };
     fetchData();
   }, [dispatch]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userReviews = reviews.filter((review) => review.userId === user.id);
-    if (userReviews.length > 0) {
-      alert("Ya has creado una review, No puedes ingresar mas de 1 Review.");
-    } else {
-      confirmAlert({
-        title: "Agregar Review",
-        message: "¿Está seguro que desea subir esta review?",
-        buttons: [
-          {
-            label: "Agregar",
-            onClick: async () => {
-              const postData = { score: parseFloat(score), text };
-              if (user) {
-                postData.userId = user.id;
-              }
-              await dispatch(postReviews(postData));
-              setReviewVisible(false);
-            },
+    confirmAlert({
+      title: "Agregar Review",
+      message: "¿Está seguro que desea subir esta review?",
+      buttons: [
+        {
+          label: "Agregar",
+          onClick: async () => {
+            const postData = { score: parseFloat(score), text };
+            if (user) {
+              postData.userId = user.id; 
+            }
+            await dispatch(postReviews(postData));
           },
-          {
-            label: "Cancelar",
-            onClick: () => {},
-          },
-        ],
-      });
-      setScore("");
-      setText("");
-    }
+        },
+        {
+          label: "Cancelar",
+          onClick: () => {},
+        },
+      ],
+    });
+    setScore("");
+    setText("");
   };
 
   return (
-    <div
-      className="reviews-card"
-      style={{ marginTop: "3rem", marginBottom: "3rem" }}
-    >
+    <div className="reviews-card">
       <form onSubmit={handleSubmit}>
         <h1
           style={{
@@ -111,7 +101,7 @@ function CreadorReviews({ reviewVisible, setReviewVisible }) {
           id="text"
           rows="4"
           cols="50"
-          style={{ color: "white", height: "150px" }}
+          style={{ color: "white" }}
           value={text}
           onChange={(event) => setText(event.target.value)}
         />
@@ -121,9 +111,6 @@ function CreadorReviews({ reviewVisible, setReviewVisible }) {
           style={{ color: "white", backgroundColor: "red" }}
         >
           Enviar Review
-        </button>
-        <button onClick={() => setReviewVisible(false)} style={{ color: "white", margin: "10px" }}>
-          Cancelar
         </button>
       </form>
     </div>

@@ -25,7 +25,6 @@ function Cards() {
       setIsLoading(false);
     };
     fetchCanchas();
-   
   }, [dispatch]);
 
   function normalize(str) {

@@ -5,6 +5,7 @@ import { FaStar } from "react-icons/fa";
 import "./Reviews.css";
 function Reviews() {
   const reviews = useSelector((state) => state.reviews.reviews);
+  console.log(reviews);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -67,6 +68,7 @@ function Reviews() {
                       Reseña de {review.user.name} {review.user.lastName}:{" "}
                     </span>
                     <br />
+
                     <p className="card-text">"{review.text}"</p>
                   </div>
                 </article>
