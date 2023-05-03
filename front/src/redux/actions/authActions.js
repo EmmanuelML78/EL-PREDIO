@@ -42,15 +42,33 @@ export const logoutUser = () => {
   };
 };
 
+// export const setUser = () => {
+//   return async function (dispatch) {
+//     try {
+//       const response = await instance.get("me", { withCredentials: true });
+//       dispatch({
+//         type: SET_USER,
+//         payload: response.data,
+//       });
+//     } catch (error) {
+//       dispatch({
+//         type: SET_USER,
+//         payload: undefined,
+//       });
+//     }
+//   };
+// };
 export const setUser = () => {
   return async function (dispatch) {
     try {
+      console.log("llamando a ruta /me");
       const response = await instance.get("me", { withCredentials: true });
       dispatch({
         type: SET_USER,
         payload: response.data,
       });
     } catch (error) {
+      console.error(error);
       dispatch({
         type: SET_USER,
         payload: undefined,

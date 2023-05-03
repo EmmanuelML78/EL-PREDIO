@@ -4,6 +4,7 @@ const { User } = require("../db");
 const authMiddleware = async (req, res, next) => {
   try {
     let user = null;
+    console.log(rep.isAuthenticated());
     if (req.isAuthenticated()) {
       user = req.user;
     } else if (req.headers.authorization) {
@@ -18,6 +19,7 @@ const authMiddleware = async (req, res, next) => {
     }
 
     req.user = user;
+    console.log(req.user);
     next();
   } catch (error) {
     if (error instanceof jwt.TokenExpiredError) {
