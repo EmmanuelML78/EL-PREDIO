@@ -101,7 +101,7 @@ const payReserver = async (req, res) => {
     auto_return: "approved",
     binary_mode: true,
     notification_url:
-      "https://039c-181-20-152-27.ngrok-free.app/reserva/notificaciones",
+      "https://840e-179-51-123-195.ngrok-free.app/reserva/notificaciones",
     // URL de la ruta para recibir la notificación de MercadoPago
     payment_methods: {
       excluded_payment_types: [
