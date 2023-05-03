@@ -15,9 +15,8 @@ const Navbar = () => {
   }, [dispatch, user]);
 
   const handleLogout = async () => {
-    localStorage.removeItem("token");
     await dispatch(logoutUser());
-    window.location.href = "/";
+    // window.location.href = "/";
     toast.success("¡Has cerrado sesión correctamente!", {
       position: "bottom-right",
       autoClose: 5000,

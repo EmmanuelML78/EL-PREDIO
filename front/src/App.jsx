@@ -13,7 +13,7 @@ import Navbar from "./components/Navbar/Navbar";
 import MisReservas from "./components/MisReservas/MisReservas";
 import Failure from "./components/Results/failure/failure";
 import Pending from "./components/Results/pending/Pending";
-import Succes from "./components/Results/Succes/Succes";
+import Success from "./components/Results/success/Success";
 import CreadorReviews from "./components/CreadorReviews/CreadorReviews";
 function App() {
   return (
@@ -61,7 +61,7 @@ function App() {
           <Pending />
         </Route>
         <Route path="/success">
-          <Succes />
+          <Success />
         </Route>
         <Route path="/reviews">
           <CreadorReviews />

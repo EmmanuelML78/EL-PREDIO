@@ -18,10 +18,10 @@ function Header() {
     }
   }, [dispatch, user]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    logoutUser();
-    window.location.href = "/";
+  const handleLogout = async () => {
+    // localStorage.removeItem("token");
+    await dispatch(logoutUser());
+    // window.location.href = "/";
     toast.success("¡Has cerrado sesión correctamente!", {
       position: "bottom-right",
       autoClose: 5000,
@@ -62,7 +62,11 @@ function Header() {
                   </Link>
                 ) : null}
                 {user ? (
-                  <a href="#" onClick={handleLogout} style={{ display: "flex", placeItems: "center" }}>
+                  <a
+                    href="#"
+                    onClick={handleLogout}
+                    style={{ display: "flex", placeItems: "center" }}
+                  >
                     <FaSignInAlt style={{ marginRight: "1rem" }} />
                     Salir
                   </a>
