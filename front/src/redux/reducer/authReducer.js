@@ -21,6 +21,10 @@ const authReducer = (state = initialState, action) => {
       };
     case LOGOUT_USER:
       return initialState;
+    // return {
+    //   ...state,
+    //   user: undefined,
+    // };
     case SET_USER:
       return {
         ...state,
