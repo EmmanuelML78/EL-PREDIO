@@ -27,8 +27,8 @@ const Home = () => {
       user;
       if (!user) {
         await dispatch(setUser());
-        setIsLoading(false);
       }
+      setIsLoading(false);
     };
     fetchData();
   }, [dispatch, user]);

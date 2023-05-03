@@ -46,7 +46,7 @@ const ReservasTable = () => {
   }, [dispatch]);
 
   const handleEliminarReserva = (id) => {
-    setIsEditingReserva(false)
+    setIsEditingReserva(false);
     confirmAlert({
       title: "Eliminar reserva",
       message: "¿Está seguro que desea eliminar la reserva?",
@@ -280,11 +280,12 @@ const ReservasTable = () => {
                         <option value="success">Confirmada</option>
                         <option value="pending">Pendiente de pago</option>
                       </select>
-                    ) : reserva.deletedAt || reserva.status === "canceled" ? (
+                    ) : reserva.deletedAt || reserva.status === "cancelled" ? (
                       "Cancelada"
                     ) : reserva.status === "pending" ? (
                       "Pendiente de pago"
-                    ) : reserva.status === "success" ? (
+                    ) : reserva.status === "success" ||
+                      reserva.status === "confirmed" ? (
                       "Confirmada"
                     ) : null}
                   </td>

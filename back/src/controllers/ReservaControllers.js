@@ -94,9 +94,9 @@ const payReserver = async (req, res) => {
       },
     ],
     back_urls: {
-      success: `https://el-predio.vercel.app/success`, // redirect to this url if payment is successful
-      failure: `https://el-predio.vercel.app/failure`, // redirect to this url if payment fails
-      pending: `https://el-predio.vercel.app/pending`, // redirect to this url if payment is pending
+      success: `https://el-predio.vercel.app/success/`, // redirect to this url if payment is successful
+      failure: `https://el-predio.vercel.app/failure/`, // redirect to this url if payment fails
+      pending: `https://el-predio.vercel.app/pending/`, // redirect to this url if payment is pending
     },
     auto_return: "approved",
     binary_mode: true,
