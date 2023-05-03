@@ -204,7 +204,4 @@ module.exports = {
   updateReserva,
   getUsersDb,
   payReserver,
-  changeStatusSuccess,
-  changeStatusPending,
-  changeStatusFailure,
 };
