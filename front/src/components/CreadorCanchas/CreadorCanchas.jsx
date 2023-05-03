@@ -10,7 +10,6 @@ import { AdvancedImage } from "@cloudinary/react";
 import { CloudinaryImage } from "@cloudinary/url-gen";
 import Navbar from "../Navbar/Navbar";
 
-
 const CreadorCanchas = () => {
   const history = useHistory();
   const dispatch = useDispatch();
@@ -74,14 +73,38 @@ const CreadorCanchas = () => {
           grass: "",
           players: "",
         });
-        toast.success("Cancha creada correctamente");
+        toast.success("Cancha creada correctamente", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
         history.push("/dashboard");
       } catch (error) {
         console.error(error);
-        toast.error("Ha ocurrrido un error al crear la cancha");
+        toast.error("Ha ocurrrido un error al crear la cancha", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
       }
     } else {
-      toast.error("Error: El formulario tiene errores");
+      toast.error("Error: El formulario tiene errores", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
     }
   };
 
@@ -145,7 +168,7 @@ const CreadorCanchas = () => {
 
   return (
     <>
-    <Navbar/>
+      <Navbar />
       <form onSubmit={handleSubmit} className="form-container">
         <ToastContainer />
         <label htmlFor="name">Nombre:</label>

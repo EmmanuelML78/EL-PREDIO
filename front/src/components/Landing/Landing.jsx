@@ -124,7 +124,7 @@ const Landing = () => {
         } catch (error) {
           if (error.response.status === 500) {
             toast.error("El correo electrónico ya está registrado", {
-              position: "bottom-rightz",
+              position: "bottom-right",
               autoClose: 5000,
               hideProgressBar: false,
               closeOnClick: false,

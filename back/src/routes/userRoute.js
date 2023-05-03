@@ -73,12 +73,7 @@ router.post("/users", async (req, res) => {
       password: hashPassword,
       phone,
     });
-    enviarCorreo(
-      name,
-      email,
-      "Se registro con exito",
-      "Bienvenido al predio"
-    );
+    enviarCorreo(name, email, "Se registro con exito", "Bienvenido al predio");
     res.status(201).send(createUser);
   } catch (error) {
     console.log(error);
@@ -90,7 +85,6 @@ router.post("/users", async (req, res) => {
 router.put("/users/:id", authMiddleware, updateUser);
 
 router.put("/me", authMiddleware, async (req, res) => {
-
   try {
     const user = await User.findByPk(req.user.id);
     if (!user) {

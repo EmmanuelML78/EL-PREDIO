@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect, useDispatch, useSelector } from "react-redux";
-
+import Loading from "../Loading/Loading";
 import Footer from "../Footer/Footer";
 import { getCanchaById } from "../../redux/actions/canchaActions";
 import s from "./Detail.module.css";
@@ -11,9 +11,11 @@ import { postReserva } from "../../redux/actions/reservaActions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Navbar/Navbar";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
 const Detail = ({ cancha, getCanchaById, match }) => {
   // console.log("esto es cancha", cancha);
+  const history = useHistory();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
   const [selectedDate, setselectedDate] = useState(
@@ -80,9 +82,25 @@ const Detail = ({ cancha, getCanchaById, match }) => {
     const reservation = createReservation(selectedDate, selectedHorario);
     try {
       await dispatch(postReserva(reservation));
-      toast.info("Redireccionando a MercadoPago");
+      toast.info("Redireccionando a MercadoPago", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
     } catch (error) {
-      toast.error("Error al crear la reserva");
+      toast.error("Error al crear la reserva", {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
       console.log("error:", error);
     }
   };
@@ -145,14 +163,18 @@ const Detail = ({ cancha, getCanchaById, match }) => {
   return (
     <>
       <ToastContainer />
-      {!isUserLoading && !user ? (
-        <>
-          <Error401 />
-        </>
-      ) : c && !c.availability ? (
-        <>La cancha no esta disponible</>
+
+      {isUserLoading ? (
+        <Loading />
+      ) : !user ? (
+        <Error401 />
+      ) : isLoading ? (
+        <Loading />
+      ) : user && !c.availability ? (
+        history.push("/")
       ) : (
-        c && (
+        c &&
+        c.availability && (
           <>
             <Navbar />
             <div className={s.father}>
