@@ -18,7 +18,7 @@ app.name = "API";
 
 // app.use(cors());
 const corsOptions = {
-  origin: "http://localhost:5173",
+  origin: "https://el-predio.vercel.app",
   credentials: true,
 };
 app.use(cors(corsOptions));
@@ -28,7 +28,7 @@ app.use(bodyParser.json({ limit: "50mb" }));
 app.use(cookieParser());
 app.use(morgan("dev"));
 app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "http://localhost:5173");
+  res.header("Access-Control-Allow-Origin", "https://el-predio.vercel.app");
   res.header("Access-Control-Allow-Credentials", "true");
   res.header(
     "Access-Control-Allow-Headers",
