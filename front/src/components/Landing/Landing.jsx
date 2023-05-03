@@ -146,7 +146,7 @@ const Landing = () => {
     history.push("/home");
   };
   const handleGoogleLogin = () => {
-    window.location.href = instance.defaults.baseURL + "/google";
+    window.location.href = instance.defaults.baseURL + "google";
   };
 
   return (
