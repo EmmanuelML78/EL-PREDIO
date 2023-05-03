@@ -18,10 +18,10 @@ function Header() {
     }
   }, [dispatch, user]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    logoutUser();
-    window.location.href = "/";
+  const handleLogout = async () => {
+    // localStorage.removeItem("token");
+    await dispatch(logoutUser());
+    // window.location.href = "/";
     toast.success("¡Has cerrado sesión correctamente!", {
       position: "bottom-right",
       autoClose: 5000,
@@ -49,7 +49,7 @@ function Header() {
             </div>
             <div className={styles.contacto}>
               <span className={styles.telefono} href="">
-                01-800-0000-000
+                +54 1123934043
               </span>
 
               <nav className={styles.navegacion}>
@@ -62,7 +62,11 @@ function Header() {
                   </Link>
                 ) : null}
                 {user ? (
-                  <a href="#" onClick={handleLogout} style={{ display: "flex", placeItems: "center" }}>
+                  <a
+                    href="#"
+                    onClick={handleLogout}
+                    style={{ display: "flex", placeItems: "center" }}
+                  >
                     <FaSignInAlt style={{ marginRight: "1rem" }} />
                     Salir
                   </a>
