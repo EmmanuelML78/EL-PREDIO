@@ -6,7 +6,7 @@ import { confirmAlert } from "react-confirm-alert";
 import "./CreadorReviews.css";
 
 function CreadorReviews({ reviewVisible, setReviewVisible }) {
-  const [score, setScore] = useState("");
+  const [score, setScore] = useState(1);
   const [text, setText] = useState("");
   const user = useSelector((state) => state.auth.user);
   const reviews = useSelector((state) => state.reviews.reviews);
