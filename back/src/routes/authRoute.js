@@ -34,13 +34,14 @@ router.get(
   "/google",
   passport.authenticate("google", {
     scope: ["profile", "email"],
+    prompt: "consent",
   })
 );
 router.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
-    return res.redirect("https://el-predio.vercel.app");
+    return res.redirect("https://el-predio.vercel.app/misreservas");
   }
 );
 
