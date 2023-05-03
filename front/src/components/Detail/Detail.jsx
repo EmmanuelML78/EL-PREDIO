@@ -113,7 +113,9 @@ const Detail = ({ cancha, getCanchaById, match }) => {
     actualTime.add(1, "hour");
   }
   const reservas = !isLoading
-    ? c.reservas.filter((reserva) => reserva.date === selectedDate)
+    ? c.reservas.filter((reserva) => {
+        return reserva.status !== "canceled" && reserva.date === selectedDate;
+      })
     : [];
 
   const horariosDisponibles = !isLoading
@@ -159,7 +161,7 @@ const Detail = ({ cancha, getCanchaById, match }) => {
       })
     : [];
 
-  const clase = c.availability ? "s.disponible" : "s.ocuped";
+  
   return (
     <>
       <ToastContainer />

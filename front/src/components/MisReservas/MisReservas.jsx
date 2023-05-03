@@ -56,11 +56,14 @@ const MisReservas = () => {
                         {moment(reserva.start, "HH:mm:ss").format("HH:mm")}
                       </td>
                       <td>
-                        {reserva.deletedAt
+                        {reserva.deletedAt || reserva.status === "cancelled"
                           ? "Cancelada"
                           : reserva.status === "pending"
                           ? "Pendiente de pago"
-                          : "Confirmada"}
+                          : reserva.status === "success" ||
+                            reserva.status === "confirmed"
+                          ? "Confirmada"
+                          : null}
                       </td>
                       <td>{moment(reserva.createdAt).format("DD-MM-YYYY")}</td>
                     </tr>
