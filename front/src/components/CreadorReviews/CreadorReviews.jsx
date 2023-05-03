@@ -4,6 +4,7 @@ import { setUser } from "../../redux/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import { confirmAlert } from "react-confirm-alert";
 import "./CreadorReviews.css";
+import { ToastContainer, toast } from "react-toastify";
 
 function CreadorReviews({ reviewVisible, setReviewVisible }) {
   const [score, setScore] = useState("");
@@ -24,7 +25,9 @@ function CreadorReviews({ reviewVisible, setReviewVisible }) {
     e.preventDefault();
     const userReviews = reviews.filter((review) => review.userId === user.id);
     if (userReviews.length > 0) {
-      alert("Ya has creado una review, No puedes ingresar mas de 1 Review.");
+      toast.error("Ya has creado una review, No puedes ingresar mas de 1 Review.", {
+        position: "bottom-right"
+      });
     } else {
       confirmAlert({
         title: "Agregar Review",
@@ -57,6 +60,7 @@ function CreadorReviews({ reviewVisible, setReviewVisible }) {
       className="reviews-card"
       style={{ marginTop: "3rem", marginBottom: "3rem" }}
     >
+      <ToastContainer/>
       <form onSubmit={handleSubmit}>
         <h1
           style={{
