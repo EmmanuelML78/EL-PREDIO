@@ -9,6 +9,7 @@ const {
 const { pagoaprovado } = require("../controllers/nodemailerControllers");
 const { Reserva, Cancha, User } = require("../db");
 const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
+const { mercadopago } = require("../utils/mercadoPago");
 
 router
   .get("/", adminMiddleware, async (req, res) => {
