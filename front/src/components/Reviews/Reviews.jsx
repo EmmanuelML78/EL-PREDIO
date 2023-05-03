@@ -3,13 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { getReviews } from "../../redux/actions/reviewsActions";
 import { FaStar } from "react-icons/fa";
 import "./Reviews.css";
+import Loading from "../Loading/Loading";
 function Reviews() {
   const reviews = useSelector((state) => state.reviews.reviews);
+  const [isLoading, setIsLoading] = useState(true);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(getReviews());
+      setIsLoading(false);
     };
     fetchData();
   }, [dispatch]);
@@ -47,7 +50,9 @@ function Reviews() {
   return (
     <div className="reviews">
       <h2 style={{ fontSize: "50px", color: "white" }}>Reviews</h2>
-      {reviews.length > 0 ? (
+      {isLoading ? (
+        <Loading />
+      ) : reviews.length > 0 ? (
         <>
           <div className="card-container">
             {reviews
@@ -62,8 +67,13 @@ function Reviews() {
                     </div>
                   </div>
                   <div className="card-body">
-                    
-                    <span style={{ fontWeight: "700", fontSize: "20px", color: "white" }}>
+                    <span
+                      style={{
+                        fontWeight: "700",
+                        fontSize: "20px",
+                        color: "white",
+                      }}
+                    >
                       Reseña de {review.user.name} {review.user.lastName}:{" "}
                     </span>
                     <br />
