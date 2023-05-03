@@ -13,9 +13,9 @@ const authMiddleware = async (req, res, next) => {
       user = await User.findByPk(userId);
     }
 
-    if (!user) {
-      throw new Error();
-    }
+    // if (!user) {
+    //   throw new Error();
+    // }
 
     req.user = user;
     next();
