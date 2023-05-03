@@ -40,7 +40,7 @@ router.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
-    return res.redirect("http://localhost:5173");
+    return res.redirect("https://el-predio.vercel.app");
   }
 );
 
@@ -137,6 +137,5 @@ router.post("/reset-password/:token", async (req, res, next) => {
     next(error);
   }
 });
-
 
 module.exports = router;
