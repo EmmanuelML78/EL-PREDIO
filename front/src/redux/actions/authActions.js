@@ -28,8 +28,12 @@ export const logoutUser = () => {
         console.log("hay token");
         localStorage.removeItem("token");
       } else {
-        console.log("hay token");
-        const res = await instance.get("logout");
+        console.log("no hay token");
+        const res = await instance.post(
+          "logout",
+          {},
+          { withCredentials: true }
+        );
         console.log(res);
       }
       dispatch({
