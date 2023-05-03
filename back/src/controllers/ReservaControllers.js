@@ -101,7 +101,7 @@ const payReserver = async (req, res) => {
     auto_return: "approved",
     binary_mode: true,
     notification_url:
-      "https://el-predio-production.up.railway.app/reserva/notificaciones",
+      "https://2dfa-179-51-123-195.ngrok-free.app/reserva/notificaciones",
     // URL de la ruta para recibir la notificación de MercadoPago
     payment_methods: {
       excluded_payment_types: [
