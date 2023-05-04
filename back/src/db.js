@@ -46,10 +46,18 @@ Cancha.hasMany(Reserva, {
 });
 
 Reserva.belongsTo(User, { as: "user", foreignKey: "userId" });
+Reserva.hasMany(User, {
+  onDelete: "Cascade",
+  onUpdate: "Cascade",
+});
 Reserva.belongsTo(Cancha, { as: "cancha", foreignKey: "canchaId" });
+Reserva.hasMany(Cancha, {
+  onDelete: "Cascade",
+  onUpdate: "Cascade",
+});
 
 User.hasMany(Review, { as: "review", foreignKey: "userId" });
-User.hasMany(Reserva, {
+User.hasMany(Review, {
   onDelete: "Cascade",
   onUpdate: "Cascade",
 });
