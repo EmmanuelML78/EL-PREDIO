@@ -3,7 +3,7 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 const { sendResetPassword } = require("../controllers/nodemailerControllers");
-const { authMiddleware, authGoogleMid } = require("../middlewares/auth");
+const { authMiddleware } = require("../middlewares/auth");
 
 const router = Router();
 
@@ -46,7 +46,7 @@ router.get(
 );
 
 //logout Google
-router.post("/logout", authGoogleMid, async (req, res) => {
+router.post("/logout", authMiddleware, async (req, res) => {
   try {
     req.logout((err) => {
       if (err) {
