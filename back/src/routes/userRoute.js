@@ -9,11 +9,7 @@ const {
   getUserById,
 } = require("../controllers/userController");
 const { User, Reserva, Cancha } = require("../db");
-const {
-  authMiddleware,
-  adminMiddleware,
-  authGoogleMid,
-} = require("../middlewares/auth");
+const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 const { enviarCorreo } = require("../controllers/nodemailerControllers");
 
 const router = Router();
@@ -40,7 +36,7 @@ router.get("/users/:id", authMiddleware, async (req, res) => {
 });
 
 //traer user autenticado
-router.get("/me", authGoogleMid, async (req, res) => {
+router.get("/me", authMiddleware, async (req, res) => {
   try {
     const user = await User.findByPk(req.user.id, {
       include: [

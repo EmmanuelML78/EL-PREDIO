@@ -59,12 +59,5 @@ const adminMiddleware = async (req, res, next) => {
     }
   }
 };
-const authGoogleMid = (req, res, next) => {
-  if (req.isAuthenticated()) {
-    return next();
-  } else {
-    res.status(401).json({ message: "No autorizado" });
-  }
-};
 
-module.exports = { authMiddleware, adminMiddleware, authGoogleMid };
+module.exports = { authMiddleware, adminMiddleware };
