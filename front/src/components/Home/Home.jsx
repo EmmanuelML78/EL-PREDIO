@@ -32,7 +32,6 @@ const Home = () => {
     };
     fetchData();
   }, [dispatch, user]);
-  console.log("cookies:", document.cookie);
 
   return (
     <div className="home-container">
