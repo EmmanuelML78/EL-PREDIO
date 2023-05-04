@@ -3,7 +3,7 @@ const passport = require("passport");
 const jwt = require("jsonwebtoken");
 const bcryptjs = require("bcryptjs");
 const { sendResetPassword } = require("../controllers/nodemailerControllers");
-const { authMiddleware } = require("../middlewares/auth");
+const { authMiddleware, authGoogleMid } = require("../middlewares/auth");
 
 const router = Router();
 
@@ -41,12 +41,12 @@ router.get(
   "/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/login" }),
   (req, res) => {
-    return res.redirect("https://el-predio.vercel.app");
+    return res.redirect("http://localhost:5173");
   }
 );
 
 //logout Google
-router.post("/logout", authMiddleware, async (req, res) => {
+router.post("/logout", authGoogleMid, async (req, res) => {
   try {
     req.logout((err) => {
       if (err) {
