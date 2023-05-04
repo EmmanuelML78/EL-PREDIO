@@ -310,7 +310,7 @@ function CanchasTable() {
           {formErrors.players && (
             <p className="error-message">{formErrors.players}</p>
           )}
-          <button type="submit" style={{ backgroundColor: "red" }}>
+          <button type="submit" style={{ backgroundColor: "#166816", marginTop:"1rem" }}>
             Guardar cambios
           </button>
           <button type="button" onClick={() => setIsEditing(false)}>

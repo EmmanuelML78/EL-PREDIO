@@ -44,19 +44,20 @@
 .formContainer {
   display: flex;
   justify-content: center;
+  flex-direction: column;
 }
 
 .formContainer input{
-  color: green;
+  color: white;
   width: 25rem;
 }
 
 .formContainer textarea{
-  color: green;
+  color: white;
 }
 
 .formContainer select{
-  color: green;
+  color: white;
   width: 20rem;
   height: 5rem;
 }

@@ -3,7 +3,7 @@ import { postReviews, getReviews } from "../../redux/actions/reviewsActions";
 import { setUser } from "../../redux/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
 import { confirmAlert } from "react-confirm-alert";
-import "./CreadorReviews.css";
+import s from "./CreadorReviews.module.css";
 import { ToastContainer, toast } from "react-toastify";
 
 function CreadorReviews({ reviewVisible, setReviewVisible }) {
@@ -57,7 +57,7 @@ function CreadorReviews({ reviewVisible, setReviewVisible }) {
 
   return (
     <div
-      className="reviews-card"
+      className={s.reviewsCard}
       style={{ marginTop: "3rem", marginBottom: "3rem" }}
     >
       <ToastContainer/>
@@ -66,11 +66,11 @@ function CreadorReviews({ reviewVisible, setReviewVisible }) {
           style={{
             display: "flex",
             justifyContent: "center",
-            color: "green",
-            fontWeight: "300",
+            color: "white",
+            fontWeight: "500",
           }}
         >
-          Crea Tu Review
+          Envía tu review
         </h1>
         <label
           htmlFor="score"
@@ -79,7 +79,7 @@ function CreadorReviews({ reviewVisible, setReviewVisible }) {
             justifyContent: "center",
             marginTop: "1rem",
             fontWeight: "bold",
-            color: "black",
+            color: "white",
           }}
         >
           Puntuación:
@@ -105,7 +105,7 @@ function CreadorReviews({ reviewVisible, setReviewVisible }) {
             justifyContent: "center",
             marginTop: "2rem",
             fontWeight: "bold",
-            color: "black",
+            color: "white",
           }}
         >
           Texto:
@@ -115,18 +115,18 @@ function CreadorReviews({ reviewVisible, setReviewVisible }) {
           id="text"
           rows="4"
           cols="50"
-          style={{ color: "white", height: "150px" }}
+          style={{ color: "white", height: "150px", padding: "1rem" }}
           value={text}
           onChange={(event) => setText(event.target.value)}
         />
 
         <button
           type="submit"
-          style={{ color: "white", backgroundColor: "red" }}
+          style={{ color: "white", backgroundColor: "#166816"}}
         >
           Enviar Review
         </button>
-        <button onClick={() => setReviewVisible(false)} style={{ color: "white", margin: "10px" }}>
+        <button onClick={() => setReviewVisible(false)} style={{backgroundColor: "red", color: "white", margin: "10px" }}>
           Cancelar
         </button>
       </form>
