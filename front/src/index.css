@@ -97,7 +97,10 @@ button:focus-visible {
   input {
     background-color: #303030;
   }
-  input select {
+  select {
     background-color: #303030;
+  }
+  textarea {
+    background-color: #303030
   }
 }
