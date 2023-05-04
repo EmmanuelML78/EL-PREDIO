@@ -13,9 +13,9 @@ const authMiddleware = async (req, res, next) => {
       user = await User.findByPk(userId);
     }
 
-    // if (!user) {
-    //   throw new Error();
-    // }
+    if (!user) {
+      throw new Error();
+    }
 
     req.user = user;
     next();
@@ -45,9 +45,9 @@ const adminMiddleware = async (req, res, next) => {
       }
     }
 
-    // if (!user) {
-    //   throw new Error();
-    // }
+    if (!user) {
+      throw new Error();
+    }
 
     req.user = user;
     next();
@@ -60,4 +60,12 @@ const adminMiddleware = async (req, res, next) => {
   }
 };
 
-module.exports = { authMiddleware, adminMiddleware };
+const authGoogleMid = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    return next();
+  } else {
+    res.status(401).json({ message: "No autorizado" });
+  }
+};
+
+module.exports = { authMiddleware, adminMiddleware, authGoogleMid };
