@@ -54,6 +54,10 @@ User.hasMany(Reserva, {
   onUpdate: "Cascade",
 });
 Review.belongsTo(User, { as: "user", foreignKey: "userId" });
+Review.belongsTo(User, {
+  onDelete: "Cascade",
+  onUpdate: "Cascade",
+});
 
 Promotion.belongsToMany(Cancha, { through: "cancha_promotion" });
 Cancha.belongsToMany(Promotion, { through: "cancha_promotion" });
