@@ -7,12 +7,12 @@ const cors = require("cors");
 const passport = require("passport");
 const session = require("express-session");
 
-const app = express();
-
 require("./db.js");
 require("./passport/localAuth.js");
 require("./passport/googleAuth.js");
 require("./middlewares/auth.js");
+
+const app = express();
 
 app.name = "API";
 
