@@ -100,7 +100,7 @@ const payReserver = async (req, res) => {
     },
     auto_return: "approved",
     binary_mode: true,
-    notification_url: "https://elpredio.onrender.com/reserva/notificaciones",
+    notification_url: "https://el-predio-production.up.railway.app/reserva/notificaciones",
     // URL de la ruta para recibir la notificación de MercadoPago
     payment_methods: {
       excluded_payment_types: [
