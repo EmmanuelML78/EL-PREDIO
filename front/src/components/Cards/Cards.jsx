@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import SearchBar from "../SearchBar/SearchBar";
-import Pagination from "../Pagination/Pagination";
+// import Pagination from "../Pagination/Pagination";
 import { getCanchas } from "../../redux/actions/canchaActions";
 import Card from "../Card/Card";
 
@@ -15,9 +15,9 @@ function Cards() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
-  useEffect(() => {
-    setCurrentPage(1);
-  }, [searchTerm, filter]);
+  // useEffect(() => {
+  //   setCurrentPage(1);
+  // }, [searchTerm, filter]);
 
   useEffect(() => {
     const fetchCanchas = async () => {
@@ -25,7 +25,6 @@ function Cards() {
       setIsLoading(false);
     };
     fetchCanchas();
-   
   }, [dispatch]);
 
   function normalize(str) {
@@ -54,16 +53,15 @@ function Cards() {
         alignItems: "center",
         marginTop: "0.5rem",
         marginBottom: "6rem",
-      }}
-    >
-      <SearchBar
+      }}>
+      {/* <SearchBar
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         filter={filter}
         setFilter={setFilter}
         playersFilter={playersFilter}
         setPlayersFilter={setPlayersFilter}
-      />
+      /> */}
       <div
         style={{
           display: "flex",
@@ -71,8 +69,7 @@ function Cards() {
           flexWrap: "wrap",
           gap: "2rem",
           marginTop: "5rem",
-        }}
-      >
+        }}>
         {filteredData.length > 0 && !isLoading ? (
           filteredData
             ?.slice(
@@ -96,8 +93,7 @@ function Cards() {
               fontSize: "1.2rem",
               fontWeight: "bold",
               marginTop: "2rem",
-            }}
-          >
+            }}>
             Cargando canchas...
           </div>
         ) : (
@@ -107,19 +103,18 @@ function Cards() {
               fontSize: "1.2rem",
               fontWeight: "bold",
               marginTop: "2rem",
-            }}
-          >
+            }}>
             "Lo siento, no se encontró ninguna cancha que coincida con la
             búsqueda."
           </div>
         )}
       </div>
-      <Pagination
+      {/* <Pagination
         itemsPerPage={itemsPerPage}
         totalItems={filteredData.length}
         currentPage={currentPage}
         setCurrentPage={setCurrentPage}
-      />
+      /> */}
     </div>
   );
 }

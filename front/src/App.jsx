@@ -4,7 +4,7 @@ import Home from "./components/Home/Home";
 import Footer from "./components/Footer/Footer";
 import Detail from "./components/Detail/Detail";
 import DashBoard from "./components/DashBoard/DashBoard";
-import CreadorCanchas from "./components/CreadorCanchas/CreadorCanchas";
+// import CreadorCanchas from "./components/CreadorCanchas/CreadorCanchas";
 import { Route, Switch } from "react-router-dom";
 import CanchasTable from "./components/CanchasTable/CanchasTable";
 import About from "./components/About/About";
@@ -36,9 +36,9 @@ function App() {
         <Route exact path="/dashboard">
           <DashBoard />
         </Route>
-        <Route path="/creador">
+        {/* <Route path="/creador">
           <CreadorCanchas />
-        </Route>
+        </Route> */}
         <Route path="/tabla">
           <CanchasTable />
         </Route>
