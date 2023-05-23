@@ -35,9 +35,9 @@ function DashBoard() {
   const handleUsuarios = () => {
     setSelectedTable("usuarios");
   };
-  const handleCanchas = () => {
-    setSelectedTable("canchas");
-  };
+  // const handleCanchas = () => {
+  //   setSelectedTable("canchas");
+  // };
 
   return (
     <>
@@ -52,9 +52,13 @@ function DashBoard() {
             </h1>
             <div style={{ display: "flex" }}>
               <div className={s.tabContainer}>
-                <button className={s.tab} onClick={handleReservas}>Reservas</button>
-                <button className={s.tab} onClick={handleUsuarios}>Usuarios</button>
-                <button className={s.tab} onClick={handleCanchas}>Canchas</button>
+                <button className={s.tab} onClick={handleReservas}>
+                  Reservas
+                </button>
+                <button className={s.tab} onClick={handleUsuarios}>
+                  Usuarios
+                </button>
+                {/* <button className={s.tab} onClick={handleCanchas}>Canchas</button> */}
               </div>
               <div>
                 {selectedTable === "reservas" ? (

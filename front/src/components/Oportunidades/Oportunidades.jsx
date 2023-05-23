@@ -24,6 +24,11 @@ export const Oportunidades = () => {
             <h3>Parrillas</h3>
           </div>
         </div>
+        <div className={styles.promocuatro}>
+          <div className={styles.conte}>
+            <h3>Eventos Sociales</h3>
+          </div>
+        </div>
       </div>
     </main>
   );

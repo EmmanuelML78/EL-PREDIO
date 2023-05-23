@@ -315,12 +315,13 @@
 
 .promouno,
 .promodos,
-.promotres {
+.promotres,
+.promocuatro {
   background-color: #ff9933;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
   padding: 50px;
-  flex-basis: 30%;
+  flex-basis: 40%;
 }
 
 .conte h3 {
