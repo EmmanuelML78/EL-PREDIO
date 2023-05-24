@@ -12,6 +12,7 @@ import Error401 from "../Error401/Error401";
 import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import GraficaComparativa from "../GraficaComparativa/GraficaComparativa";
 function DashBoard() {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -76,6 +77,7 @@ function DashBoard() {
               </div> */}
             </div>
           </div>
+          <GraficaComparativa/>
           <Footer />
         </>
       ) : (
