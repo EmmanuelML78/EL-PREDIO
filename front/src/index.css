@@ -37,7 +37,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background: #111111;
+  background: rgb(124, 234, 179);
   /* agregado */
   font-family: var(--fuentePrincipal);
 
