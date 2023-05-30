@@ -7,6 +7,7 @@ import { connect, useSelector, useDispatch } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaSignInAlt } from "react-icons/fa";
+import Navbar from "./../Navbar/Navbar";
 
 function Header() {
   const dispatch = useDispatch();
@@ -36,52 +37,8 @@ function Header() {
   return (
     <>
       <ToastContainer />
+      <Navbar />
       <Carousel />
-      <header className={styles.header}>
-        <div className={styles.contenedor}>
-          <div className={styles.barra}>
-            <div className={styles.logo}>
-              <Link to="/home" style={{ color: "white" }}>
-                <h1 className={styles.nombresitio}>
-                  ElPredio<span>Fútbol</span>
-                </h1>
-              </Link>
-            </div>
-            <div className={styles.contacto}>
-              <span className={styles.telefono} href="">
-                +54 1123934043
-              </span>
-
-              <nav className={styles.navegacion}>
-                {user ? <Link to="/misreservas">Mis reservas</Link> : null}
-                <Link to="/contactos">Contacto</Link>
-                {user ? (
-                  <Link to="/dashboard">
-                    {user && user.isAdmin ? "Administración" : "Perfil"}
-                  </Link>
-                ) : null}
-                {user ? (
-                  <a
-                    href="#"
-                    onClick={handleLogout}
-                    style={{ display: "flex", placeItems: "center" }}
-                  >
-                    <FaSignInAlt style={{ marginRight: "1rem" }} />
-                    Salir
-                  </a>
-                ) : (
-                  <Link to="/login">
-                    <p style={{ display: "flex", placeItems: "center" }}>
-                      <FaSignInAlt style={{ marginRight: "1rem" }} />
-                      Ingresar
-                    </p>
-                  </Link>
-                )}
-              </nav>
-            </div>
-          </div>
-        </div>
-      </header>
     </>
   );
 }

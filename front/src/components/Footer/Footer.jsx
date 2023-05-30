@@ -26,10 +26,10 @@ const Footer = () => {
           <div className={styles.redsocial}>
             <a
               href="https://instagram.com/canchaselpredio?igshid=YmMyMTA2M2Y="
-              class="fa fa-instagram"
+              className="fa fa-instagram"
             ></a>
-            <a href="" class="fa fa-twitter"></a>
-            <a href="" class="fa fa-facebook"></a>
+            <a href="" className="fa fa-twitter"></a>
+            <a href="" className="fa fa-facebook"></a>
           </div>
         </div>
 

@@ -7,54 +7,68 @@ import s from "./Detail.module.css";
 import moment from "moment";
 import { setUser } from "../../redux/actions/authActions";
 import Error401 from "../Error401/Error401";
-import { postReserva } from "../../redux/actions/reservaActions";
+import {
+  getAllReservas,
+  postReserva,
+} from "../../redux/actions/reservaActions";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Navbar/Navbar";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 
-const Detail = ({ cancha, getCanchaById, match }) => {
-  // console.log("esto es cancha", cancha);
+const Detail = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.auth.user);
+  const reservas = useSelector((state) => state.reservas.reservas);
   const [selectedDate, setselectedDate] = useState(
     moment().format("YYYY-MM-DD")
   );
-  const [isLoading, setIsLoading] = useState(true);
+  const [selectedCancha, setSelectedCancha] = useState(undefined)
   const [isUserLoading, setIsUserLoading] = useState(true);
+  const [isLoading, setIsloading] = useState(true);
   const [selectedHorario, setSelectedHorario] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUser = async () => {
       if (!user) {
         await dispatch(setUser());
       }
       setIsUserLoading(false);
     };
-    fetchData();
+    fetchUser();
   }, [dispatch, user]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const id = parseInt(match.params.id);
-      await getCanchaById(id);
-      setIsLoading(false);
+    const fetchReservas = async () => {
+      await dispatch(getAllReservas());
+      setIsloading(false);
     };
+    fetchReservas();
+  }, [dispatch]);
 
-    fetchData();
-  }, [getCanchaById, match.params.id]);
+  const c = {
+    precio: 3000,
+    open: "15:00:00",
+    close: "22:00:00",
+  };
 
-  const c = cancha;
   const handleDate = (e) => {
     const fecha = e.target.value;
     setselectedDate(fecha);
   };
 
-  const handleHorario = (e) => {
+  const handleHorario1 = (e) => {
     e.preventDefault();
     const hora = e.target.value;
     setSelectedHorario(hora);
+    setSelectedCancha(1)
+  };
+  const handleHorario2 = (e) => {
+    e.preventDefault();
+    const hora = e.target.value;
+    setSelectedHorario(hora);
+    setSelectedCancha(2)
   };
   // Verificación de isLoading antes de ejecutar la lógica que usa cancha
   const openTime = !isLoading ? moment(c.open, "HH:mm:ss") : null;
@@ -72,7 +86,7 @@ const Detail = ({ cancha, getCanchaById, match }) => {
       status: "pending",
       hasPromo: false,
       userId: user.id,
-      canchaId: c.id,
+      canchaId: 1,
     };
     return reservation;
   };
@@ -112,16 +126,19 @@ const Detail = ({ cancha, getCanchaById, match }) => {
     intervaloHoras.push(moment(actualTime));
     actualTime.add(1, "hour");
   }
-  const reservas = !isLoading
-    ? c.reservas.filter((reserva) => {
+  const reservasDelDia = !isLoading
+    ? reservas.filter((reserva) => {
         return reserva.status !== "canceled" && reserva.date === selectedDate;
       })
     : [];
 
-  const horariosDisponibles = !isLoading
+  const horariosDisponiblesC1 = !isLoading
     ? intervaloHoras.map((hora) => {
-        const horaReserva = reservas.find((reserva) => {
-          return moment(reserva.start, "HH:mm:ss").isSame(hora, "hour");
+        const horaReserva = reservasDelDia.find((reserva) => {
+          return (
+            reserva.cancha === 1 &&
+            moment(reserva.start, "HH:mm:ss").isSame(hora, "hour")
+          );
         });
 
         const esHoy = moment().isSame(selectedDate, "day");
@@ -136,14 +153,35 @@ const Detail = ({ cancha, getCanchaById, match }) => {
       })
     : [];
 
-  const botonesHorarios = !isLoading
-    ? horariosDisponibles.map((horario) => {
+  const horariosDisponiblesC2 = !isLoading
+    ? intervaloHoras.map((hora) => {
+        const horaReserva = reservasDelDia.find((reserva) => {
+          return (
+            reserva.cancha === 2 &&
+            moment(reserva.start, "HH:mm:ss").isSame(hora, "hour")
+          );
+        });
+
+        const esHoy = moment().isSame(selectedDate, "day");
+        const horaActual = moment().format("HH:mm");
+        const horaDisponible =
+          !horaReserva && (!esHoy || hora.format("HH:mm") >= horaActual);
+
+        return {
+          hora: hora.format("HH:mm"),
+          disponible: horaDisponible,
+        };
+      })
+    : [];
+
+  const botonesHorariosC1 = !isLoading
+    ? horariosDisponiblesC1.map((horario) => {
         if (horario.disponible) {
-          const isSelected = horario.hora === selectedHorario;
+          const isSelected = horario.hora === selectedHorario && selectedCancha === 1;
           const clase = isSelected ? s.seleccionado : s.libre;
           return (
             <button
-              onClick={handleHorario}
+              onClick={handleHorario1}
               className={clase}
               value={horario.hora}
               key={horario.hora}
@@ -161,66 +199,75 @@ const Detail = ({ cancha, getCanchaById, match }) => {
       })
     : [];
 
-  
+  const botonesHorariosC2 = !isLoading
+    ? horariosDisponiblesC2.map((horario) => {
+        if (horario.disponible) {
+          const isSelected = horario.hora === selectedHorario && selectedCancha === 2;
+          const clase = isSelected ? s.seleccionado : s.libre;
+          return (
+            <button
+              onClick={handleHorario2}
+              className={clase}
+              value={horario.hora}
+              key={horario.hora}
+            >
+              {horario.hora}
+            </button>
+          );
+        } else {
+          return (
+            <button className={s.ocupado} key={horario.hora} disabled>
+              {horario.hora}
+            </button>
+          );
+        }
+      })
+    : [];
+
   return (
     <>
       <ToastContainer />
-
-      {isUserLoading ? (
-        <Loading />
-      ) : !user ? (
-        <Error401 />
-      ) : isLoading ? (
-        <Loading />
-      ) : user && !c.availability ? (
-        history.push("/")
-      ) : (
-        c &&
-        c.availability && (
-          <>
-            <Navbar />
-            <div className={s.father}>
-              <div className={s.container}>
-                <h1>{c.name}</h1>
-                <p>Césped {c.grass}</p>
-                <p>Cancha de futbol {c.players}</p>
-                <p>Descripción: {c.description}</p>
-                <p style={{ color: "green", fontWeight: 600 }}>
-                  {c.availability ? "Disponible" : "No disponible"}
-                </p>
-                <form onSubmit={handlePago}>
-                  <p style={{ fontSize: "16pt", fontWeight: "600" }}>
-                    Reservar un turno:
-                  </p>
-                  <div className={s.dateContainer}>
-                    <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
-                      Fecha:
-                    </p>
-                    <input
-                      min={moment().format("YYYY-MM-DD")}
-                      max={moment().add(30, "days").format("YYYY-MM-DD")}
-                      className={s.date}
-                      type="date"
-                      value={selectedDate}
-                      onChange={handleDate}
-                    />
-                  </div>
-                  <div>{botonesHorarios}</div>
-                  <button className={s.submit} type="submit">
-                    Pagar reserva
-                  </button>
-                </form>
+      <>
+        <Navbar />
+        <div className={s.father}>
+          <div className={s.container}>
+            <div className={s.canchas}>
+              <div className={s.cancha}>
+                <h1>Cancha 1</h1>
+                <span className={s.horarios}>
+                  {botonesHorariosC1}
+                </span>
               </div>
-              <img
-                className={s.canchaimg}
-                src={c.image}
-                alt="Imagen de cancha"
-              />
+              <div className={s.cancha}>
+                <h1>Cancha 2</h1>
+                <span className={s.horarios}>
+                  {botonesHorariosC2}
+                </span>
+              </div>
             </div>
-            <Footer />
-          </>
-        )
-      )}
+            <form onSubmit={handlePago}>
+              <div className={s.dateContainer}>
+                <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
+                  Fecha:
+                </p>
+                <input
+                  min={moment().format("YYYY-MM-DD")}
+                  max={moment().add(30, "days").format("YYYY-MM-DD")}
+                  className={s.date}
+                  type="date"
+                  value={selectedDate}
+                  onChange={handleDate}
+                />
+              </div>
+              {/* <div>{botonesHorarios}</div> */}
+              <button className={s.submit} type="submit">
+                Pagar reserva
+              </button>
+            </form>
+          </div>
+        </div>
+        <Footer />
+      </>
     </>
   );
 };

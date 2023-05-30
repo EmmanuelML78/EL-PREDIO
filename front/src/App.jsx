@@ -29,10 +29,9 @@ function App() {
         <Route exact path="/home">
           <Home />
         </Route>
-        <Route
-          path="/canchas/:id"
-          render={({ match }) => <Detail match={match} />}
-        />
+        <Route path="/reservar">
+          <Detail />
+        </Route>
         <Route exact path="/dashboard">
           <DashBoard />
         </Route>

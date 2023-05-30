@@ -7,7 +7,7 @@
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
-  color: #166816;
+  color: #111;
   background-color: #ececec;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -37,7 +37,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background: rgb(124, 234, 179);
+  background: #fff;
+
   /* agregado */
   font-family: var(--fuentePrincipal);
 
@@ -73,7 +74,7 @@ button {
   color: white;
 }
 input {
-  color: white;
+  color: #111;
 }
 button:hover {
   border-color: #646cff;
