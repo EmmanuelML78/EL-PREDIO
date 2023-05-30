@@ -7,25 +7,21 @@ export const Oportunidades = () => {
       <p>Descubre lo mejor que tenemos para tí.</p>
 
       <div className={styles.listadopromociones}>
-        <div className={styles.promouno}>
-          <div className={styles.conte}>
+        <div className={styles.filauno}>
+          <div className={styles.vestuarios}>
             <h3>Vestuarios y Duchas</h3>
           </div>
-        </div>
 
-        <div className={styles.promodos}>
-          <div className={styles.conte}>
+          <div className={styles.buffet}>
             <h3>Buffet</h3>
           </div>
         </div>
 
-        <div className={styles.promotres}>
-          <div className={styles.conte}>
+        <div className={styles.filados}>
+          <div className={styles.parrillas}>
             <h3>Parrillas</h3>
           </div>
-        </div>
-        <div className={styles.promocuatro}>
-          <div className={styles.conte}>
+          <div className={styles.social}>
             <h3>Eventos Sociales</h3>
           </div>
         </div>

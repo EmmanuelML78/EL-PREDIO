@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import s from "./Carousel.module.css"
+import s from "./Carousel.module.css";
+import { Link } from "react-router-dom";
 const images = [
   {
     url: "https://res.cloudinary.com/ddyk63iig/image/upload/v1682002710/pexels-mike-1171084_gm43xm.jpg",
@@ -44,11 +45,11 @@ function Carousel() {
     });
   }
   return (
-    <div style={{ position: "relative", zIndex: "0" }}>
+    <div style={{ position: "relative", zIndex: "0", backgroundColor: "#fff" }}>
       <img
         src={selectedImage.url}
         style={{
-          height: "75rem",
+          height: "45rem",
           width: "100%",
           opacity: "0.7",
           objectFit: "cover",
@@ -68,9 +69,11 @@ function Carousel() {
           justifyContent: "center",
         }}
       >
-        <a onClick={handleScroll} className={s.scroll}>
-          Ver canchas
-        </a>
+        <Link to="/reservar">
+          <a onClick={handleScroll} className={s.scroll}>
+            Reservar
+          </a>
+        </Link>
       </div>
       <div
         style={{
@@ -80,18 +83,17 @@ function Carousel() {
         }}
       >
         {images.map((_, index) => (
-          <span
+          <div
             key={index}
+            className={s.circles}
             style={{
               backgroundColor: selectedIndex === index ? "white" : "black",
-              borderRadius: "50%",
-              width: "10px",
-              height: "10px",
-              margin: "0.5rem",
+              border: selectedIndex === index ? "1px solid black" : "none",
               cursor: "pointer",
+              zIndex: "999",
             }}
             onClick={() => setSelectedIndex(index)}
-          ></span>
+          ></div>
         ))}
       </div>
       <p id="seccion-canchas" ref={seccionCanchasRef}></p>
