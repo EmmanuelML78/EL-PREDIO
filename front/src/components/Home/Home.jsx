@@ -20,7 +20,7 @@ const Home = () => {
   const user = useSelector((state) => state.auth.user);
   const [isLoading, setIsLoading] = useState(true);
   const [reviewVisible, setReviewVisible] = useState(false);
-  console.log(reviewVisible);
+  // console.log(reviewVisible);
 
   useEffect(() => {
     const fetchData = async () => {
