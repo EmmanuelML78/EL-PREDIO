@@ -33,7 +33,8 @@ const GraficaBalace = () => {
             right: 30,
             left: 20,
             bottom: 5,
-          }}>
+          }}
+        >
           <CartesianGrid strokeDasharray="4 1 2" />
           <XAxis dataKey="name" />
           <YAxis />
