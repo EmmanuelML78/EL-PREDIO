@@ -35,9 +35,9 @@ const Home = () => {
 
   return (
     <div className="home-container">
-      {isLoading ? (
+      {/* {isLoading ? (
         <Loading />
-      ) : (
+      ) : ( */}
         <>
           <Header />
           <a
@@ -47,7 +47,6 @@ const Home = () => {
           >
             <FaWhatsapp size={50} />
           </a>
-          <Cards />
           <Oportunidades />
           <Nosotros />
           {reviewVisible ? (
@@ -101,7 +100,7 @@ const Home = () => {
           )}
           <Footer />
         </>
-      )}
+      {/* )} */}
     </div>
   );
 };

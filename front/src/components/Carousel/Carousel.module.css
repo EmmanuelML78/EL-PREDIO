@@ -1,12 +1,29 @@
 .scroll {
-    cursor: pointer;;
-    color: white;
-    font-size: 5rem;
-    background-color: #0005;
-    padding: 1rem 3rem 1rem 3rem;
-    border-radius: 1rem;
+  cursor: pointer;
+  color: rgb(255, 255, 255);
+  text-shadow: 1px 1px 25px rgba(0,0,0,1);
+  font-size: 5rem;
+  /* background: linear-gradient(
+    180deg,
+    rgba(89, 223, 149, 0.7) 0%,
+    rgba(26, 145, 79, 0.7) 100%
+  ); */
+  background-color: rgba(69, 209, 132, 1);
+  padding: 2rem 4rem 2rem 4rem;
+  border-radius: 1rem;
+  box-shadow: 0px 0px 10px rgba(0,0,0,0.5);
 }
 .scroll:hover {
-    color: white;
-    text-decoration: underline;
+  color: white;
+  text-decoration: underline;
+}
+.circles {
+  cursor: pointer;
+  margin: 0.5rem;
+  border-radius: 50%;
+  width: 13px;
+  height: 13px;
+}
+.circles:hover {
+  cursor: pointer;
 }
