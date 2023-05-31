@@ -32,7 +32,7 @@ let capsEntries = entries.map((entry) => [
 ]);
 sequelize.models = Object.fromEntries(capsEntries);
 
-const { User, Reserva, Cancha, Review, Promotion } = sequelize.models;
+const { User, Reserva, Cancha, Review, Promotion, Balance } = sequelize.models;
 
 User.hasMany(Reserva, { as: "reservas", foreignKey: "userId" });
 User.hasMany(Reserva, {
