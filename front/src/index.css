@@ -38,6 +38,7 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background: #fff;
+
   /* agregado */
   font-family: var(--fuentePrincipal);
 
