@@ -21,7 +21,7 @@ body {
 } */
 
 .sobrepredio {
-    background-color: var(--gris);
+    background-color: var(--verde-oscuro);
     background-position: right;
     background-repeat: repeat, no-repeat;
     background-size: 100%, 110rem; 

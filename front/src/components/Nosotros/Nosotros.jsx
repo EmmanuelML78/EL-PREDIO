@@ -29,6 +29,8 @@ export const Nosotros = () => {
                 height: "300px",
                 marginLeft: "8rem",
                 marginTop: "3rem",
+                marginBottom: "3rem",
+                borderRadius: "1rem"
               }}
               allowFullScreen=""
               loading="lazy"

@@ -68,8 +68,8 @@ const Home = () => {
                   <Link to="/login">
                     <p
                       style={{
-                        color: "white",
-                        fontWeight: "500",
+                        color: "#111",
+                        fontWeight: "600",
                         marginBottom: "2rem",
                         textDecoration: "underline",
                         marginRight: "0.5rem",
@@ -80,7 +80,7 @@ const Home = () => {
                   </Link>
                   <p
                     style={{
-                      color: "white",
+                      color: "#111",
                       fontWeight: "500",
                       marginBottom: "2rem",
                     }}
@@ -93,7 +93,7 @@ const Home = () => {
                   style={{ marginBottom: "2rem" }}
                   onClick={() => setReviewVisible(true)}
                 >
-                  Ingresa tu Review Aqui
+                  Añadir una review
                 </button>
               )}
             </>

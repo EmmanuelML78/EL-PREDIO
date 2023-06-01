@@ -38,12 +38,6 @@ function Carousel() {
     return () => clearInterval(intervalId);
   }, [images.length]);
 
-  function handleScroll() {
-    window.scrollTo({
-      top: distancia,
-      behavior: "smooth",
-    });
-  }
   return (
     <div style={{ position: "relative", zIndex: "0", backgroundColor: "#fff" }}>
       <img
@@ -70,9 +64,9 @@ function Carousel() {
         }}
       >
         <Link to="/reservar">
-          <a onClick={handleScroll} className={s.scroll}>
+          <button className={s.scroll}>
             Reservar
-          </a>
+          </button>
         </Link>
       </div>
       <div
@@ -87,7 +81,7 @@ function Carousel() {
             key={index}
             className={s.circles}
             style={{
-              backgroundColor: selectedIndex === index ? "white" : "black",
+              backgroundColor: selectedIndex === index ? "#111" : "#888",
               border: selectedIndex === index ? "1px solid black" : "none",
               cursor: "pointer",
               zIndex: "999",
