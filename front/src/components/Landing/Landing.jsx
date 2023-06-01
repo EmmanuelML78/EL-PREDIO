@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import isEmail from "validator/lib/isEmail";
 import isAlpha from "validator/lib/isAlpha";
 import g from "./../../assets/google logo.svg";
-import "./Landing.css";
+import s from "./Landing.module.css";
 import { postUser } from "../../redux/actions/userActions";
 import { loginUser } from "../../redux/actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -146,142 +146,151 @@ const Landing = () => {
     history.push("/home");
   };
   const handleGoogleLogin = () => {
-    window.location.href = instance.defaults.baseURL + "google"
-  }
+    window.location.href = instance.defaults.baseURL + "google";
+  };
 
   return (
-    <div className="container">
+    <body className={s.container}>
       <ToastContainer />
       {isLoading ? (
         <Loading />
       ) : user ? (
         goHome()
       ) : (
-        <form className="form" onSubmit={formik.handleSubmit}>
-          <h1>El Predio</h1>
-          <input
-            type="email"
-            name="email"
-            placeholder="Correo electrónico"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.email}
-            className={
-              formik.touched.email && formik.errors.email ? "error" : ""
-            }
-          />
-          {formik.touched.email && formik.errors.email && (
-            <div className="error">{formik.errors.email}</div>
-          )}
-          <>
+        <>
+          <form className={s.form} onSubmit={formik.handleSubmit}>
+            <h1>El Predio</h1>
+            <input
+              type="email"
+              name="email"
+              placeholder="Correo electrónico"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.email}
+              className={
+                formik.touched.email && formik.errors.email ? "s.error" : ""
+              }
+            />
+            {formik.touched.email && formik.errors.email && (
+              <div className={s.error}>{formik.errors.email}</div>
+            )}
+            <>
+              {isRegistering && (
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Nombre"
+                  onChange={(e) => {
+                    formik.setFieldValue(
+                      "name",
+                      (
+                        e.target.value.charAt(0).toUpperCase() +
+                        e.target.value.slice(1)
+                      ).trim()
+                    );
+                  }}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.name}
+                  classNaeemee={
+                    formik.touched.name && formik.errors.name ? "error" : ""
+                  }
+                />
+              )}
+              {isRegistering && formik.touched.name && formik.errors.name && (
+                <div className={s.error}>{formik.errors.name}</div>
+              )}
+              {isRegistering && (
+                <input
+                  type="text"
+                  name="lastName"
+                  placeholder="Apellido"
+                  onChange={(e) => {
+                    formik.setFieldValue(
+                      "lastName",
+                      (
+                        e.target.value.charAt(0).toUpperCase() +
+                        e.target.value.slice(1)
+                      ).trim()
+                    );
+                  }}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.lastName}
+                  className={
+                    formik.touched.lastName && formik.errors.lastName
+                      ? "s.error"
+                      : ""
+                  }
+                />
+              )}
+              {isRegistering &&
+                formik.touched.lastName &&
+                formik.errors.lastName && (
+                  <div className={s.error}>{formik.errors.lastName}</div>
+                )}
+            </>
+            <input
+              type="password"
+              name="password"
+              placeholder="Contraseña"
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              value={formik.values.password}
+              className={
+                formik.touched.password && formik.errors.password
+                  ? "s.error"
+                  : ""
+              }
+            />
+            {isRegistering &&
+              formik.touched.password &&
+              formik.errors.password && (
+                <div className={s.error}>{formik.errors.password}</div>
+              )}
             {isRegistering && (
               <input
-                type="text"
-                name="name"
-                placeholder="Nombre"
-                onChange={(e) => {
-                  formik.setFieldValue(
-                    "name",
-                    (e.target.value.charAt(0).toUpperCase() +
-                      e.target.value.slice(1)).trim()
-                  );
-                }}
+                type="password"
+                name="confirmPassword"
+                placeholder="Confirmar contraseña"
+                onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.name}
+                value={formik.values.confirmPassword}
                 className={
-                  formik.touched.name && formik.errors.name ? "error" : ""
-                }
-              />
-            )}
-            {isRegistering && formik.touched.name && formik.errors.name && (
-              <div className="error">{formik.errors.name}</div>
-            )}
-            {isRegistering && (
-              <input
-                type="text"
-                name="lastName"
-                placeholder="Apellido"
-                onChange={(e) => {
-                  formik.setFieldValue(
-                    "lastName",
-                    (e.target.value.charAt(0).toUpperCase() +
-                      e.target.value.slice(1)).trim()
-                  );
-                }}
-                onBlur={formik.handleBlur}
-                value={formik.values.lastName}
-                className={
-                  formik.touched.lastName && formik.errors.lastName
-                    ? "error"
+                  formik.touched.confirmPassword &&
+                  formik.errors.confirmPassword
+                    ? "s.error"
                     : ""
                 }
               />
             )}
             {isRegistering &&
-              formik.touched.lastName &&
-              formik.errors.lastName && (
-                <div className="error">{formik.errors.lastName}</div>
+              formik.touched.confirmPassword &&
+              formik.errors.confirmPassword && (
+                <div className={s.error}>{formik.errors.confirmPassword}</div>
               )}
-          </>
-          <input
-            type="password"
-            name="password"
-            placeholder="Contraseña"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.password}
-            className={
-              formik.touched.password && formik.errors.password ? "error" : ""
-            }
-          />
-          {isRegistering &&
-            formik.touched.password &&
-            formik.errors.password && (
-              <div className="error">{formik.errors.password}</div>
-            )}
-          {isRegistering && (
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirmar contraseña"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.confirmPassword}
-              className={
-                formik.touched.confirmPassword && formik.errors.confirmPassword
-                  ? "error"
-                  : ""
-              }
-            />
-          )}
-          {isRegistering &&
-            formik.touched.confirmPassword &&
-            formik.errors.confirmPassword && (
-              <div className="error">{formik.errors.confirmPassword}</div>
-            )}
 
-          <p className="switch" type="button" onClick={handleRegisterClick}>
-            {isRegistering ? "Ya tengo cuenta" : "Crear cuenta"}
-          </p>
-          <button onClick={formik.handleSubmit} type="submit">
-            {isRegistering ? "Registrarse" : "Iniciar sesión"}
-          </button>
-          <button
-            style={{ backgroundColor: "white" }}
-            className="google"
-            type="button"
-            onClick={handleGoogleLogin}
-          >
-            <img
-              style={{ height: "2rem", marginRight: "1rem" }}
-              src={g}
-              alt=""
-            />
-            <p>Iniciar sesión con Google</p>
-          </button>
-        </form>
+            <p className={s.switch} type="button" onClick={handleRegisterClick}>
+              {isRegistering ? "Ya tengo cuenta" : "Crear cuenta"}
+            </p>
+            <button onClick={formik.handleSubmit} type="submit">
+              {isRegistering ? "Registrarse" : "Iniciar sesión"}
+            </button>
+            <button
+              style={{ backgroundColor: "white" }}
+              className={s.google}
+              type="button"
+              onClick={handleGoogleLogin}
+            >
+              <img
+                style={{ height: "2rem", marginRight: "1rem" }}
+                src={g}
+                alt=""
+              />
+              <p>Iniciar sesión con Google</p>
+            </button>
+          </form>
+        </>
       )}
-    </div>
+    </body>
   );
 };
 

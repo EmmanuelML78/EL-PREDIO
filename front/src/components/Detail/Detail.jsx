@@ -283,41 +283,47 @@ const Detail = () => {
   return (
     <>
       <ToastContainer />
-      <Navbar />
-      <div className={s.father}>
-        <div className={s.container}>
-          <form onSubmit={handlePago}>
-            <input
-              min={moment().format("YYYY-MM-DD")}
-              max={moment().add(30, "days").format("YYYY-MM-DD")}
-              className={s.date}
-              type="date"
-              value={selectedDate}
-              onChange={handleDate}
-            />
-            <div className={s.canchas}>
-              <div className={s.cancha}>
-                <h3 style={{ fontWeight: "600" }}>Cancha 1</h3>
-                <div className={s.horarios}>{botonesHorariosC1}</div>
-              </div>
-              <div className={s.cancha}>
-                <h3 style={{ fontWeight: "600" }}>Cancha 2</h3>
-                <div className={s.horarios}>{botonesHorariosC2}</div>
-              </div>
+      {user ? (
+        <>
+          <Navbar />
+          <div className={s.father}>
+            <div className={s.container}>
+              <form onSubmit={handlePago}>
+                <input
+                  min={moment().format("YYYY-MM-DD")}
+                  max={moment().add(30, "days").format("YYYY-MM-DD")}
+                  className={s.date}
+                  type="date"
+                  value={selectedDate}
+                  onChange={handleDate}
+                />
+                <div className={s.canchas}>
+                  <div className={s.cancha}>
+                    <h3 style={{ fontWeight: "600" }}>Cancha 1</h3>
+                    <div className={s.horarios}>{botonesHorariosC1}</div>
+                  </div>
+                  <div className={s.cancha}>
+                    <h3 style={{ fontWeight: "600" }}>Cancha 2</h3>
+                    <div className={s.horarios}>{botonesHorariosC2}</div>
+                  </div>
+                </div>
+                <p style={{ fontWeight: "600" }}>
+                  {selectedHorario
+                    ? fechaFormatted(selectedDate)
+                    : "No se seleccionó ningun horario"}
+                </p>
+                <button className={s.submit} type="submit">
+                  <img style={{ marginLeft: "0" }} src={mp} alt="MercadoPago" />
+                  <p>Pagar reserva</p>
+                </button>
+              </form>
             </div>
-            <p style={{ fontWeight: "600" }}>
-              {selectedHorario
-                ? fechaFormatted(selectedDate)
-                : "No se seleccionó ningun horario"}
-            </p>
-            <button className={s.submit} type="submit">
-              <img style={{ marginLeft: "0" }} src={mp} alt="MercadoPago" />
-              <p>Pagar reserva</p>
-            </button>
-          </form>
-        </div>
-      </div>
-      <Footer />
+          </div>
+          <Footer />
+        </>
+      ) : (
+        history.push("/login")
+      )}
     </>
   );
 };
