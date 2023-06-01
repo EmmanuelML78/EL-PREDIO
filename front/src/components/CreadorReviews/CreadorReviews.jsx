@@ -5,6 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { confirmAlert } from "react-confirm-alert";
 import s from "./CreadorReviews.module.css";
 import { ToastContainer, toast } from "react-toastify";
+import Rating from "react-rating";
+import { FaStar } from "react-icons/fa";
 
 function CreadorReviews({ reviewVisible, setReviewVisible }) {
   const [score, setScore] = useState(1);
@@ -20,14 +22,20 @@ function CreadorReviews({ reviewVisible, setReviewVisible }) {
     };
     fetchData();
   }, [dispatch]);
+  const handleScore = (score) => {
+    setScore(score);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userReviews = reviews.filter((review) => review.userId === user.id);
     if (userReviews.length > 0) {
-      toast.error("Ya has creado una review, No puedes ingresar mas de 1 Review.", {
-        position: "bottom-right"
-      });
+      toast.error(
+        "Ya has creado una review, No puedes ingresar mas de 1 Review.",
+        {
+          position: "bottom-right",
+        }
+      );
     } else {
       confirmAlert({
         title: "Agregar Review",
@@ -60,7 +68,7 @@ function CreadorReviews({ reviewVisible, setReviewVisible }) {
       className={s.reviewsCard}
       style={{ marginTop: "3rem", marginBottom: "3rem" }}
     >
-      <ToastContainer/>
+      <ToastContainer />
       <form onSubmit={handleSubmit}>
         <h1
           style={{
@@ -70,63 +78,38 @@ function CreadorReviews({ reviewVisible, setReviewVisible }) {
             fontWeight: "500",
           }}
         >
-          Envía tu review
+          Envía tu review 
         </h1>
-        <label
-          htmlFor="score"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "1rem",
-            fontWeight: "bold",
-            color: "white",
-          }}
-        >
-          Puntuación:
-        </label>
-        <select
-          name="score"
-          id="score"
-          value={score}
-          style={{ fontSize: "20px", width: "35px", color: "white" }}
-          onChange={(event) => setScore(event.target.value)}
-        >
-          {[...Array(5)].map((_, i) => (
-            <option key={i} value={i + 1}>
-              {i + 1}
-            </option>
-          ))}
-        </select>
-
-        <label
-          htmlFor="text"
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "2rem",
-            fontWeight: "bold",
-            color: "white",
-          }}
-        >
-          Texto:
-        </label>
+        <Rating
+          emptySymbol="far fa-star"
+          fullSymbol="fas fa-star"
+          initialRating={score}
+          onChange={handleScore}
+          className={s.stars}
+        />
         <textarea
           name="text"
           id="text"
           rows="4"
           cols="50"
-          style={{ color: "white", height: "150px", padding: "1rem" }}
           value={text}
           onChange={(event) => setText(event.target.value)}
+          className={s.textarea}
+          maxLength={185}
+          adju
         />
 
         <button
           type="submit"
-          style={{ color: "white", backgroundColor: "#166816"}}
+          className={s.submit}
+          style={{ backgroundColor: "#fff" }}
         >
           Enviar Review
         </button>
-        <button onClick={() => setReviewVisible(false)} style={{backgroundColor: "red", color: "white", margin: "10px" }}>
+        <button
+          onClick={() => setReviewVisible(false)}
+          style={{ backgroundColor: "red", color: "white", margin: "10px" }}
+        >
           Cancelar
         </button>
       </form>

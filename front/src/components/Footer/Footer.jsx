@@ -33,9 +33,9 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className={styles.footerwidget}>
+        <div>
           <Link to="/nosotros">
-            <h3>Desarrolladores</h3>
+            <a className={styles.devs}>Desarrolladores</a>
           </Link>
         </div>
       </div>

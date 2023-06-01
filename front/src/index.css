@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  font-family: "Raleway", sans-serif;
+  font-family: 'Titillium Web', sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
@@ -19,7 +19,7 @@
   --negro: #111111;
   --gris: #343a40;
 
-  --fuentePrincipal: "Raleway", sans-serif;
+  --fuentePrincipal: 'Titillium Web', sans-serif;
 }
 
 a {
@@ -68,13 +68,18 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #166816;
+  background-color: var(--verde-oscuro);
   cursor: pointer;
   transition: border-color 0.25s;
   color: white;
 }
 input {
   color: #111;
+  background-color: white;
+}
+textarea {
+  color:#111;
+  background-color: white;
 }
 button:hover {
   border-color: #646cff;

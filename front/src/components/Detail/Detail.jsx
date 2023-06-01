@@ -15,6 +15,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Navbar from "../Navbar/Navbar";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import mp from "../../assets/Mercado-Pago-Logo.png";
 
 const Detail = () => {
   const history = useHistory();
@@ -24,7 +25,7 @@ const Detail = () => {
   const [selectedDate, setselectedDate] = useState(
     moment().format("YYYY-MM-DD")
   );
-  const [selectedCancha, setSelectedCancha] = useState(undefined)
+  const [selectedCancha, setSelectedCancha] = useState(undefined);
   const [isUserLoading, setIsUserLoading] = useState(true);
   const [isLoading, setIsloading] = useState(true);
   const [selectedHorario, setSelectedHorario] = useState(null);
@@ -62,13 +63,56 @@ const Detail = () => {
     e.preventDefault();
     const hora = e.target.value;
     setSelectedHorario(hora);
-    setSelectedCancha(1)
+    setSelectedCancha(1);
   };
   const handleHorario2 = (e) => {
     e.preventDefault();
     const hora = e.target.value;
     setSelectedHorario(hora);
-    setSelectedCancha(2)
+    setSelectedCancha(2);
+  };
+
+  const fechaFormatted = (fecha) => {
+    const diaIngles = moment(fecha).format("dddd");
+    const mesIngles = moment(fecha).format("MMMM");
+    const diaFecha = moment(fecha).format("DD");
+    const month = mesIngles.includes("January")
+      ? "Enero"
+      : mesIngles.includes("February")
+      ? "Febrero"
+      : mesIngles.includes("March")
+      ? "Marzo"
+      : mesIngles.includes("April")
+      ? "Abril"
+      : mesIngles.includes("May")
+      ? "Mayo"
+      : mesIngles.includes("June")
+      ? "Junio"
+      : mesIngles.includes("July")
+      ? "Julio"
+      : mesIngles.includes("August")
+      ? "Agosto"
+      : mesIngles.includes("September")
+      ? "Septiembre"
+      : mesIngles.includes("October")
+      ? "Octubre"
+      : mesIngles.includes("November")
+      ? "Noviembre"
+      : "Diciembre";
+    const day = diaIngles.includes("Monday")
+      ? "Lunes"
+      : diaIngles.includes("Tuesday")
+      ? "Martes"
+      : diaIngles.includes("Wednesday")
+      ? "Miercoles"
+      : diaIngles.includes("Thursday")
+      ? "Jueves"
+      : diaIngles.includes("Friday")
+      ? "Viernes"
+      : diaIngles.includes("Saturday")
+      ? "Sábado"
+      : "Domingo";
+    return `Seleccionaste ${day} ${diaFecha} de ${month} a las ${selectedHorario} hs en la Cancha ${selectedCancha}`;
   };
   // Verificación de isLoading antes de ejecutar la lógica que usa cancha
   const openTime = !isLoading ? moment(c.open, "HH:mm:ss") : null;
@@ -177,14 +221,20 @@ const Detail = () => {
   const botonesHorariosC1 = !isLoading
     ? horariosDisponiblesC1.map((horario) => {
         if (horario.disponible) {
-          const isSelected = horario.hora === selectedHorario && selectedCancha === 1;
+          const isSelected =
+            horario.hora === selectedHorario && selectedCancha === 1;
           const clase = isSelected ? s.seleccionado : s.libre;
+          const color = isSelected ? "rgb(39, 83, 204)" : "var(--verde-medio";
           return (
             <button
               onClick={handleHorario1}
               className={clase}
               value={horario.hora}
               key={horario.hora}
+              style={{
+                backgroundColor: { color },
+                transition: "background-color, 0.2s ease",
+              }}
             >
               {horario.hora}
             </button>
@@ -202,14 +252,20 @@ const Detail = () => {
   const botonesHorariosC2 = !isLoading
     ? horariosDisponiblesC2.map((horario) => {
         if (horario.disponible) {
-          const isSelected = horario.hora === selectedHorario && selectedCancha === 2;
+          const isSelected =
+            horario.hora === selectedHorario && selectedCancha === 2;
           const clase = isSelected ? s.seleccionado : s.libre;
+          const color = isSelected ? "rgb(39, 83, 204)" : "var(--verde-medio";
           return (
             <button
               onClick={handleHorario2}
               className={clase}
               value={horario.hora}
               key={horario.hora}
+              style={{
+                backgroundColor: { color },
+                transition: "background-color, 0.2s ease",
+              }}
             >
               {horario.hora}
             </button>
@@ -227,47 +283,41 @@ const Detail = () => {
   return (
     <>
       <ToastContainer />
-      <>
-        <Navbar />
-        <div className={s.father}>
-          <div className={s.container}>
+      <Navbar />
+      <div className={s.father}>
+        <div className={s.container}>
+          <form onSubmit={handlePago}>
+            <input
+              min={moment().format("YYYY-MM-DD")}
+              max={moment().add(30, "days").format("YYYY-MM-DD")}
+              className={s.date}
+              type="date"
+              value={selectedDate}
+              onChange={handleDate}
+            />
             <div className={s.canchas}>
               <div className={s.cancha}>
-                <h1>Cancha 1</h1>
-                <span className={s.horarios}>
-                  {botonesHorariosC1}
-                </span>
+                <h3 style={{ fontWeight: "600" }}>Cancha 1</h3>
+                <div className={s.horarios}>{botonesHorariosC1}</div>
               </div>
               <div className={s.cancha}>
-                <h1>Cancha 2</h1>
-                <span className={s.horarios}>
-                  {botonesHorariosC2}
-                </span>
+                <h3 style={{ fontWeight: "600" }}>Cancha 2</h3>
+                <div className={s.horarios}>{botonesHorariosC2}</div>
               </div>
             </div>
-            <form onSubmit={handlePago}>
-              <div className={s.dateContainer}>
-                <p style={{ marginRight: "0.5rem", fontSize: "larger" }}>
-                  Fecha:
-                </p>
-                <input
-                  min={moment().format("YYYY-MM-DD")}
-                  max={moment().add(30, "days").format("YYYY-MM-DD")}
-                  className={s.date}
-                  type="date"
-                  value={selectedDate}
-                  onChange={handleDate}
-                />
-              </div>
-              {/* <div>{botonesHorarios}</div> */}
-              <button className={s.submit} type="submit">
-                Pagar reserva
-              </button>
-            </form>
-          </div>
+            <p style={{ fontWeight: "600" }}>
+              {selectedHorario
+                ? fechaFormatted(selectedDate)
+                : "No se seleccionó ningun horario"}
+            </p>
+            <button className={s.submit} type="submit">
+              <img style={{ marginLeft: "0" }} src={mp} alt="MercadoPago" />
+              <p>Pagar reserva</p>
+            </button>
+          </form>
         </div>
-        <Footer />
-      </>
+      </div>
+      <Footer />
     </>
   );
 };

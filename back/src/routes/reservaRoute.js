@@ -12,7 +12,7 @@ const { authMiddleware, adminMiddleware } = require("../middlewares/auth");
 const { mercadopago } = require("../utils/mercadoPago");
 
 router
-  .get("/", adminMiddleware, async (req, res) => {
+  .get("/", authMiddleware, async (req, res) => {
     try {
       const allReservations = await getAllReservations();
       res.status(200).send(allReservations);

@@ -27,13 +27,13 @@ function Reviews() {
     for (let i = 0; i < fullStars; i++) {
       stars.push(<i key={i} className="fas fa-star"></i>);
     }
-
     if (halfStar) {
       stars.push(<FaStarHalf key="half" />);
     }
-
-    for (let i = 0; i < emptyStars.length; i++) {
-      stars.push(<FaStar key={i} color="#c0c0c0" />);
+    for (let i = 0; i < emptyStars; i++) {
+      stars.push(
+        <i key={i} style={{ color: "#0003" }} className="fas fa-star"></i>
+      );
     }
     return stars;
   };
@@ -46,10 +46,11 @@ function Reviews() {
   const handlePrev = () => {
     setSliceIndex(sliceIndex - reviewsPerPage);
   };
+  console.log(reviews);
 
   return (
     <div className="reviews">
-      <h2 style={{ fontSize: "50px", color: "white", fontWeight: "600" }}>
+      <h2 style={{ fontSize: "50px", color: "#111", fontWeight: "600" }}>
         Reviews
       </h2>
       {isLoading ? (
@@ -61,26 +62,9 @@ function Reviews() {
               .slice(sliceIndex, sliceIndex + reviewsPerPage)
               .map((review) => (
                 <article className="card-review" key={review.id}>
-                  <div className="card-header">
-                    <div className="card-score">
-                      <span style={{ fontWeight: "bold", fontSize: "20px" }}>
-                        Valoracion: {renderStars(review.score)}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="card-body">
-                    <span
-                      style={{
-                        fontWeight: "700",
-                        fontSize: "20px",
-                        color: "white",
-                      }}
-                    >
-                      Reseña de {review.user.name} {review.user.lastName}:{" "}
-                    </span>
-                    <br />
-                    <p className="card-text">"{review.text}"</p>
-                  </div>
+                  <p style={{fontWeight:"600"}}>{(review.user.name + " " + review.user.lastName).toUpperCase()}</p>
+                  <div>{renderStars(review.score)}</div>
+                  <p className="card-text">"{review.text}"</p>
                 </article>
               ))}
           </div>

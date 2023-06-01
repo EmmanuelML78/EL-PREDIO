@@ -1,10 +1,11 @@
 #root {
   max-width: 100%;
   text-align: center;
-  font-family: "Raleway", sans-serif;
+  font-family: 'Titillium Web', sans-serif;
   margin: 0 auto;
   --verde-claro: rgb(89, 223, 149);
   --verde-oscuro: rgb(26, 145, 79);
+  --verde-medio: #3BBA74;
 }
 
 .logo {

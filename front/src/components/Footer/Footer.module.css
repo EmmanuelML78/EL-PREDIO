@@ -21,18 +21,15 @@ body {
 } */
 
 .footer {
-  /* width: 100%; */
-  background-color: var(--gris);
+  width: 100%;
+  background-color: var(--verde-oscuro);
   color: var(--blanco);
 }
 
 .contenedorfootergrid {
-  width: 100%;
-  /* max-width: 1200px; */
-  margin: auto;
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-gap: 0.5rem;
+  max-width: 100%;
+  display: flex;
+  justify-content: space-around;
   padding-top: 5rem;
   padding-bottom: 2rem;
   /* padding: 45px 0px; */
@@ -54,6 +51,15 @@ body {
 .footerwidget h3 {
   padding-bottom: 1rem;
   font-weight: 600;
+  color:white;
+}
+.devs {
+  color: white;
+  text-decoration: underline;
+  font-weight: 600;
+}
+.devs:hover {
+  color: lightgrey;
 }
 
 .redsocial a {
@@ -62,6 +68,9 @@ body {
   width: 45px;
   height: 45px;
   line-height: 45px;
+}
+.redsocial a:hover {
+  color: lightgray;
 }
 
 .divsmall {
