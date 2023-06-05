@@ -62,7 +62,6 @@ function DashBoard() {
                 <button className={s.tab} onClick={handleUsuarios}>
                   Usuarios
                 </button>
-
               </div>
               <div>
                 {selectedTable === "reservas" ? (
@@ -92,7 +91,6 @@ function DashBoard() {
       ) : (
         user && !user.isAdmin && history.push("/profile")
       )}
-      <Footer />
     </>
   );
 }
