@@ -13,7 +13,6 @@ const CreadorBalance = () => {
   const [otroDescripcionVisible, setOtroDescripcionVisible] = useState(false);
   const [otroDescripcion, setOtroDescripcion] = useState("");
   const user = useSelector((state) => state.auth.user);
-  // const balance = useSelector((state) => state.balance.balance);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -44,7 +43,11 @@ const CreadorBalance = () => {
         {
           label: "Agregar",
           onClick: async () => {
-            const postData = { cierreCaja, descripcion };
+            let descripcionFinal = descripcion;
+            if (descripcion === "Otro") {
+              descripcionFinal = otroDescripcion;
+            }
+            const postData = { cierreCaja, descripcion: descripcionFinal };
             await dispatch(postBalance(postData));
             toast.success("Cierre de caja hecho correctamente", {
               position: "bottom-right",
@@ -93,8 +96,7 @@ const CreadorBalance = () => {
           <select
             name="Descripción"
             value={descripcion}
-            onChange={handleOptionChange}
-          >
+            onChange={handleOptionChange}>
             <option value="Normal">Normal</option>
             <option value="Pocos Clientes">Pocos Clientes</option>
             <option value="Otro">Otro</option>
@@ -109,13 +111,11 @@ const CreadorBalance = () => {
         )}
         <button
           type="submit"
-          style={{ color: "white", backgroundColor: "#166816" }}
-        >
+          style={{ color: "white", backgroundColor: "#166816" }}>
           Cierre Caja
         </button>
         <button
-          style={{ backgroundColor: "red", color: "white", margin: "10px" }}
-        >
+          style={{ backgroundColor: "red", color: "white", margin: "10px" }}>
           Cancelar
         </button>
       </form>
