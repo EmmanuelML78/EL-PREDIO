@@ -5,7 +5,7 @@ const { Balance } = require("../db");
 const { adminMiddleware } = require("../middlewares/auth");
 
 router
-  .get("/", adminMiddleware, async (req, res) => {
+  .get("/", async (req, res) => {
     try {
       let balance = await getAllbalance();
       res.status(200).send(balance);
@@ -13,7 +13,7 @@ router
       return res.status(404).json({ error: error.message });
     }
   })
-  .post("/", adminMiddleware, async (req, res) => {
+  .post("/", async (req, res) => {
     const { cierreCaja, descripcion } = req.body;
     try {
       if (!cierreCaja && !descripcion) {

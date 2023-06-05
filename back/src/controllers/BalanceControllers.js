@@ -1,16 +1,16 @@
 const { Balance } = require("../db");
 
-const getAllbalances = async (balanceId) => {
+const getAllbalance = async (balanceId) => {
   try {
     if (balanceId) {
-      return await Cancha.findByPk(balanceId);
+      return await Balance.findByPk(balanceId);
     } else {
-      return await Cancha.findAll({});
+      return await Balance.findAll({});
     }
   } catch (error) {
-    console.error(err);
+    console.error(error);
     return res.status(500).json({ error: "Error al buscar los datos" });
   }
 };
 
-module.exports = { getAllbalances };
+module.exports = { getAllbalance };
