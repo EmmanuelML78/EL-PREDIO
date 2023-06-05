@@ -1,0 +1,49 @@
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  place-content: center;
+  place-items: flex-start;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: min-content + 3rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  height: min-content;
+  margin: 3rem auto;
+  transition: height 0.2s ease;
+}
+.profileContainer div {
+  display: flex;
+  margin: 1rem 0;
+  align-items: center;
+}
+.profileContainer div p {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.inputs {
+  /* border: 1px solid rgb(161, 161, 161); */
+  box-shadow: 1px 1px 6px rgba(0, 0, 0, 0.5);
+  padding: 0 1rem;
+  width: 30rem;
+  margin: 0.5rem 0;
+  border-radius: 1rem;
+  transition: box-shadow 0.2s ease-in-out;
+  font-size: larger;
+}
+.inputs:focus{
+  border:none;
+  outline: none;
+  box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.7);
+}
+/* Chrome, Safari, Edge, Opera */
+.inputs::-webkit-outer-spin-button,
+.inputs::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+.inputs[type=number] {
+  -moz-appearance: textfield;
+}

@@ -21,35 +21,30 @@ body {
 } */
 
 .footer {
+  display: flex;
+  flex-direction: column;
   width: 100%;
   background-color: var(--verde-oscuro);
   color: var(--blanco);
+  max-height: 10rem;
+  place-content: center;
+  align-content: flex-start;
 }
 
 .contenedorfootergrid {
   max-width: 100%;
   display: flex;
+  flex-direction: row;
   justify-content: space-around;
   padding-top: 5rem;
   padding-bottom: 2rem;
   /* padding: 45px 0px; */
 }
 
-/* .footerwidget {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
-.footerwidget h1 {
-  font-size: 4rem;
-}
 .footerwidget h1 span {
-  font-weight: 600;
+  font-weight: 700;
 }
 .footerwidget h3 {
-  padding-bottom: 1rem;
   font-weight: 600;
   color:white;
 }
@@ -65,14 +60,15 @@ body {
 .redsocial a {
   color: var(--blanco);
   display: inline-block;
-  width: 45px;
-  height: 45px;
-  line-height: 45px;
+  padding: 0 10px;
+  margin: 0 0.3rem;
+  transition: font-size 0.2s ease;
 }
 .redsocial a:hover {
   color: lightgray;
+  font-size: larger;
 }
 
 .divsmall {
-  background-color: rgba(0, 0, 0, 0.151)
-}
+  background-color: rgb(22, 119, 66)
+} 

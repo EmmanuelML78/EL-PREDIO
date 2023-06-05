@@ -15,6 +15,7 @@ import Failure from "./components/Results/Failure/Failure";
 import Pending from "./components/Results/pending/Pending";
 import Success from "./components/Results/success/Success";
 import CreadorReviews from "./components/CreadorReviews/CreadorReviews";
+import Profile from './components/Profile/Profile';
 
 function App() {
   return (
@@ -34,6 +35,9 @@ function App() {
         </Route>
         <Route exact path="/dashboard">
           <DashBoard />
+        </Route>
+        <Route exact path="/profile">
+          <Profile/>
         </Route>
         {/* <Route path="/creador">
           <CreadorCanchas />

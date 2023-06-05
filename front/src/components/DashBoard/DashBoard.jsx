@@ -45,11 +45,11 @@ function DashBoard() {
 
   return (
     <>
+      <Navbar />
       {!isLoading && !user ? (
         history.push("/login")
       ) : !isLoading && user.isAdmin ? (
         <>
-          <Navbar />
           <div className={s.dashboardContainer}>
             <h1 style={{ color: "white", fontWeight: "600", margin: "2rem" }}>
               Panel de Administrador
@@ -62,7 +62,7 @@ function DashBoard() {
                 <button className={s.tab} onClick={handleUsuarios}>
                   Usuarios
                 </button>
-                {/* <button className={s.tab} onClick={handleCanchas}>Canchas</button> */}
+
               </div>
               <div>
                 {selectedTable === "reservas" ? (
@@ -90,17 +90,9 @@ function DashBoard() {
           <Footer />
         </>
       ) : (
-        user &&
-        !user.isAdmin && (
-          <>
-            <Navbar />
-            <div style={{ marginBottom: "5rem", marginTop: "-10rem" }}>
-              <Profile />
-            </div>
-            <Footer />
-          </>
-        )
+        user && !user.isAdmin && history.push("/profile")
       )}
+      <Footer />
     </>
   );
 }

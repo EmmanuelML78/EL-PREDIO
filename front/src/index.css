@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  font-family: 'Titillium Web', sans-serif;
+  font-family: "Titillium Web", sans-serif;
   line-height: 1.5;
   font-weight: 400;
   color-scheme: light dark;
@@ -18,8 +18,8 @@
   --blanco: #fff;
   --negro: #111111;
   --gris: #343a40;
-
-  --fuentePrincipal: 'Titillium Web', sans-serif;
+  min-height: 100vh;
+  --fuentePrincipal: "Titillium Web", sans-serif;
 }
 
 a {
@@ -35,17 +35,14 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
-  min-width: 320px;
+  min-width: 100vh;
   min-height: 100vh;
   background: #fff;
-
-  /* agregado */
   font-family: var(--fuentePrincipal);
-
   font-size: 1.6rem;
   line-height: 1.8;
 }
-/* agregado */
+
 html {
   font-size: 62.5%;
   box-sizing: border-box;
@@ -78,32 +75,46 @@ input {
   background-color: white;
 }
 textarea {
-  color:#111;
+  color: #111;
   background-color: white;
+  border-radius: 1rem;
+}
+select {
+  color: #111;
+  background-color: white;
+  border-radius: 1rem;
+}
+button {
+  background-color: var(--verde-medio);
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--verde-claro);
 }
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  outline: none;
 }
-
 @media (prefers-color-scheme: light) {
   :root {
-    color: #ffffff;
-    background-color: #111111;
+    color: #111;
+    background-color: white;
   }
   a:hover {
-    color: #747bff;
+    color: lightgrey;
   }
   button {
-    background-color: #166816;
+    background-color: var(--verde-medio);
+    border-radius: 1rem;
+  }
+  button:hover{
+    background-color: var(--verde-claro);
   }
   input {
-    background-color: #303030;
+    background-color: white;
+    border-radius: 1rem;
   }
-  input select {
-    background-color: #303030;
+  select {
+    background-color: white;
+    border-radius: 1rem;
   }
 }

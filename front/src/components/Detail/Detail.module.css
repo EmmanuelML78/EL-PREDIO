@@ -86,6 +86,7 @@
 .libre:active {
   background-color: rgb(39, 83, 204);
   border: none;
+  outline: none;
 }
 .libre:target {
   background-color: rgb(39, 83, 204);
@@ -111,7 +112,11 @@
 }
 .seleccionado:focus {
   outline: none;
-  border: none
+  border: none;
+}
+.seleccionado:active {
+  outline: none;
+  border: none;
 }
 
 .date {
@@ -125,13 +130,24 @@
   font-size: larger;
   font-weight: 600;
 }
+.date:hover{
+  cursor: pointer;
+}
 .date:active {
-  border: 2px solid var(--verde-medio);
+  outline: none;
+
+}
+.date::after {
+  /* border: 2px solid var(--verde-medio); */
+  outline: none;
 }
 .date::-webkit-calendar-picker-indicator {
   background: url(https://cdn3.iconfinder.com/data/icons/linecons-free-vector-icons-pack/32/calendar-16.png)
     center/80% no-repeat;
   color: black;
+}
+.date::-webkit-calendar-picker-indicator:hover {
+  cursor: pointer;
 }
 .dateContainer {
   display: flex;

@@ -6,10 +6,9 @@ import { confirmAlert } from "react-confirm-alert";
 import s from "./CreadorReviews.module.css";
 import { ToastContainer, toast } from "react-toastify";
 import Rating from "react-rating";
-import { FaStar } from "react-icons/fa";
 
 function CreadorReviews({ reviewVisible, setReviewVisible }) {
-  const [score, setScore] = useState(1);
+  const [score, setScore] = useState(5);
   const [text, setText] = useState("");
   const user = useSelector((state) => state.auth.user);
   const reviews = useSelector((state) => state.reviews.reviews);
