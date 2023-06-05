@@ -18,7 +18,7 @@ const CreadorBalance = () => {
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(setUser(user));
-      await dispatch(getBalance());
+      // await dispatch(getBalance());
     };
     fetchData();
   }, [dispatch, user]);
