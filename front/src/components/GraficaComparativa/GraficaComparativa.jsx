@@ -70,7 +70,7 @@ const GraficaComparativa = () => {
   const chartRef = useRef(null);
   const dispatch = useDispatch();
   const reservas = useSelector((state) => state.reservas.reservas);
-  console.log("reservas", reservas);
+  // console.log("reservas", reservas);
 
   useEffect(() => {
     const fetchReservas = () => {

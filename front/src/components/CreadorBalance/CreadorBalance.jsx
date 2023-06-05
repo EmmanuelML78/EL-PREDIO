@@ -13,13 +13,13 @@ const CreadorBalance = () => {
   const [otroDescripcionVisible, setOtroDescripcionVisible] = useState(false);
   const [otroDescripcion, setOtroDescripcion] = useState("");
   const user = useSelector((state) => state.auth.user);
-  //   const balance = useSelector((state) => state.balance.balance);
+  // const balance = useSelector((state) => state.balance.balance);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
       await dispatch(setUser(user));
-      await dispatch(getBalance());
+      // await dispatch(getBalance());
     };
     fetchData();
   }, [dispatch, user]);
