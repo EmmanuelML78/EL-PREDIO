@@ -33,7 +33,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div>
+        <div style={{display:"flex", placeItems:"center"}}>
           <Link to="/nosotros">
             <a className={styles.devs}>Desarrolladores</a>
           </Link>

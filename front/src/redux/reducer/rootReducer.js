@@ -4,6 +4,7 @@ import reservasReducer from "./reservasReducer";
 import userReducer from "./userReducer";
 import reviewsReducer from "./reviewsReducer";
 import { combineReducers } from "redux";
+import balanceReducer from './balanceReducer';
 
 
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
     reservas: reservasReducer,
     user: userReducer,
     reviews: reviewsReducer,
+    balance: balanceReducer,
 })
 
 export default rootReducer;

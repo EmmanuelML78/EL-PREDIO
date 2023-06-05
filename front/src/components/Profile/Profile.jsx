@@ -1,33 +1,27 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setUser, editUser, logoutUser } from "../../redux/actions/authActions";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import isEmail from "validator/lib/isEmail";
+import isAlpha from "validator/lib/isAlpha";
+import { setUser } from "../../redux/actions/authActions";
+import { putUser } from "../../redux/actions/userActions";
 import Loading from "../Loading/Loading.jsx";
 import { ToastContainer, toast } from "react-toastify";
-import DashBoard from "../DashBoard/DashBoard";
-import { CloudinaryImage } from "@cloudinary/url-gen";
-import "./Profile.css";
-import moment from "moment";
-// import styled from "styled-components";
+import s from "./Profile.module.css";
+import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import Navbar from "./../Navbar/Navbar";
+import Footer from "./../Footer/Footer";
+import { FaEnvelope, FaIdCard, FaPhone } from "react-icons/fa";
 
 const Profile = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const user = useSelector((state) => state.auth.user);
-  console.log(user.image);
   const [isLoading, setIsLoading] = useState(true);
-  const [editName, setEditName] = useState(user.name);
-  const [editLastName, setEditLastName] = useState(user.lastName);
-  const [editEmail, setEditEmail] = useState(user.email);
-  const [editPassword, setEditPassword] = useState(user.password);
-  const [editPhone, setEditPhone] = useState(user.phone);
-  const [editImage, setEditImage] = useState(user.image);
-  const [imageUrl, setImageUrl] = useState("");
-
-  const [showNameInput, setShowNameInput] = useState(false);
-  const [showLastNameInput, setShowLastNameInput] = useState(false);
-  const [showEmailInput, setShowEmailInput] = useState(false);
-  const [showPasswordInput, setShowPasswordInput] = useState(false);
-  const [showPhoneInput, setShowPhoneInput] = useState(false);
-  const [showChangeButton, setShowChangeButton] = useState(false);
+  const [valuesLoading, setValuesLoading] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [changingPassword, setChangingPassword] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -39,377 +33,229 @@ const Profile = () => {
     fetchData();
   }, [dispatch, user]);
 
-  const handleNameChangeClick = async () => {
-    await dispatch(editUser({ name: editName }));
+  const initialValues = user && {
+    email: user.email,
+    name: user.name,
+    lastName: user.lastName,
+    phone: user.phone,
   };
 
-  const handleLastNameChangeClick = async () => {
-    await dispatch(editUser({ lastName: editLastName }));
-  };
+  const validationSchema = Yup.object({
+    email: Yup.string()
+      .test("isEmail", "Correo electrónico inválido", (value) => isEmail(value))
+      .required("Requerido"),
+    name: Yup.string()
+      .test("isAlpha", "Nombre inválido", (value) => isAlpha(value))
+      .required("Requerido"),
+    lastName: Yup.string()
+      .test("isAlpha", "Nombre inválido", (value) => isAlpha(value))
+      .required("Requerido"),
+    phone: Yup.string()
+      .nullable(true)
+      .matches(/^[0-9]+$/, "Solo números"),
+  });
 
-  const handleImageChangeClick = async () => {
-    await dispatch(editUser({ image: editImage }));
-    setShowChangeButton(false)
-  };
-
-  const handleEmailChangeClick = async () => {
-    if (
-      window.confirm(
-        "Si cambias tu email tendrás que iniciar sesión nuevamente. ¿Deseas continuar?"
-      )
-    ) {
-      await dispatch(editUser({ email: editEmail }));
-      localStorage.removeItem("token");
-      logoutUser();
-      window.location.href = "/";
-      toast.success(
-        "¡Se cerrado sesión correctamente, ingresa con tu nuevo email!",
-        {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-        }
-      );
-
-      console.log("Cambio de correo electrónico confirmado.");
-    } else {
-      console.log("Cambio de correo electrónico cancelado.");
-    }
-  };
-
-  const handlePasswordChangeClick = async () => {
-    if (
-      window.confirm(
-        "Si cambias tu contraseña tendrás que iniciar sesión nuevamente. ¿Deseas continuar?"
-      )
-    ) {
-      await dispatch(editUser({ password: editPassword }));
-      localStorage.removeItem("token");
-      logoutUser();
-      window.location.href = "/";
-      toast.success(
-        "¡Se cerrado sesión correctamente, ingresa con tu nueva contraseña!",
-        {
-          position: "bottom-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: false,
-          progress: undefined,
-        }
-      );
-
-      console.log("Cambio de contraseña confirmado.");
-    } else {
-      console.log("Cambio de contraseña cancelado.");
-    }
-  };
-
-  const handlePhoneChangeClick = async () => {
-    await dispatch(editUser({ phone: editPhone }));
-  };
-
-  const showWidget = () => {
-    const widgetOptions = {
-      cloudName: "ddyk63iig",
-      apiKey: "997972759344332",
-      api_secret: "l2z2jeoHRkh7W04MkawTA46IDZU",
-      uploadPreset: "tw1pqje3",
-      resourceType: "image",
-      multiple: false,
-    };
-    window.cloudinary.openUploadWidget(widgetOptions, (error, result) => {
-      if (!error && result && result.event === "success") {
-        setEditImage(result.info.secure_url);
-        const cldImgInstance = new CloudinaryImage(result.info.public_id, {
-          cloudName: "ddyk63iig",
-        });
-        setImageUrl(cldImgInstance);
+  const formik = useFormik({
+    initialValues,
+    validationSchema,
+    onSubmit: async (values) => {
+      const { email, name, lastName, phone } = values;
+      try {
+        const response = await dispatch(
+          putUser(user.id, { email, name, lastName, phone })
+        );
+        console.log("response:", response);
+      } catch (error) {
+        console.log(error);
       }
-    });
-    setShowChangeButton(true);
+    },
+  });
+
+  const handleSave = async () => {
+    try {
+      await formik.handleSubmit();
+      useEffect(() => {
+        dispatch(setUser());
+      });
+      setIsEditing(false);
+    } catch (error) {
+      console.log("error:", JSON.stringify(formik.errors));
+      JSON.stringify(formik.errors) === "{}"
+        ? (toast.success("Se editó la información correctamente!", {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          }),
+          setIsEditing(false))
+        : toast.error(`${Object.values(formik.errors)}`, {
+            position: "bottom-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: false,
+            progress: undefined,
+          });
+
+      console.log(formik.errors);
+    }
   };
 
-  return (
-    <>
-      {isLoading ? (
-        <Loading />
-      ) : user.isAdmin ? (
-        <DashBoard />
-      ) : (
-        <div style={{ marginTop: "25rem", marginBottom: "20rem" }}>
-          <h1
-            style={{ color: "white", fontWeight: "600", marginBottom: "10rem" }}
-          >
-            Panel de perfil
-          </h1>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <div className="profile-container">
-              <ToastContainer />
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  flexDirection: "column",
-                  
-                }}
-              >
-                <img
-                  src={editImage || user.image}
-                  alt={user.name}
-                  style={{
-                    width: "150px",
-                    height: "150px",
-                    borderRadius: "50%",
-                    marginRight: "1rem",
-                  }}
-                />
-                {/* <button
-                  onClick={() => showWidget()}
-                  className="change-image-button"
-                >
-                  Cambiar
-                </button> */}
-                {showChangeButton ? (
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    marginBottom: "1rem",
-                  }}
-                >
-                  <button
-                    onClick={() => handleImageChangeClick()}
-                    className="change-image-button"
-                    style={{marginTop: "10px", marginRight: "7px"}}
-                  >
-                    Guardar Imagen
-                  </button>
-                </div>
-
-                ) : (
-                  <button
-                  onClick={() => showWidget()}
-                  style={{marginTop: "10px", marginRight: "7px"}}
-                  className="change-image-button"
-                >
-                  Cambiar
-                </button>
-                )}
-                </div>
-
-                <div >
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "1rem",
-                    }}
-                  >
-                    <p style={{ marginRight: "1rem", fontWeight: "900" }}>
-                      Nombre:
-                    </p>
-                    {showNameInput ? (
-                      <input
-                        style={{ width: "20rem" }}
-                        value={editName}
-                        onChange={(e) => setEditName(e.target.value)}
-                      />
-                    ) : (
-                      <span>{user.name}</span>
-                    )}
-                    <button
-                      onClick={() => {
-                        if (showNameInput) {
-                          handleNameChangeClick();
-                        }
-                        setShowNameInput(!showNameInput);
-                      }}
-                      style={{
-                        height: "4rem",
-                        marginLeft: "1rem",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      Cambiar
-                    </button>
-                  </div>
-                </div>
-              
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "1rem",
-                }}
-              >
-                <p style={{ marginRight: "1rem", fontWeight: "900" }}>
-                  Apellido:
-                </p>
-                {showLastNameInput ? (
-                  <>
-                    <input
-                      style={{ width: "20rem" }}
-                      value={editLastName}
-                      onChange={(e) => setEditLastName(e.target.value)}
-                    />
-                  </>
-                ) : (
-                  <span>{user.lastName}</span>
-                )}
-                <button
-                  onClick={() => {
-                    if (showLastNameInput) {
-                      handleLastNameChangeClick();
-                    }
-                    setShowLastNameInput(!showLastNameInput);
-                  }}
-                  style={{
-                    height: "4rem",
-                    marginLeft: "1rem",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  Cambiar
-                </button>
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "1rem",
-                }}
-              >
-                <p style={{ marginRight: "1rem", fontWeight: "900" }}>Email:</p>
-                {showEmailInput ? (
-                  <>
-                    <input
-                      style={{ width: "20rem" }}
-                      value={editEmail}
-                      onChange={(e) => setEditEmail(e.target.value)}
-                    />
-                  </>
-                ) : (
-                  <span>{user.email}</span>
-                )}
-                <button
-                  onClick={() => {
-                    if (showEmailInput) {
-                      handleEmailChangeClick();
-                    }
-                    setShowEmailInput(!showEmailInput);
-                  }}
-                  style={{
-                    height: "4rem",
-                    marginLeft: "1rem",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  Cambiar
-                </button>
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "1rem",
-                }}
-              >
-                <p style={{ marginRight: "1rem", fontWeight: "900" }}>
-                  Contraseña:
-                </p>
-                {showPasswordInput ? (
-                  <>
-                    <input
-                      style={{ width: "20rem" }}
-                      onChange={(e) => setEditPassword(e.target.value)}
-                    />
-                  </>
-                ) : (
-                  <span>{"******"}</span>
-                )}
-                <button
-                  onClick={() => {
-                    if (showPasswordInput) {
-                      handlePasswordChangeClick();
-                    }
-                    setShowPasswordInput(!showPasswordInput);
-                  }}
-                  style={{
-                    height: "4rem",
-                    marginLeft: "1rem",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  Cambiar
-                </button>
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  marginBottom: "1rem",
-                }}
-              >
-                <p style={{ marginRight: "1rem", fontWeight: "900" }}>
-                  Telefono:
-                </p>
-                {showPhoneInput ? (
-                  <>
-                    <input
-                      style={{ width: "20rem" }}
-                      value={editPhone}
-                      onChange={(e) => setEditPhone(e.target.value)}
-                    />
-                  </>
-                ) : (
-                  <span>{user.phone}</span>
-                )}
-                <button
-                  onClick={() => {
-                    if (showPhoneInput) {
-                      handlePhoneChangeClick();
-                    }
-                    setShowPhoneInput(!showPhoneInput);
-                  }}
-                  style={{
-                    height: "4rem",
-                    marginLeft: "1rem",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  Cambiar
-                </button>
-              </div>
+  return isLoading ? (
+    <Loading />
+  ) : !user ? (
+    history.push("/login")
+  ) : (
+    user && (
+      <>
+        <Navbar />
+        <ToastContainer />
+        <div className={s.profileContainer}>
+          <h1 style={{ margin: "0 auto" }}>Perfil de usuario</h1>
+          {!isEditing ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                placeItems: "start",
+              }}
+            >
+              <p>
+                <FaIdCard style={{ marginRight: "1rem" }} />{" "}
+                {user.name + " " + user.lastName}
+              </p>
+              <p>
+                <FaEnvelope style={{ marginRight: "1rem" }} /> {user.email}
+              </p>
+              <p>
+                {" "}
+                <FaPhone style={{ marginRight: "1rem" }} />
+                {user.phone
+                  ? user.phone
+                  : "No se añadió ningun número de telefóno"}
+              </p>
             </div>
+          ) : (
+            user && (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  placeItems: "start",
+                }}
+              >
+                <input
+                  className={s.inputs}
+                  type="text"
+                  id="name"
+                  name="name"
+                  // value={user.name}
+                  placeholder="Nombre"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={user && formik.values.name}
+                />
+                {formik.touched.name && formik.errors.name && (
+                  <div style={{ margin: "0" }}>{formik.errors.name}</div>
+                )}
+                <input
+                  className={s.inputs}
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  // value={user.lastName}
+                  placeholder="Apellido"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={user && formik.values.lastName}
+                />
+                {formik.touched.lastName && formik.errors.lastName && (
+                  <div style={{ margin: "0" }}>{formik.errors.lastName}</div>
+                )}
+                <input
+                  className={s.inputs}
+                  type="email"
+                  id="email"
+                  name="email"
+                  // value={user.email}
+                  placeholder="Correo electrónico"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={user && formik.values.email}
+                />
+                {formik.touched.email && formik.errors.email && (
+                  <div style={{ margin: "0" }}>{formik.errors.email}</div>
+                )}
+                <input
+                  className={s.inputs}
+                  type="tel"
+                  id="phone"
+                  name="phone"
+                  // value={user.phone}
+                  placeholder="Ej: 1123934043"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={user && formik.values.phone}
+                />
+                {formik.touched.phone && formik.errors.phone && (
+                  <div style={{ margin: "0" }}>{formik.errors.phone}</div>
+                )}
+              </div>
+            )
+          )}
+          <div>
+            {isEditing ? (
+              <button
+                type="submit"
+                style={{
+                  backgroundColor: "var(--verde-medio)",
+                }}
+                onClick={handleSave}
+              >
+                Guardar
+              </button>
+            ) : null}
+            {isEditing ? (
+              <button
+                style={{ backgroundColor: "darkred", margin: "0 1rem" }}
+                onClick={() => setIsEditing(false)}
+              >
+                Cancelar
+              </button>
+            ) : (
+              <button
+                style={{
+                  marginRight: "1rem",
+                }}
+                onClick={() => setIsEditing(true)}
+              >
+                Editar perfil
+              </button>
+            )}
+            {!isEditing && (
+              <>
+                <button onClick={() => setChangingPassword(true)}>
+                  Cambiar contraseña
+                </button>
+                {changingPassword && (
+                  <button
+                    style={{ backgroundColor: "darkred", margin: "0 1rem" }}
+                    onClick={() => setChangingPassword(false)}
+                  >
+                    Cancelar
+                  </button>
+                )}
+              </>
+            )}
           </div>
         </div>
-      )}
-    </>
+        <Footer />
+      </>
+    )
   );
 };
 

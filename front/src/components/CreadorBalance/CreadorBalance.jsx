@@ -6,6 +6,7 @@ import { confirmAlert } from "react-confirm-alert";
 import "react-confirm-alert/src/react-confirm-alert.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Loading from "../Loading/Loading";
 
 const CreadorBalance = () => {
   const [cierreCaja, setCierreCaja] = useState(0);
@@ -13,13 +14,17 @@ const CreadorBalance = () => {
   const [otroDescripcionVisible, setOtroDescripcionVisible] = useState(false);
   const [otroDescripcion, setOtroDescripcion] = useState("");
   const user = useSelector((state) => state.auth.user);
-  //   const balance = useSelector((state) => state.balance.balance);
+  const [isLoading, setIsLoading] = useState(true);
+  const balance = useSelector((state) => state.balance.balance);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(setUser(user));
+      if (!user) {
+        await dispatch(setUser());
+      }
       await dispatch(getBalance());
+      setIsLoading(false);
     };
     fetchData();
   }, [dispatch, user]);
@@ -82,43 +87,48 @@ const CreadorBalance = () => {
   return (
     <div>
       <ToastContainer />
-      <form onSubmit={handleSubmit}>
-        <input
-          type="number"
-          value={cierreCaja}
-          onChange={(e) => setCierreCaja(e.target.value)}
-        />
-        <label>
-          Descripción:
-          <select
-            name="Descripción"
-            value={descripcion}
-            onChange={handleOptionChange}
-          >
-            <option value="Normal">Normal</option>
-            <option value="Pocos Clientes">Pocos Clientes</option>
-            <option value="Otro">Otro</option>
-          </select>
-        </label>
-        {otroDescripcionVisible && (
+
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <form onSubmit={handleSubmit}>
           <input
-            type="text"
-            value={otroDescripcion}
-            onChange={(e) => setOtroDescripcion(e.target.value)}
+            type="number"
+            value={cierreCaja}
+            onChange={(e) => setCierreCaja(e.target.value)}
           />
-        )}
-        <button
-          type="submit"
-          style={{ color: "white", backgroundColor: "#166816" }}
-        >
-          Cierre Caja
-        </button>
-        <button
-          style={{ backgroundColor: "red", color: "white", margin: "10px" }}
-        >
-          Cancelar
-        </button>
-      </form>
+          <label>
+            Descripción:
+            <select
+              name="Descripción"
+              value={descripcion}
+              onChange={handleOptionChange}
+            >
+              <option value="Normal">Normal</option>
+              <option value="Pocos Clientes">Pocos Clientes</option>
+              <option value="Otro">Otro</option>
+            </select>
+          </label>
+          {otroDescripcionVisible && (
+            <input
+              type="text"
+              value={otroDescripcion}
+              onChange={(e) => setOtroDescripcion(e.target.value)}
+            />
+          )}
+          <button
+            type="submit"
+            style={{ color: "white", backgroundColor: "#166816" }}
+          >
+            Cierre Caja
+          </button>
+          <button
+            style={{ backgroundColor: "red", color: "white", margin: "10px" }}
+          >
+            Cancelar
+          </button>
+        </form>
+      )}
     </div>
   );
 };
