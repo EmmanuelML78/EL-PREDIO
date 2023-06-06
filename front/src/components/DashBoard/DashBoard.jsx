@@ -51,7 +51,7 @@ function DashBoard() {
       ) : !isLoading && user.isAdmin ? (
         <>
           <div className={s.dashboardContainer}>
-            <h1 style={{ color: "white", fontWeight: "600", margin: "2rem" }}>
+            <h1 style={{ color: "Black", fontWeight: "600", margin: "2rem" }}>
               Panel de Administrador
             </h1>
             <div style={{ display: "flex" }}>

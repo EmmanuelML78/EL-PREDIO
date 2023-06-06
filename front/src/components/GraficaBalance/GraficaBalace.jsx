@@ -67,36 +67,36 @@ const GraficaBalace = () => {
   return (
     <>
       <div className="flex justify-center">
-        {/* <ResponsiveContainer width="80%" aspect={2}> */}
-        <BarChart
-          data={currentMonth}
-          width={400}
-          height={100}
-          margin={{
-            top: 5,
-            right: 30,
-            left: 20,
-            bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="4 1 2" />
-          <XAxis
-            dataKey="createdAt"
-            tickFormatter={(date) => {
-              const dateObj = new Date(date);
-              const day = dateObj.getDate();
-              const month = dateObj.toLocaleString("default", {
-                month: "short",
-              });
-              return `${day} ${month}`;
+        <ResponsiveContainer width="80%" aspect={2}>
+          <BarChart
+            data={currentMonth}
+            width={400}
+            height={100}
+            margin={{
+              top: 5,
+              right: 30,
+              left: 20,
+              bottom: 5,
             }}
-          />
-          <YAxis />
-          <Tooltip content={<CustomTooltip />} />
-          <Legend />
-          <Bar dataKey="cierreCaja" fill="#6b48ff" />
-        </BarChart>
-        {/* </ResponsiveContainer> */}
+          >
+            <CartesianGrid strokeDasharray="4 1 2" />
+            <XAxis
+              dataKey="createdAt"
+              tickFormatter={(date) => {
+                const dateObj = new Date(date);
+                const day = dateObj.getDate();
+                const month = dateObj.toLocaleString("default", {
+                  month: "short",
+                });
+                return `${day} ${month}`;
+              }}
+            />
+            <YAxis />
+            <Tooltip content={<CustomTooltip />} />
+            <Legend />
+            <Bar dataKey="cierreCaja" fill="#6b48ff" />
+          </BarChart>
+        </ResponsiveContainer>
       </div>
       <div>
         <CreadorBalance />
