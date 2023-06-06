@@ -17,8 +17,11 @@ const CreadorBalance = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await dispatch(setUser(user));
+      if (!user) {
+        await dispatch(setUser());
+      }
       await dispatch(getBalance());
+      setIsLoading(false);
     };
     fetchData();
   }, [dispatch, user]);
@@ -96,7 +99,8 @@ const CreadorBalance = () => {
           <select
             name="Descripción"
             value={descripcion}
-            onChange={handleOptionChange}>
+            onChange={handleOptionChange}
+          >
             <option value="Normal">Normal</option>
             <option value="Pocos Clientes">Pocos Clientes</option>
             <option value="Otro">Otro</option>
@@ -111,11 +115,13 @@ const CreadorBalance = () => {
         )}
         <button
           type="submit"
-          style={{ color: "white", backgroundColor: "#166816" }}>
+          style={{ color: "white", backgroundColor: "#166816" }}
+        >
           Cierre Caja
         </button>
         <button
-          style={{ backgroundColor: "red", color: "white", margin: "10px" }}>
+          style={{ backgroundColor: "red", color: "white", margin: "10px" }}
+        >
           Cancelar
         </button>
       </form>

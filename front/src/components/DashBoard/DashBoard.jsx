@@ -13,7 +13,7 @@ import Footer from "../Footer/Footer";
 import Navbar from "../Navbar/Navbar";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import GraficaComparativa from "../GraficaComparativa/GraficaComparativa";
-import GraficaBalace from "../GraficaBalance/GraficaBalace";
+import GraficaBalace from "../GraficaBalance/GraficaBalance";
 import CreadorBalance from "../CreadorBalance/CreadorBalance";
 
 function DashBoard() {
@@ -39,9 +39,9 @@ function DashBoard() {
   const handleUsuarios = () => {
     setSelectedTable("usuarios");
   };
-  // const handleCanchas = () => {
-  //   setSelectedTable("canchas");
-  // };
+  const handleBalance = () => {
+    setSelectedTable("balance");
+  };
 
   return (
     <>
@@ -62,12 +62,15 @@ function DashBoard() {
                 <button className={s.tab} onClick={handleUsuarios}>
                   Usuarios
                 </button>
+                <button className={s.tab} onClick={handleBalance}>
+                  ciere de caja
+                </button>
               </div>
               <div>
                 {selectedTable === "reservas" ? (
                   <ReservasTable />
-                ) : selectedTable === "canchas" ? (
-                  <CanchasTable />
+                ) : selectedTable === "balance" ? (
+                  <GraficaBalace />
                 ) : selectedTable === "usuarios" ? (
                   <UsersTable />
                 ) : null}
@@ -85,7 +88,7 @@ function DashBoard() {
           </div>
           <GraficaComparativa />
           <GraficaBalace />
-          <CreadorBalance />
+          {/* <CreadorBalance /> */}
           <Footer />
         </>
       ) : (

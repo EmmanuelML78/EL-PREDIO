@@ -1,67 +1,3 @@
-// import React, { useEffect, useRef, useState } from "react";
-// import { getAllReservas } from "../../redux/actions/reservaActions";
-// import { useDispatch, useSelector } from "react-redux";
-
-// const GraficaComparativa = () => {
-//   const chartRef = useRef(null);
-//   const dispatch = useDispatch();
-//   const reservas = useSelector((state) => state.reservas);
-//   console.log("reservas", reservas);
-
-//   useEffect(() => {
-//     const fetchReservas = async () => {
-//       await dispatch(getAllReservas());
-//     };
-//     fetchReservas();
-//   }, [dispatch]);
-
-//   useEffect(() => {
-//     const canvas = chartRef.current;
-//     const ctx = canvas.getContext("2d");
-
-//     // Datos del gráfico
-//     const labels = ["Dato 1", "Dato 2"]; // Etiquetas para cada segmento
-//     const data = [55, 45]; // Valores para cada segmento
-
-//     // Configuración de estilo
-//     const chartRadius = Math.min(canvas.width, canvas.height) / 2 - 20; // Radio del gráfico
-//     const centerX = canvas.width / 2; // Coordenada x del centro
-//     const centerY = canvas.height / 2; // Coordenada y del centro
-//     const startAngle = 0; // Ángulo inicial
-
-//     // Calcular el valor total de los datos
-//     const totalValue = data.reduce((a, b) => a + b, 0);
-
-//     // Dibujar los segmentos
-//     let currentAngle = startAngle;
-//     for (let i = 0; i < data.length; i++) {
-//       const segmentAngle = (data[i] / totalValue) * 2 * Math.PI;
-//       const endAngle = currentAngle + segmentAngle;
-
-//       ctx.beginPath();
-//       ctx.moveTo(centerX, centerY);
-//       ctx.arc(centerX, centerY, chartRadius, currentAngle, endAngle);
-//       ctx.closePath();
-
-//       // Generar un color aleatorio para cada segmento
-//       const randomColor =
-//         "#" + Math.floor(Math.random() * 16777215).toString(16);
-//       ctx.fillStyle = randomColor;
-//       ctx.fill();
-
-//       currentAngle = endAngle;
-//     }
-//   }, []);
-
-//   return (
-//     <div>
-//       <canvas ref={chartRef} width={400} height={400}></canvas>
-//     </div>
-//   );
-// };
-
-// export default GraficaComparativa;
-
 import React, { useEffect, useRef, useState } from "react";
 import { getAllReservas } from "../../redux/actions/reservaActions";
 import { useDispatch, useSelector } from "react-redux";
@@ -132,7 +68,7 @@ const GraficaComparativa = () => {
   }, [reservas]);
 
   return (
-    <div>
+    <div className="flex justify-center items-center">
       <canvas ref={chartRef} width={400} height={400}></canvas>
     </div>
   );
