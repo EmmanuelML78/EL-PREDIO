@@ -12,6 +12,7 @@ import {
 } from "recharts";
 import { getBalance } from "../../redux/actions/balanceActions";
 import "./GraficaBalance.style.css";
+import CreadorBalance from "../CreadorBalance/CreadorBalance";
 
 const GraficaBalace = () => {
   const balance = useSelector((state) => state.balance.balance);
@@ -64,8 +65,9 @@ const GraficaBalace = () => {
   };
 
   return (
-    <div className="flex justify-center">
-      <ResponsiveContainer width="80%" aspect={2}>
+    <>
+      <div className="flex justify-center">
+        {/* <ResponsiveContainer width="80%" aspect={2}> */}
         <BarChart
           data={currentMonth}
           width={400}
@@ -75,7 +77,8 @@ const GraficaBalace = () => {
             right: 30,
             left: 20,
             bottom: 5,
-          }}>
+          }}
+        >
           <CartesianGrid strokeDasharray="4 1 2" />
           <XAxis
             dataKey="createdAt"
@@ -93,8 +96,12 @@ const GraficaBalace = () => {
           <Legend />
           <Bar dataKey="cierreCaja" fill="#6b48ff" />
         </BarChart>
-      </ResponsiveContainer>
-    </div>
+        {/* </ResponsiveContainer> */}
+      </div>
+      <div>
+        <CreadorBalance />
+      </div>
+    </>
   );
 };
 
