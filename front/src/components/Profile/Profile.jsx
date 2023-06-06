@@ -4,22 +4,23 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import isEmail from "validator/lib/isEmail";
 import isAlpha from "validator/lib/isAlpha";
-import { setUser } from "../../redux/actions/authActions";
+import { setUser, editUser } from "../../redux/actions/authActions";
 import { putUser } from "../../redux/actions/userActions";
 import Loading from "../Loading/Loading.jsx";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import s from "./Profile.module.css";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import Navbar from "./../Navbar/Navbar";
 import Footer from "./../Footer/Footer";
 import { FaEnvelope, FaIdCard, FaPhone } from "react-icons/fa";
+import validator from "validator";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.auth.user);
   const [isLoading, setIsLoading] = useState(true);
-  const [valuesLoading, setValuesLoading] = useState(true);
+  const [error, setError] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [changingPassword, setChangingPassword] = useState(false);
 
@@ -52,7 +53,7 @@ const Profile = () => {
       .required("Requerido"),
     phone: Yup.string()
       .nullable(true)
-      .matches(/^[0-9]+$/, "Solo números"),
+      .matches(/^[0-9]+$/, "Teléfono invalido"),
   });
 
   const formik = useFormik({
@@ -65,6 +66,7 @@ const Profile = () => {
           putUser(user.id, { email, name, lastName, phone })
         );
         console.log("response:", response);
+        dispatch(setUser());
       } catch (error) {
         console.log(error);
       }
@@ -105,6 +107,62 @@ const Profile = () => {
     }
   };
 
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+
+    if (!validator.isLength(value, { min: 8, max: 20 })) {
+      setError("La contraseña debe tener entre 8 y 20 caracteres");
+    } else if (!/\d/.test(value) || !/[a-zA-Z]/.test(value)) {
+      setError("La contraseña debe contener al menos 1 letra y 1 número");
+    } else if (!validator.isAlphanumeric(value)) {
+      setError("La contraseña debe ser alfanumérica");
+    } else {
+      setError("");
+    }
+  };
+
+  const handleNewPassword = async (e) => {
+    
+    if (error) {
+      toast.error(error, {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+      });
+    } else {
+      try {
+        const password = e.target.value;
+        const id = user.id;
+        await dispatch(editUser({ id, password }));
+        toast.success("Contraseña actualizada", {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+        setChangingPassword(false)
+      } catch (error) {
+        toast.error(error.message, {
+          position: "bottom-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: false,
+          progress: undefined,
+        });
+      }
+
+    }
+  };
+
   return isLoading ? (
     <Loading />
   ) : !user ? (
@@ -113,10 +171,9 @@ const Profile = () => {
     user && (
       <>
         <Navbar />
-        <ToastContainer />
         <div className={s.profileContainer}>
           <h1 style={{ margin: "0 auto" }}>Perfil de usuario</h1>
-          {!isEditing ? (
+          {!changingPassword && !isEditing ? (
             <div
               style={{
                 display: "flex",
@@ -140,7 +197,8 @@ const Profile = () => {
               </p>
             </div>
           ) : (
-            user && (
+            user &&
+            !changingPassword && (
               <div
                 style={{
                   display: "flex",
@@ -207,13 +265,32 @@ const Profile = () => {
               </div>
             )
           )}
+          {user && changingPassword && (
+            <div className="flex-col">
+              <input
+                className={s.inputs}
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Nueva contraseña"
+                onChange={handlePasswordChange}
+              />
+              {error && <p>{error}</p>}
+              <input
+                className={s.inputs}
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Repetir la contraseña"
+              />
+            </div>
+          )}
           <div>
             {isEditing ? (
               <button
                 type="submit"
-                style={{
-                  backgroundColor: "var(--verde-medio)",
-                }}
+                // style={{ backgroundColor: "var(--verde-medio)" }}
+                className={s.submitButton}
                 onClick={handleSave}
               >
                 Guardar
@@ -221,34 +298,43 @@ const Profile = () => {
             ) : null}
             {isEditing ? (
               <button
-                style={{ backgroundColor: "darkred", margin: "0 1rem" }}
+                className={s.cancelar}
                 onClick={() => setIsEditing(false)}
               >
                 Cancelar
               </button>
             ) : (
-              <button
-                style={{
-                  marginRight: "1rem",
-                }}
-                onClick={() => setIsEditing(true)}
-              >
-                Editar perfil
-              </button>
-            )}
-            {!isEditing && (
-              <>
-                <button onClick={() => setChangingPassword(true)}>
-                  Cambiar contraseña
-                </button>
-                {changingPassword && (
+              !changingPassword && (
+                <>
                   <button
-                    style={{ backgroundColor: "darkred", margin: "0 1rem" }}
-                    onClick={() => setChangingPassword(false)}
+                    className={s.submitButton}
+                    style={{
+                      marginRight: "1rem",
+                    }}
+                    onClick={() => setIsEditing(true)}
                   >
-                    Cancelar
+                    Editar perfil
                   </button>
-                )}
+                  <button
+                    className={s.submitButton}
+                    onClick={() => setChangingPassword(true)}
+                  >
+                    Cambiar contraseña
+                  </button>
+                </>
+              )
+            )}
+            {!isEditing && changingPassword && (
+              <>
+                <button className={s.submitButton} onClick={handleNewPassword}>
+                  Guardar
+                </button>
+                <button
+                  style={{ backgroundColor: "darkred", margin: "0 1rem" }}
+                  onClick={() => setChangingPassword(false)}
+                >
+                  Cancelar
+                </button>
               </>
             )}
           </div>

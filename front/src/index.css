@@ -60,19 +60,24 @@ h1 {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: none;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: var(--verde-oscuro);
+  background-color: var(--verde-medio);
   cursor: pointer;
   transition: border-color 0.25s;
   color: white;
 }
+button:hover {
+  background-color: var(--verde-claro);
+}
 input {
   color: #111;
   background-color: white;
+  border-radius: 1rem;
+
 }
 textarea {
   color: #111;
@@ -117,4 +122,10 @@ button:focus-visible {
     background-color: white;
     border-radius: 1rem;
   }
+}
+
+.toast {
+  position: absolute;
+  top: -9999px;
+  left: -9999px;
 }

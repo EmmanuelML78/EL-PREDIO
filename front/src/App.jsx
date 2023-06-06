@@ -15,7 +15,7 @@ import Failure from "./components/Results/Failure/Failure";
 import Pending from "./components/Results/pending/Pending";
 import Success from "./components/Results/success/Success";
 import CreadorReviews from "./components/CreadorReviews/CreadorReviews";
-import Profile from './components/Profile/Profile';
+import Profile from "./components/Profile/Profile";
 
 function App() {
   return (
@@ -37,7 +37,7 @@ function App() {
           <DashBoard />
         </Route>
         <Route exact path="/profile">
-          <Profile/>
+          <Profile />
         </Route>
         {/* <Route path="/creador">
           <CreadorCanchas />
