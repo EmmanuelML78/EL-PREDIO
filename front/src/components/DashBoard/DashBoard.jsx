@@ -39,9 +39,9 @@ function DashBoard() {
   const handleUsuarios = () => {
     setSelectedTable("usuarios");
   };
-  // const handleCanchas = () => {
-  //   setSelectedTable("canchas");
-  // };
+  const handleBalance = () => {
+    setSelectedTable("balance");
+  };
 
   return (
     <>
@@ -51,7 +51,7 @@ function DashBoard() {
       ) : !isLoading && user.isAdmin ? (
         <>
           <div className={s.dashboardContainer}>
-            <h1 style={{ color: "white", fontWeight: "600", margin: "2rem" }}>
+            <h1 style={{ color: "Black", fontWeight: "600", margin: "2rem" }}>
               Panel de Administrador
             </h1>
             <div style={{ display: "flex" }}>
@@ -62,13 +62,15 @@ function DashBoard() {
                 <button className={s.tab} onClick={handleUsuarios}>
                   Usuarios
                 </button>
-
+                <button className={s.tab} onClick={handleBalance}>
+                  ciere de caja
+                </button>
               </div>
               <div>
                 {selectedTable === "reservas" ? (
                   <ReservasTable />
-                ) : selectedTable === "canchas" ? (
-                  <CanchasTable />
+                ) : selectedTable === "balance" ? (
+                  <GraficaBalace />
                 ) : selectedTable === "usuarios" ? (
                   <UsersTable />
                 ) : null}
@@ -86,13 +88,12 @@ function DashBoard() {
           </div>
           <GraficaComparativa />
           <GraficaBalace />
-          <CreadorBalance />
+          {/* <CreadorBalance /> */}
           <Footer />
         </>
       ) : (
         user && !user.isAdmin && history.push("/profile")
       )}
-      <Footer />
     </>
   );
 }
