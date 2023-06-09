@@ -130,7 +130,7 @@ const Detail = () => {
       status: "pending",
       hasPromo: false,
       userId: user.id,
-      canchaId: 1,
+      canchaId: selectedCancha,
     };
     return reservation;
   };
