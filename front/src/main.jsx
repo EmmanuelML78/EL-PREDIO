@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import s from "./toast.css"
+// import s from "./toast.css";
+import s from "./toast.css?inline";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";

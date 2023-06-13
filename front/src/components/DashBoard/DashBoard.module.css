@@ -7,7 +7,7 @@
   text-align: start;
   align-content: stretch;
   width: max-content;
-  margin-bottom: 10rem;
+  margin-bottom: 0.5rem;
 }
 
 .list {
@@ -74,10 +74,10 @@
   border-radius: 0;
 }
 .tab:focus {
-    background-color: #5b5b5b;
-    outline: none;
+  background-color: #5b5b5b;
+  outline: none;
 }
-.tab:hover{
-    outline: none;
-    border: 1px solid white;
+.tab:hover {
+  outline: none;
+  border: 1px solid white;
 }

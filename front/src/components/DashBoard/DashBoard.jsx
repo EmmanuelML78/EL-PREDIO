@@ -75,20 +75,9 @@ function DashBoard() {
                   <UsersTable />
                 ) : null}
               </div>
-              {/* <div style={{ margin: "1rem" }}>
-                <CanchasTable />
-              </div>
-              <div>
-                <UsersTable />
-              </div>
-              <div>
-                <ReservasTable />
-              </div> */}
             </div>
           </div>
           <GraficaComparativa />
-          <GraficaBalace />
-          {/* <CreadorBalance /> */}
           <Footer />
         </>
       ) : (
