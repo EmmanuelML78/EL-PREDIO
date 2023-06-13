@@ -40,34 +40,38 @@ const MisReservas = () => {
               <table className={s.reservasTable}>
                 <thead>
                   <tr>
-                    <th>Cancha</th>
+                    <th style={{ borderTopLeftRadius: "1rem" }}>Cancha</th>
                     <th>Fecha</th>
                     <th>Hora</th>
                     <th>Estado</th>
-                    <th>Creacion</th>
+                    <th style={{ borderTopRightRadius: "1rem" }}>Creacion</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {user.reservas.map((reserva) => (
-                    <tr key={reserva.id}>
-                      <td>{reserva.cancha?.name}</td>
-                      <td>{moment(reserva.date).format("DD-MM-YYYY")}</td>
-                      <td>
-                        {moment(reserva.start, "HH:mm:ss").format("HH:mm")}
-                      </td>
-                      <td>
-                        {reserva.deletedAt || reserva.status === "cancelled"
-                          ? "Cancelada"
-                          : reserva.status === "pending"
-                          ? "Pendiente de pago"
-                          : reserva.status === "success" ||
-                            reserva.status === "confirmed"
-                          ? "Confirmada"
-                          : null}
-                      </td>
-                      <td>{moment(reserva.createdAt).format("DD-MM-YYYY")}</td>
-                    </tr>
-                  ))}
+                  {user.reservas.length === 0
+                    ? <p style={{fontWeight:"600"}}>No hay reservas</p>
+                    : user.reservas.map((reserva) => (
+                        <tr className={s.eachReserve} key={reserva.id}>
+                          <td>{reserva.cancha?.name}</td>
+                          <td>{moment(reserva.date).format("DD-MM-YYYY")}</td>
+                          <td>
+                            {moment(reserva.start, "HH:mm:ss").format("HH:mm")}
+                          </td>
+                          <td>
+                            {reserva.deletedAt || reserva.status === "cancelled"
+                              ? "Cancelada"
+                              : reserva.status === "pending"
+                              ? "Pendiente de pago"
+                              : reserva.status === "success" ||
+                                reserva.status === "confirmed"
+                              ? "Confirmada"
+                              : null}
+                          </td>
+                          <td>
+                            {moment(reserva.createdAt).format("DD-MM-YYYY")}
+                          </td>
+                        </tr>
+                      ))}
                 </tbody>
               </table>
             </div>

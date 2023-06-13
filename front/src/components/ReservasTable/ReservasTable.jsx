@@ -45,6 +45,8 @@ const ReservasTable = () => {
     fetchCanchas();
   }, [dispatch]);
 
+  console.log("reservas:", reservas);
+
   const handleEliminarReserva = (id) => {
     setIsEditingReserva(false);
     confirmAlert({
@@ -123,7 +125,7 @@ const ReservasTable = () => {
       if (selectedCancha == "all") {
         return reserva;
       } else {
-        return reserva.cancha.name === selectedCancha;
+        return reserva.canchaId === selectedCancha;
       }
     });
 

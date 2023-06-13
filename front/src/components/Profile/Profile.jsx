@@ -65,7 +65,7 @@ const Profile = () => {
         const response = await dispatch(
           putUser(user.id, { email, name, lastName, phone })
         );
-        console.log("response:", response);
+        // console.log("response:", response);
         dispatch(setUser());
       } catch (error) {
         console.log(error);
