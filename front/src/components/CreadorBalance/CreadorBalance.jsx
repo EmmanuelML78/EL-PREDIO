@@ -41,7 +41,7 @@ const CreadorBalance = () => {
     confirmAlert({
       title: "Agregar cierre de Caja",
       message:
-        "¿Está seguro que desea subir este cierre de caja con los valores dados?",
+        "¿Está seguro que desea subir este cierre de caja con los valores datos?",
       buttons: [
         {
           label: "Agregar",
@@ -86,7 +86,7 @@ const CreadorBalance = () => {
   };
 
   return (
-    <div>
+    <div className="flex justify-center items-center bg-custom-gray text-white">
       <ToastContainer />
       <form onSubmit={handleSubmit}>
         <input
