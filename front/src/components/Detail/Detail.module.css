@@ -64,6 +64,7 @@
 }
 .ocupado:hover {
   cursor: not-allowed;
+  background-color: #ba3b3b;
 }
 
 .libre {
@@ -105,7 +106,6 @@
   margin: 0.5rem;
   cursor: pointer;
   border: none;
-
   text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
   font-size: 18pt;
   text-align: center;
@@ -117,6 +117,9 @@
 .seleccionado:active {
   outline: none;
   border: none;
+}
+.seleccionado:hover {
+  background-color: rgb(0, 119, 255);
 }
 
 .date {
