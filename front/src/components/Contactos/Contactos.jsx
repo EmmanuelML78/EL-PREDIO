@@ -57,25 +57,22 @@ const Contactos = () => {
       <h1>Contacta con nosotros</h1>
       <div className="card">
         <form onSubmit={handleSubmit} className="form-container-contacto">
-          <label style={{ color: "white" }}>Email:</label>
           <input
             type="email"
             value={user?.email}
             onChange={(e) => setEmail(e.target.value)}
-            style={{ backgroundColor: "white", color: "black",  width: "25rem" }}
+            style={{ backgroundColor: "white", color: "black", width: "25rem" }}
             required
+            placeholder="Correo electrónico"
           />
-
-          <label style={{ color: "white" }}>Asunto:</label>
           <input
             type="text"
             value={asunto}
             onChange={(e) => setAsunto(e.target.value)}
             style={{ backgroundColor: "white", color: "black", width: "25rem" }}
             required
+            placeholder="Asunto"
           />
-
-          <label style={{ color: "white" }} >Descripción:</label>
           <textarea
             type="text"
             value={descripcion}
@@ -88,6 +85,7 @@ const Contactos = () => {
               color: "black",
             }}
             required
+            placeholder="Descripción"
           ></textarea>
 
           <button type="submit">Enviar</button>
