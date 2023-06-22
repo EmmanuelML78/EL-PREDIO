@@ -13,7 +13,7 @@ import store from "./redux/store/store";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
     <Router basename="/">
-      <ToastContainer className={s.toast} />
+      <ToastContainer style={{position:"absolute", top:"-99999px", left:"-99999px"}} className={s.toast} />
       <App />
     </Router>
   </Provider>
