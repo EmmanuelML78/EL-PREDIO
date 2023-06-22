@@ -33,15 +33,6 @@ const MiembroCard = ({
 const About = () => {
   const miembros = [
     {
-      nombre: "Agustin ",
-      apellido: "Figueredo",
-      rol: "Programador Front-end",
-      githubUrl: "https://github.com/agustinfiguered",
-      linkedinUrl: "https://www.linkedin.com/in/agustinfigueredo/",
-      image:
-        "https://res.cloudinary.com/dd5jlib2e/image/upload/v1682607786/fotor-ai-2023042710255_i36b2a.png",
-    },
-    {
       nombre: "Franco",
       apellido: "Mindurry ",
       rol: "Programador Front-end",
