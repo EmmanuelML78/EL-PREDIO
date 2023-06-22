@@ -77,7 +77,6 @@ input {
   color: #111;
   background-color: white;
   border-radius: 1rem;
-
 }
 textarea {
   color: #111;
@@ -111,7 +110,7 @@ button:focus-visible {
     background-color: var(--verde-medio);
     border-radius: 1rem;
   }
-  button:hover{
+  button:hover {
     background-color: var(--verde-claro);
   }
   input {

@@ -26,10 +26,10 @@ const GraficaComparativa = () => {
 
     // Obtener las reservas de la cancha 1 y de la cancha 2
     const cancha1Count = reservas.filter(
-      (reserva) => reserva.canchaId === 4
+      (reserva) => reserva.canchaId === 1
     ).length;
     const cancha2Count = reservas.filter(
-      (reserva) => reserva.canchaId === 5
+      (reserva) => reserva.canchaId === 2
     ).length;
 
     // Datos del gráfico
