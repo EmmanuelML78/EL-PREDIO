@@ -13,12 +13,14 @@ export const Nosotros = () => {
               </p>
 
               <p>
-                Te ofrecemos las mejores canchas de futbol 5, 7, 9 y 11 con
-                césped sintético de última generación, además de exclusivos
-                servicios adicionales como el uso sin cargo de nuestras
-                instalaciones para que tu experiencia sea única. Para tu
-                seguridad, contamos con personal médico presente en el complejo
-                durante todos los turnos.
+                Te ofrecemos las mejores canchas de futbol 5 con césped
+                sintético de última generación, además de exclusivos servicios
+                adicionales como el uso de nuestras instalaciones para que tu
+                experiencia sea única. contamos con duchas y vestieres ademas de
+                dos zonas especializadas para disfrutar de una buena comida
+                (zona de buffet y zona de parrillas ) y contamos con un gran y
+                esplendido espacio para que celebres tus reuniones con familia o
+                amigos
               </p>
             </div>
             <iframe
@@ -30,7 +32,7 @@ export const Nosotros = () => {
                 marginLeft: "8rem",
                 marginTop: "3rem",
                 marginBottom: "3rem",
-                borderRadius: "1rem"
+                borderRadius: "1rem",
               }}
               allowFullScreen=""
               loading="lazy"
