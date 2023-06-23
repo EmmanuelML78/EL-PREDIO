@@ -90,7 +90,7 @@ const payReserver = async (req, res) => {
         title: reserva.cancha.name,
         quantity: 1,
         currency_id: "ARS",
-        unit_price: reserva.cancha.price,
+        unit_price: reserva.cancha.price * 0.35,
       },
     ],
     back_urls: {
